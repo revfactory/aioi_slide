@@ -5,6 +5,216 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIOI Week 1 - Kick-off Day</title>
 <link rel="stylesheet" href="slides-common.css">
+<style>
+/* ===== Script button ===== */
+.script-btn {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(200,140,80,0.4);
+  background: rgba(255,255,255,0.7);
+  font-size: 1.3rem;
+  color: #8a6a4a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+.script-btn:hover {
+  background: rgba(224,120,80,0.15);
+  border-color: rgba(200,140,80,0.6);
+  transform: scale(1.1);
+}
+
+/* ===== Script modal ===== */
+.script-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(42,37,32,0.5);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+.script-overlay.open { display: flex; }
+
+.script-modal {
+  background: #fdf6e3;
+  border: 3px solid rgba(200,180,150,0.4);
+  border-radius: 16px 12px 18px 10px;
+  padding: 32px 36px 28px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 70vh;
+  position: relative;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+}
+
+.script-modal-title {
+  font-family: 'Nanum Square Round', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #5a4a3a;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.script-modal-body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #6a5a4a;
+  line-height: 1.85;
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-right: 8px;
+  white-space: pre-line;
+}
+
+.script-modal-close {
+  position: absolute;
+  top: 14px; right: 16px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(200,140,80,0.3);
+  background: rgba(255,255,255,0.6);
+  font-size: 1.1rem;
+  color: #8a6a4a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.script-modal-close:hover {
+  background: rgba(224,120,80,0.15);
+  border-color: rgba(200,140,80,0.5);
+}
+
+/* ===== TTS controls ===== */
+.tts-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 2px solid rgba(200,180,150,0.25);
+}
+
+.tts-apikey-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.tts-apikey-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid rgba(200,180,150,0.35);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.6);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.85rem;
+  color: #5a4a3a;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.tts-apikey-input:focus { border-color: rgba(200,140,80,0.6); }
+.tts-apikey-input::placeholder { color: #baa; }
+
+.tts-apikey-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 2.5px solid rgba(200,140,80,0.4);
+  background: rgba(255,255,255,0.6);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #8a6a4a;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tts-apikey-btn:hover {
+  background: rgba(224,120,80,0.15);
+  border-color: rgba(200,140,80,0.6);
+}
+
+.tts-key-saved {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.85rem;
+  color: #5a9e6f;
+}
+.tts-key-saved .tts-change-btn {
+  color: #a08a6a;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.8rem;
+}
+.tts-key-saved .tts-change-btn:hover { color: #e07850; }
+
+.tts-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tts-btn {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(200,140,80,0.4);
+  background: rgba(255,255,255,0.6);
+  font-size: 1.1rem;
+  color: #8a6a4a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.tts-btn:hover {
+  background: rgba(224,120,80,0.15);
+  border-color: rgba(200,140,80,0.6);
+  transform: scale(1.08);
+}
+.tts-btn.active {
+  background: rgba(224,120,80,0.2);
+  border-color: #e07850;
+  color: #e07850;
+}
+.tts-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tts-status {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.85rem;
+  color: #a08a6a;
+  margin-left: 8px;
+}
+
+.tts-notice {
+  margin-top: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.75rem;
+  color: #a08a6a;
+  line-height: 1.6;
+}
+.tts-notice strong { color: #5a9e6f; }
+</style>
 </head>
 <body>
 
@@ -55,6 +265,7 @@
     <div style="font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;color:#a08a6a;margin-top:8px;">
       AI-Native Open Source Frontier &middot; AI Core Contributor를 양성하는 6주간의 여정
     </div>
+    <button class="script-btn" onclick="openScript(1)" title="발표 스크립트">&#128220;</button>
   </div>
 
   <!-- ============ SLIDE 2: Why AI Open Source Now? ============ -->
@@ -2130,8 +2341,233 @@
   <a href="index.html" class="nav-btn" title="목차로 이동" style="text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-left:8px;">&#127968;</a>
 </div>
 
+<!-- Script Modal -->
+<div class="script-overlay" id="scriptOverlay" onclick="if(event.target===this)closeScript()">
+  <div class="script-modal">
+    <button class="script-modal-close" onclick="closeScript()">&#10005;</button>
+    <div class="script-modal-title">&#128220; <span id="scriptTitle">발표 스크립트</span></div>
+    <div class="script-modal-body" id="scriptBody"></div>
+    <div class="tts-section">
+      <!-- API Key: 미설정 -->
+      <div class="tts-apikey-row" id="ttsKeyInputRow">
+        <input type="password" class="tts-apikey-input" id="ttsKeyInput" placeholder="Gemini API Key 입력">
+        <button class="tts-apikey-btn" onclick="saveApiKey()">저장</button>
+      </div>
+      <!-- API Key: 설정됨 -->
+      <div class="tts-key-saved" id="ttsKeySavedRow" style="display:none;">
+        &#128274; API 키 설정됨
+        <span class="tts-change-btn" onclick="showApiKeyInput()">변경</span>
+        <span class="tts-change-btn" onclick="removeApiKey()">삭제</span>
+      </div>
+      <!-- Controls -->
+      <div class="tts-controls">
+        <button class="tts-btn" id="ttsPlayBtn" onclick="ttsPlay()" title="읽기" disabled>&#9654;</button>
+        <button class="tts-btn" id="ttsStopBtn" onclick="ttsStop()" title="정지">&#9632;</button>
+        <span class="tts-status" id="ttsStatus"></span>
+      </div>
+      <div class="tts-notice">
+        <strong>&#128274; 보안 안내:</strong> API 키는 브라우저의 localStorage에만 저장되며, 외부 서버로 전송되거나 유출되지 않습니다. Gemini API 호출은 브라우저에서 Google 서버로 직접 이루어집니다.<br>
+        <strong>&#128176; 예상 비용:</strong> Gemini 2.5 Flash TTS 기준 — 무료 티어 제공. 유료 시 슬라이드 1회 읽기당 약 $0.008~0.01 (입력 $0.50/1M토큰 + 출력 $10/1M토큰). 전체 45슬라이드 기준 약 $0.35~0.45.
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="slides-common.js"></script>
 <script>initSlides(45, [0, 7, 21, 31, 37, 43]);</script>
+
+<script>
+// ===== Slide Scripts =====
+const slideScripts = {
+  1: {
+    title: 'Slide 1 — AIOI Kick-off Day',
+    text: `안녕하세요, 여러분! AIOI 프로그램의 첫 번째 주, 킥오프 데이에 오신 것을 환영합니다.
+
+AIOI는 "AI Open Source Impact"의 약자로, AI 오픈소스 생태계에 직접 기여하는 경험을 하게 될 6주간의 프로그램입니다.
+
+여러분은 세 가지 트랙 중 하나를 선택하게 됩니다.
+트랙 A는 AI 도구를 활용해 기존 오픈소스에 기여하는 것이고,
+트랙 B는 기존 프로젝트에 AI 기능을 추가하는 것,
+트랙 C는 AI 네이티브 프로젝트를 직접 만들어보는 것입니다.
+
+현재 GitHub에는 430만 개가 넘는 AI 관련 저장소가 있습니다. 이 거대한 생태계 속에서 여러분만의 첫 기여를 시작해 봅시다!`
+  }
+};
+
+// ===== API Key Management =====
+const API_KEY_STORAGE = 'aioi_gemini_api_key';
+
+function getApiKey() {
+  return localStorage.getItem(API_KEY_STORAGE) || '';
+}
+
+function saveApiKey() {
+  const key = document.getElementById('ttsKeyInput').value.trim();
+  if (!key) return;
+  localStorage.setItem(API_KEY_STORAGE, key);
+  document.getElementById('ttsKeyInput').value = '';
+  refreshKeyUI();
+}
+
+function removeApiKey() {
+  localStorage.removeItem(API_KEY_STORAGE);
+  refreshKeyUI();
+}
+
+function showApiKeyInput() {
+  document.getElementById('ttsKeyInputRow').style.display = 'flex';
+  document.getElementById('ttsKeySavedRow').style.display = 'none';
+  document.getElementById('ttsPlayBtn').disabled = true;
+}
+
+function refreshKeyUI() {
+  const hasKey = !!getApiKey();
+  document.getElementById('ttsKeyInputRow').style.display = hasKey ? 'none' : 'flex';
+  document.getElementById('ttsKeySavedRow').style.display = hasKey ? 'flex' : 'none';
+  document.getElementById('ttsPlayBtn').disabled = !hasKey;
+}
+
+// ===== Modal =====
+function openScript(slideNum) {
+  const data = slideScripts[slideNum];
+  if (!data) return;
+  document.getElementById('scriptTitle').textContent = data.title;
+  document.getElementById('scriptBody').textContent = data.text;
+  document.getElementById('scriptOverlay').classList.add('open');
+  ttsStop();
+  refreshKeyUI();
+}
+
+function closeScript() {
+  document.getElementById('scriptOverlay').classList.remove('open');
+  ttsStop();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeScript();
+});
+
+// ===== Gemini TTS =====
+let ttsAudio = null;
+let ttsAbort = null;
+
+function pcm16ToWav(pcmData, sampleRate) {
+  const numChannels = 1;
+  const bitsPerSample = 16;
+  const byteRate = sampleRate * numChannels * bitsPerSample / 8;
+  const blockAlign = numChannels * bitsPerSample / 8;
+  const dataSize = pcmData.byteLength;
+  const buffer = new ArrayBuffer(44 + dataSize);
+  const view = new DataView(buffer);
+
+  function writeStr(offset, str) {
+    for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+  }
+
+  writeStr(0, 'RIFF');
+  view.setUint32(4, 36 + dataSize, true);
+  writeStr(8, 'WAVE');
+  writeStr(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, byteRate, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, bitsPerSample, true);
+  writeStr(36, 'data');
+  view.setUint32(40, dataSize, true);
+  new Uint8Array(buffer, 44).set(new Uint8Array(pcmData));
+
+  return buffer;
+}
+
+async function ttsPlay() {
+  const apiKey = getApiKey();
+  if (!apiKey) { refreshKeyUI(); return; }
+
+  ttsStop();
+  updateTtsUI('loading');
+
+  ttsAbort = new AbortController();
+  const text = document.getElementById('scriptBody').textContent;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: ttsAbort.signal,
+        body: JSON.stringify({
+          contents: [{ parts: [{ text }] }],
+          generationConfig: {
+            responseModalities: ['AUDIO'],
+            speechConfig: {
+              voiceConfig: {
+                prebuiltVoiceConfig: { voiceName: 'Kore' }
+              }
+            }
+          }
+        })
+      }
+    );
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API 오류 (${res.status})`);
+    }
+
+    const data = await res.json();
+    const part = data.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+    if (!part?.data) throw new Error('음성 데이터를 받지 못했습니다');
+
+    const pcmBytes = Uint8Array.from(atob(part.data), c => c.charCodeAt(0));
+    const wavBuffer = pcm16ToWav(pcmBytes.buffer, 24000);
+    const blob = new Blob([wavBuffer], { type: 'audio/wav' });
+    const url = URL.createObjectURL(blob);
+
+    ttsAudio = new Audio(url);
+    ttsAudio.onplay = () => updateTtsUI('playing');
+    ttsAudio.onended = () => { updateTtsUI('stopped'); URL.revokeObjectURL(url); };
+    ttsAudio.onerror = () => { updateTtsUI('stopped'); URL.revokeObjectURL(url); };
+    ttsAudio.play();
+  } catch (e) {
+    if (e.name === 'AbortError') return;
+    updateTtsUI('stopped');
+    document.getElementById('ttsStatus').textContent = e.message;
+  }
+}
+
+function ttsStop() {
+  if (ttsAbort) { ttsAbort.abort(); ttsAbort = null; }
+  if (ttsAudio) { ttsAudio.pause(); ttsAudio.currentTime = 0; ttsAudio = null; }
+  updateTtsUI('stopped');
+}
+
+function updateTtsUI(state) {
+  const playBtn = document.getElementById('ttsPlayBtn');
+  const status = document.getElementById('ttsStatus');
+
+  playBtn.classList.toggle('active', state === 'playing');
+
+  if (state === 'loading') {
+    playBtn.disabled = true;
+    status.textContent = '음성 생성 중...';
+  } else if (state === 'playing') {
+    playBtn.disabled = true;
+    status.textContent = '재생 중...';
+  } else {
+    playBtn.disabled = !getApiKey();
+    if (status.textContent === '음성 생성 중...' || status.textContent === '재생 중...') {
+      status.textContent = '';
+    }
+  }
+}
+
+// 초기 UI
+refreshKeyUI();
+</script>
 
 </body>
 </html>
