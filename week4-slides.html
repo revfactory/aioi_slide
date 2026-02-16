@@ -5,6 +5,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIOI Week 4 - 기여 심화 Sprint</title>
 <link rel="stylesheet" href="slides-common.css">
+<style>
+/* ===== Slide action buttons ===== */
+.slide-actions {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 10;
+}
+
+.slide-action-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(200,140,80,0.4);
+  background: rgba(255,255,255,0.7);
+  font-size: 1.3rem;
+  color: #8a6a4a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
+}
+.slide-action-btn:hover {
+  background: rgba(224,120,80,0.15);
+  border-color: rgba(200,140,80,0.6);
+  transform: scale(1.1);
+}
+.slide-action-btn.playing {
+  background: rgba(224,120,80,0.2);
+  border-color: #e07850;
+  color: #e07850;
+}
+
+/* ===== Script bubble ===== */
+.script-bubble {
+  position: absolute;
+  bottom: 84px;
+  right: 32px;
+  width: 320px;
+  max-height: 260px;
+  background: rgba(253,246,227,0.97);
+  border: 2.5px solid rgba(200,180,150,0.4);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  backdrop-filter: blur(8px);
+  padding: 14px 16px;
+  z-index: 20;
+  display: none;
+  flex-direction: column;
+}
+.script-bubble.open { display: flex; }
+.script-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 18px;
+  width: 0; height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid rgba(200,180,150,0.4);
+}
+.script-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  right: 19px;
+  width: 0; height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 9px solid rgba(253,246,227,0.97);
+  z-index: 1;
+}
+
+.script-bubble-title {
+  font-family: 'Nanum Square Round', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #5a4a3a;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.script-bubble-body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: #6a5a4a;
+  line-height: 1.75;
+  overflow-y: auto;
+  white-space: pre-line;
+  flex: 1;
+  min-height: 0;
+}
+.script-bubble-body::-webkit-scrollbar { width: 4px; }
+.script-bubble-body::-webkit-scrollbar-thumb { background: rgba(200,180,150,0.4); border-radius: 2px; }
+
+@media (max-width: 700px) {
+  .script-bubble { width: 260px; max-height: 220px; right: 16px; bottom: 76px; }
+}
+</style>
 </head>
 <body>
 <div class="slide-container">
@@ -589,5 +696,503 @@ result = crew.kickoff()</div></div></div>
 
 <script src="slides-common.js"></script>
 <script>initSlides(41, [0, 3, 11, 15, 25, 33]);</script>
+<script>
+// ===== Slide Scripts =====
+const WEEK_NUM = 4;
+const slideScripts = {
+  1: {
+    title: 'Slide 1 — Week 4: 기여 심화 Sprint',
+    text: `안녕하세요, 여러분! AIOI 프로그램 4주차, 기여 심화 Sprint에 오신 것을 환영합니다.
+
+이번 주는 "피드백을 반영하고, 더 깊이 파고들자"라는 주제로 진행됩니다. 지난주에 제출한 첫 PR에 대한 메인테이너 피드백을 분석하고, 수정하고, 더 나은 기여를 만들어가는 과정을 배우게 됩니다.
+
+트랙 A는 AI 도구 고급 활용, 트랙 B는 AI SDK 심화, 트랙 C는 MCP/Agent 고급 주제를 다룹니다. 1시간 멘토링과 2시간 Sprint 활동으로 구성되어 있으니, 집중해서 따라와 주세요!`
+  },
+  2: {
+    title: 'Slide 2 — 이번 주 학습 목표',
+    text: `이번 주의 핵심 학습 목표 세 가지를 정리했습니다.
+
+첫째, 메인테이너의 피드백을 분석하고 PR을 개선하는 법을 익힙니다. 리뷰 코멘트에 적절히 대응하는 것이 오픈소스 기여에서 매우 중요한 스킬입니다.
+
+둘째, 더 심화된 기여에 도전합니다. 단순 버그 수정을 넘어 기능 개선이나 성능 최적화 같은 고급 기여를 시도해 봅니다.
+
+셋째, 오픈소스 커뮤니티에서의 협업 패턴을 체화합니다. Peer Review를 통해 팀 역량을 함께 높여가는 경험을 하게 됩니다.`
+  },
+  3: {
+    title: 'Slide 3 — 멘토링 세션 구성',
+    text: `오늘 멘토링 세션은 화상회의로 1시간 동안 진행됩니다. 세 파트로 나뉘어 있어요.
+
+첫 20분은 PR 리뷰와 피드백 대응입니다. 메인테이너 피드백을 분석하고, 수정 전략을 세우며, Force Push와 추가 커밋 중 어떤 방식을 선택할지 배웁니다.
+
+다음 20분은 트랙별 기술 심화 세션입니다. 각 트랙에 맞는 고급 주제를 다룹니다.
+
+마지막 20분은 기술 병목 해결 시간으로, 팀별 이슈 트러블슈팅과 Q&A를 진행합니다.`
+  },
+  4: {
+    title: 'Slide 4 — 메인테이너 피드백 분석법',
+    text: `PR 리뷰를 받았을 때 어떻게 대응해야 할까요? 먼저 피드백 유형을 분류하는 것이 중요합니다.
+
+Must Fix는 버그나 보안 이슈로 반드시 수정해야 합니다. Should Fix는 코드 스타일이나 컨벤션 관련으로 프로젝트 규칙을 따르면 됩니다. Nice to Have는 성능 개선이나 리팩토링 제안으로 논의 후 결정합니다. Question은 설계 의도를 묻는 것으로 정중하게 설명하면 됩니다.
+
+대응할 때는 모든 코멘트에 반드시 답변하고, 동의하면 수정하되 다른 의견이 있으면 근거와 함께 토론하세요. 감사 표현도 잊지 마세요!`
+  },
+  5: {
+    title: 'Slide 5 — 피드백 대응 실전 예시',
+    text: `실제 PR 리뷰 대화에서 좋은 대응과 나쁜 대응을 비교해 보겠습니다.
+
+좋은 대응 예시를 보면, 리뷰어가 에러 핸들링을 요청했을 때 감사를 표현하고, 구체적으로 어떤 수정을 했는지 커밋 해시와 함께 알려주며, PTAL로 재리뷰를 요청합니다.
+
+반면 나쁜 대응은 근거 없이 "PR 범위 밖"이라고 거부하는 것인데요. 이렇게 하면 메인테이너의 신뢰를 잃게 됩니다. 만약 정말 범위를 벗어난다면, 별도 이슈를 생성하고 그 링크를 공유하는 것이 올바른 방법입니다.`
+  },
+  6: {
+    title: 'Slide 6 — AI로 피드백 분석하기',
+    text: `Claude Code를 활용하면 PR 피드백 대응을 더 효율적으로 할 수 있습니다.
+
+PR의 리뷰 코멘트를 분석하고 수정 전략을 제안받을 수 있고, 특정 피드백에 대한 구체적인 수정안도 생성할 수 있습니다. 수정 후에는 영어로 된 리뷰 응답 메시지 작성도 도와줍니다.
+
+다만 핵심 포인트가 있습니다. AI가 제안한 수정을 반드시 이해한 후에 적용하세요. 리뷰어의 의도를 AI에게 잘 설명하면 더 정확한 수정안을 받을 수 있고, CI/CD 실패 시에도 AI로 로그를 분석할 수 있습니다.`
+  },
+  7: {
+    title: 'Slide 7 — Force Push vs 추가 커밋',
+    text: `PR을 수정할 때 두 가지 전략이 있습니다. Force Push와 추가 커밋이죠.
+
+Force Push는 기존 커밋을 수정하거나 합친 후 강제 푸시하는 방식입니다. 커밋 히스토리가 깔끔해지지만, 리뷰 히스토리가 손실되고 다른 사람의 작업을 덮어쓸 위험이 있습니다.
+
+추가 커밋은 새 커밋으로 수정사항을 추가하는 방식입니다. 리뷰 히스토리가 보존되어 변경을 추적하기 쉽지만, 커밋 히스토리가 지저분해질 수 있습니다.
+
+프로젝트마다 선호하는 방식이 다르니, CONTRIBUTING.md를 반드시 확인하세요!`
+  },
+  8: {
+    title: 'Slide 8 — Force Push 실습',
+    text: `Interactive Rebase로 커밋을 정리하는 방법을 실습해 봅시다.
+
+git rebase -i HEAD~3 명령으로 최근 3개 커밋을 선택하고, 에디터에서 pick, squash, fixup 중 하나를 선택합니다. squash는 이전 커밋과 합치면서 메시지를 수정하고, fixup은 이전 커밋에 합치되 메시지는 버립니다.
+
+Force push할 때는 반드시 --force-with-lease 옵션을 사용하세요. 이 옵션은 원격에 다른 사람이 push한 변경이 있으면 거부해서 안전합니다. --force는 무조건 덮어쓰기라 위험하니 피하세요!`
+  },
+  9: {
+    title: 'Slide 9 — Git Rebase vs Merge',
+    text: `브랜치 통합 전략으로 Merge와 Rebase의 차이를 이해해 봅시다.
+
+Merge는 두 브랜치의 히스토리를 보존하면서 Merge commit을 생성합니다. 팀 협업 시 안전한 선택이고, 감사 추적이 필요한 프로젝트에 적합합니다.
+
+Rebase는 커밋을 다른 베이스 위에 재적용하여 선형적이고 깔끔한 히스토리를 만듭니다. 단, 개인 브랜치에서만 사용해야 합니다.
+
+Golden Rule을 기억하세요. 공개(public) 브랜치는 절대 rebase 하지 않습니다!`
+  },
+  10: {
+    title: 'Slide 10 — Rebase 워크플로우',
+    text: `PR 제출 전 브랜치를 최신 상태로 유지하는 Rebase 워크플로우를 살펴봅시다.
+
+먼저 main 브랜치를 최신화하고, feature 브랜치로 이동한 뒤 git rebase main을 실행합니다. 충돌이 발생하면 파일을 수정하고 git add 후 git rebase --continue를 실행하세요. 되돌리고 싶으면 git rebase --abort를 쓰면 됩니다.
+
+Rebase 완료 후에는 git push --force-with-lease로 푸시합니다. 대부분의 오픈소스 프로젝트가 PR 제출 전 rebase를 권장하니, 이 워크플로우를 잘 익혀두세요.`
+  },
+  11: {
+    title: 'Slide 11 — Squash and Merge 전략',
+    text: `GitHub에서 PR을 머지할 때 세 가지 옵션이 있습니다.
+
+Create a merge commit은 모든 커밋 히스토리를 유지하면서 merge commit을 추가합니다. 대규모 기능 개발 시 적합합니다.
+
+Squash and merge는 모든 커밋을 하나로 압축한 뒤 머지하는 방식으로, 대부분의 오픈소스 프로젝트에서 기본으로 사용합니다. 소규모 PR에 적합하고, 최종 커밋 메시지를 잘 작성하는 것이 중요합니다.
+
+Rebase and merge는 커밋을 main 위에 선형으로 재적용하는 방식입니다. 프로젝트의 CONTRIBUTING.md에서 선호 전략을 확인하세요.`
+  },
+  12: {
+    title: 'Slide 12 — 트랙 A 심화: AI 도구 고급',
+    text: `트랙 A의 심화 주제를 살펴보겠습니다. 세 가지 AI 코딩 도구의 고급 기능을 다룹니다.
+
+Claude Code에서는 멀티파일 편집, CLAUDE.md 활용, /create-pr 자동화, 그리고 Cowork 에이전트를 배웁니다.
+
+GitHub Copilot의 Agent 모드에서는 이슈 자동 할당과 자율적 PR 생성, MCP 프로토콜 지원을 활용할 수 있습니다.
+
+Cursor에서는 @Files, @Code 심볼로 멀티파일 리팩토링을 하고, 전체 레포 컨텍스트를 활용하며, 다양한 AI 모델을 선택해서 사용할 수 있습니다.`
+  },
+  13: {
+    title: 'Slide 13 — Claude Code 멀티파일 편집',
+    text: `Claude Code의 멀티파일 편집 기능은 여러 파일에 걸친 변경을 한 번에 처리할 수 있게 해줍니다.
+
+활용 시나리오를 보면, API 엔드포인트를 추가할 때 라우트, 컨트롤러, 테스트, 타입 파일을 동시에 수정할 수 있고, 리팩토링 시 함수를 추출한 후 여러 파일의 import를 자동으로 수정해 줍니다.
+
+CLAUDE.md에 프로젝트 컨벤션을 기록해 두면 /init 명령으로 초기화할 수 있고, AI가 프로젝트 규칙을 더 잘 이해하게 됩니다. 변경 사항을 리뷰하고 커밋하는 것까지 한 번에 요청할 수 있어요.`
+  },
+  14: {
+    title: 'Slide 14 — AI 기반 대규모 코드 리팩토링',
+    text: `실제 기업에서 AI를 활용한 대규모 리팩토링 사례를 살펴보겠습니다.
+
+핀테크 기업 Qonto는 aider로 대규모 마이그레이션을 수행하여 엔지니어당 생산성을 20배, 즉 2,000% 향상시켰습니다. 하루 약 50줄이던 코드 생산량이 1,000줄 이상으로 증가했죠.
+
+OpenObserve는 8개의 Claude Code 에이전트를 동시에 활용해 700개 이상의 테스트 커버리지를 달성하고, 플레이키 테스트를 85% 감소시켰습니다.
+
+주요 도구로는 AI와 결정론적 엔진을 결합한 Codemod 2.0, 레시피 기반의 OpenRewrite, 대규모 현대화를 지원하는 Moderne가 있습니다.`
+  },
+  15: {
+    title: 'Slide 15 — AI 리팩토링 실전 가이드',
+    text: `AI 리팩토링을 안전하게 수행하기 위한 5단계 접근법을 소개합니다.
+
+1단계 분석에서 AI로 코드 스멜을 탐지하고, 2단계에서 리팩토링 범위를 정의합니다. 3단계에서 기존 테스트를 확인하고, 4단계에서 AI로 실제 코드를 변환합니다. 마지막 5단계에서 테스트와 리뷰로 검증합니다.
+
+주의사항이 있습니다. AI 리팩토링 결과는 반드시 테스트로 검증하고, 한 번에 너무 큰 범위를 변경하지 마세요. 작은 PR로 분리하고, 리팩토링과 기능 변경은 별도 커밋으로 분리하는 것이 좋습니다.`
+  },
+  16: {
+    title: 'Slide 16 — 트랙 B 심화: AI SDK & 통합 패턴',
+    text: `트랙 B의 심화 주제는 AI SDK와 통합 패턴입니다. 네 가지 핵심 영역을 다룹니다.
+
+Vercel AI SDK에서는 스트리밍 구현과 AI Gateway, Agent 추상화를 배웁니다. LangChain에서는 LCEL 파이프라인과 LangGraph 1.0, 도구 호출을 다루고요.
+
+벡터 DB 영역에서는 pgvector 통합과 Chroma 활용, 하이브리드 검색을 실습합니다. 프롬프트 엔지니어링에서는 시스템 프롬프트, Few-shot 학습, 구조화된 출력 패턴을 배웁니다.`
+  },
+  17: {
+    title: 'Slide 17 — Vercel AI SDK 스트리밍',
+    text: `AI SDK 6의 핵심 기능인 실시간 텍스트 스트리밍을 살펴봅시다.
+
+서버 사이드에서는 streamText 함수로 모델의 응답을 스트리밍하고, toDataStreamResponse()로 클라이언트에 전달합니다.
+
+클라이언트 사이드에서는 useChat 훅을 사용해서 messages, input, handleInputChange, handleSubmit 등을 가져와 간단하게 채팅 UI를 구현할 수 있습니다.
+
+이 서버-클라이언트 구조만 이해하면 실시간 AI 채팅 앱을 빠르게 만들 수 있습니다. React, Vue, Svelte 등 다양한 프레임워크를 지원해요.`
+  },
+  18: {
+    title: 'Slide 18 — AI SDK 6 신기능',
+    text: `AI SDK 6에서 추가된 주요 신기능 세 가지를 소개합니다.
+
+첫째, Agent 추상화입니다. 프롬프트와 API를 자동으로 연결하는 Agent 객체를 제공하고, 도구 호출 시 사용자 승인 기능과 Memory Tool로 대화 간 정보 유지도 가능합니다.
+
+둘째, Provider Tools입니다. 웹 검색, 코드 실행 샌드박스, Tool Search, 메모리 관리 등 다양한 도구를 기본으로 제공합니다.
+
+셋째, AI Gateway입니다. 18개 이상의 모델 프로바이더를 중앙에서 관리하고, 예산 통제와 모니터링도 가능합니다. React, Vue, Svelte, Angular 등 다양한 프레임워크를 지원합니다.`
+  },
+  19: {
+    title: 'Slide 19 — LangChain LCEL 파이프라인',
+    text: `LangChain Expression Language, 줄여서 LCEL로 체인을 구성하는 방법을 알아봅시다.
+
+LCEL의 핵심은 파이프 연산자(|)로 컴포넌트를 직관적으로 연결하는 것입니다. prompt | model | parser 형태로 프롬프트 템플릿, 모델, 출력 파서를 체인으로 구성합니다.
+
+모든 컴포넌트가 Runnable 인터페이스를 구현하고 있어서, invoke로 실행하거나 stream으로 스트리밍할 수 있습니다. 배치, 비동기도 자동으로 지원되고 LangSmith 트레이싱도 자동 통합됩니다.
+
+LangChain과 LangGraph가 2025년 11월에 v1.0 GA를 달성했습니다.`
+  },
+  20: {
+    title: 'Slide 20 — LangGraph 1.0 심화',
+    text: `LangGraph는 그래프 기반으로 상태를 관리하는 에이전트 워크플로우 프레임워크입니다.
+
+핵심 개념으로는 StateGraph로 상태를 가진 그래프를 정의하고, Node는 각 단계의 로직, Edge는 노드 간 전이 규칙, Conditional Edge는 조건부 분기를 담당합니다. Durable State로 실행 상태가 자동 영속화되고, Human-in-the-Loop으로 사람 승인 후 재개도 가능합니다.
+
+실전 활용 패턴으로는 ReAct Agent, Plan & Execute, Multi-Agent 협업 등이 있고, Checkpointing과 LangSmith 비용 추적 기능도 제공됩니다.`
+  },
+  21: {
+    title: 'Slide 21 — 벡터 DB 통합 패턴',
+    text: `시맨틱 검색의 핵심인 벡터 데이터베이스를 비교해 봅시다.
+
+pgvector는 PostgreSQL 확장으로 기존 PostgreSQL을 사용하는 프로젝트에 적합합니다. Chroma는 개발자 친화적이고 빠르게 시작할 수 있어 프로토타이핑에 좋습니다.
+
+Milvus는 35K+ Stars로 대규모 분산 처리와 10억 규모 벡터를 다루는 산업용에 적합하고, Qdrant는 Rust 기반으로 고성능 필터링이 필요한 프로덕션 환경에 맞습니다.
+
+2026년 베스트 프랙티스는 BM25 키워드 검색과 벡터 유사도를 결합한 하이브리드 검색입니다.`
+  },
+  22: {
+    title: 'Slide 22 — pgvector 실습',
+    text: `PostgreSQL에서 pgvector로 벡터 검색을 구현하는 방법을 실습합니다.
+
+먼저 CREATE EXTENSION vector로 확장을 활성화하고, VECTOR(1536) 타입의 컬럼을 가진 테이블을 생성합니다. 유사도 검색에는 코사인 거리 연산자를 사용하고, HNSW 인덱스를 생성하면 대규모 데이터에서도 빠른 검색이 가능합니다.
+
+하이브리드 검색은 ILIKE로 키워드 필터링을 하면서 동시에 벡터 유사도로 정렬하는 방식입니다. pgvector는 기존 SQL과 완벽하게 통합되기 때문에 이미 PostgreSQL을 쓰고 있다면 가장 효율적인 선택입니다.`
+  },
+  23: {
+    title: 'Slide 23 — Chroma 실습',
+    text: `Python에서 가장 빠르게 시작할 수 있는 벡터 DB인 Chroma를 살펴봅시다.
+
+기본 사용법은 매우 간단합니다. chromadb.Client()로 클라이언트를 생성하고, 컬렉션을 만든 뒤 문서를 추가하면 임베딩이 자동으로 생성됩니다. query 메서드로 시맨틱 검색을 바로 수행할 수 있어요.
+
+LangChain과의 연동도 쉽습니다. Chroma.from_documents로 벡터스토어를 만들고, as_retriever로 변환한 뒤 LCEL 체인에 바로 연결할 수 있습니다. RAG 파이프라인 구축에 매우 유용합니다.`
+  },
+  24: {
+    title: 'Slide 24 — 프롬프트 엔지니어링 기법',
+    text: `AI 기능의 품질을 결정하는 프롬프트 엔지니어링 기법을 정리합니다.
+
+기본 기법으로는 역할과 제약을 설정하는 시스템 프롬프트, 예시로 패턴을 학습시키는 Few-shot, 단계별 추론을 유도하는 Chain of Thought가 있습니다.
+
+고급 기법으로는 JSON 스키마를 강제하는 구조화된 출력, 함수 실행을 지시하는 도구 호출, 비용을 90%까지 절감하는 프롬프트 캐싱이 있습니다.
+
+최적화 팁으로, 정적 콘텐츠는 프롬프트 앞부분에 배치하고, 간단한 작업에는 저가 모델을 쓰며, max_tokens로 응답 길이를 제한하세요.`
+  },
+  25: {
+    title: 'Slide 25 — 프롬프트 실전 예시',
+    text: `오픈소스 AI 기능에 실제로 사용하는 프롬프트 패턴 예시를 보겠습니다.
+
+시스템 프롬프트 예시로 코드 리뷰 봇을 만들 때, 보안 취약점 체크, 성능 이슈 지적, 코드 스타일 확인 등 역할을 정의하고, 응답 형식을 JSON으로 지정합니다.
+
+Few-shot 예시로는 커밋 메시지 생성이 있습니다. diff와 그에 대응하는 커밋 메시지 예시를 2~3개 제공한 뒤, 새로운 diff에 대한 커밋 메시지를 작성하게 하면 일관된 형식의 출력을 얻을 수 있습니다.
+
+이런 패턴들을 익히면 오픈소스 프로젝트에 AI 기능을 효과적으로 추가할 수 있습니다.`
+  },
+  26: {
+    title: 'Slide 26 — 트랙 C 심화: MCP/Agent 고급',
+    text: `트랙 C의 심화 주제는 MCP 고급 활용, Agentic RAG, 멀티 에이전트입니다.
+
+MCP 고급에서는 Streamable HTTP 전송, Tasks 프리미티브, OAuth 2.1 인증, Tool Composition을 다룹니다.
+
+Agentic RAG에서는 GraphRAG로 지식 그래프를 활용한 검색, 적응형 검색 전략, 불확실성 정량화, 자동 검증과 합성을 배웁니다.
+
+멀티 에이전트에서는 CrewAI, LangGraph를 활용한 역할 기반 협업과 이벤트 드리븐 워크플로우를 구현해 봅니다.`
+  },
+  27: {
+    title: 'Slide 27 — MCP Streaming & Tasks',
+    text: `2025년 11월 MCP 스펙 업데이트의 핵심 기능 두 가지를 소개합니다.
+
+첫째, Streamable HTTP입니다. 기존 SSE 방식을 대체하는 새로운 전송 프로토콜로, 양방향 통신을 지원하고 단일 HTTP 연결로 메시지를 전달합니다. 대규모 배포에 적합한 확장성을 가지고 있습니다.
+
+둘째, Tasks 프리미티브입니다. 비동기 장시간 작업을 지원하며, 서버가 Task를 생성하고 핸들을 반환한 뒤, 진행 상황 업데이트와 결과 전달을 비동기로 처리합니다.
+
+MCP SDK 다운로드가 월 9,700만 회이고, 활성 서버가 10,000개를 넘었습니다.`
+  },
+  28: {
+    title: 'Slide 28 — MCP 인증 & Tool Composition',
+    text: `MCP의 보안과 도구 조합 고급 패턴을 살펴봅시다.
+
+OAuth 2.1 인증에서는 MCP 서버를 OAuth Resource Server로 분류하고, Protected Resource Metadata 디스커버리와 OpenID Connect 인가 서버 해석을 다룹니다. Resource Indicators로 악의적 서버 접근을 방지할 수 있습니다.
+
+Tool Composition에서는 여러 MCP 서버의 도구를 조합하고, 서버 간 파이프라인을 구성하는 방법을 배웁니다. 2025년 6월에 추가된 Structured Tool Output과 2,000개 이상 항목이 등록된 MCP Registry도 활용할 수 있습니다.`
+  },
+  29: {
+    title: 'Slide 29 — MCP 서버 고급 구현',
+    text: `FastMCP로 고급 MCP 서버를 구현하는 방법을 살펴봅시다.
+
+@mcp.resource 데코레이터로 설정 정보 같은 리소스를 제공하고, @mcp.tool 데코레이터로 API 검색 같은 도구를 구현합니다. 비동기 함수도 지원하므로 httpx 같은 비동기 HTTP 클라이언트를 활용할 수 있습니다.
+
+@mcp.prompt 데코레이터로 데이터 분석 같은 프롬프트 템플릿도 제공할 수 있습니다. STDIO 서버에서는 console.log 대신 console.error를 사용해야 한다는 점도 기억하세요.`
+  },
+  30: {
+    title: 'Slide 30 — Agentic RAG & GraphRAG',
+    text: `차세대 검색 증강 생성의 핵심 패턴 두 가지를 살펴봅시다.
+
+GraphRAG는 지식 그래프와 벡터 검색을 결합한 방식으로, 검색 정밀도 99%를 달성할 수 있습니다. Microsoft GraphRAG와 LightRAG가 대표적인 구현체입니다.
+
+Agentic RAG는 자율 에이전트가 동적으로 검색 전략을 선택하는 방식입니다. 쿼리 분석, 전략 선택, 검색 실행, 검증/반복, 답변 합성의 루프를 반복하면서 불확실성을 정량화하고 답변 품질을 보장합니다.
+
+이 두 패턴을 결합하면 매우 강력한 RAG 시스템을 구축할 수 있습니다.`
+  },
+  31: {
+    title: 'Slide 31 — GraphRAG 구현 패턴',
+    text: `지식 그래프 기반 RAG 파이프라인을 5단계로 구현합니다.
+
+1단계에서 LLM을 활용해 문서에서 엔티티와 관계를 추출하고, 2단계에서 Neo4j나 NetworkX로 지식 그래프를 구성합니다. 3단계에서 커뮤니티 탐지와 요약을 생성하고, 4단계에서 쿼리 시 그래프와 벡터 검색을 결합합니다. 5단계에서 컨텍스트를 조합한 뒤 LLM으로 응답을 생성합니다.
+
+주요 프레임워크로는 Microsoft GraphRAG, 경량 버전 LightRAG, 학습용 Nano-GraphRAG, RAG+Agent 통합 RAGFlow가 있습니다.`
+  },
+  32: {
+    title: 'Slide 32 — 멀티 에이전트: CrewAI',
+    text: `역할 기반 AI 에이전트 협업 프레임워크인 CrewAI를 소개합니다.
+
+CrewAI의 핵심 개념은 네 가지입니다. Agent는 역할, 목표, 배경을 가진 자율 에이전트이고, Task는 에이전트에게 할당된 구체적 작업입니다. Crew는 에이전트 팀과 작업 순서를 정의하고, Flow는 이벤트 드리븐 프로덕션 워크플로우를 관리합니다.
+
+코드 예시처럼 리서처와 작성자 에이전트를 만들고, 각각에게 Task를 할당한 뒤, Crew를 구성해서 kickoff하면 자동으로 협업이 진행됩니다. 현재 43,700+ Stars에 10만 명 이상의 개발자가 사용하고 있습니다.`
+  },
+  33: {
+    title: 'Slide 33 — 멀티 에이전트: LangGraph',
+    text: `LangGraph를 활용한 그래프 기반 에이전트 오케스트레이션을 살펴봅시다.
+
+LangGraph와 CrewAI를 비교하면, LangGraph는 그래프 기반 상태 관리로 매우 높은 유연성을 제공하지만 학습곡선이 가파릅니다. CrewAI는 역할 기반 협업으로 높은 수준의 추상화를 제공하며 학습이 비교적 쉽습니다.
+
+선택 가이드를 정리하면, 세밀한 제어와 복잡한 분기가 필요하면 LangGraph, 빠른 프로토타이핑과 직관적 API가 필요하면 CrewAI, 연구 목적의 비동기 이벤트 드리븐이면 AutoGen을 추천합니다.`
+  },
+  34: {
+    title: 'Slide 34 — Peer Review 효과적으로 하기',
+    text: `코드 리뷰를 주고받는 기술에 대해 알아봅시다.
+
+리뷰어로서는 먼저 PR 설명과 관련 이슈를 읽고, 큰 그림을 파악한 뒤 세부 리뷰에 들어갑니다. "왜?"를 질문하되 비난이 아닌 호기심으로 접근하고, 구체적인 대안을 코드와 함께 제시하세요. 잘한 부분도 언급하는 것이 중요합니다.
+
+리뷰를 받는 입장에서는 모든 피드백을 감사히 받아들이고, 방어적으로 반응하지 않아야 합니다. 동의하면 수정하고, 다른 의견이 있으면 근거와 함께 토론하세요. 큰 변경은 별도 이슈나 PR로 분리를 제안하면 좋습니다.`
+  },
+  35: {
+    title: 'Slide 35 — 코드 리뷰 체크리스트',
+    text: `팀 내 코드 리뷰 시 확인해야 할 항목을 세 카테고리로 정리했습니다.
+
+기능 & 로직 측면에서는 요구사항 구현 여부, 엣지 케이스 처리, 에러 핸들링, 비즈니스 로직 정확성을 확인합니다.
+
+보안 & 성능 측면에서는 입력 검증, API 키 노출 여부, 불필요한 API 호출, N+1 쿼리 문제를 체크합니다.
+
+코드 품질 측면에서는 네이밍 명확성, 테스트 포함 여부, 프로젝트 컨벤션 준수, 불필요한 코드 존재 여부를 확인합니다. 이 체크리스트를 팀 내 코드 리뷰에 적극 활용해 보세요.`
+  },
+  36: {
+    title: 'Slide 36 — AI 코드 리뷰 도구 활용',
+    text: `AI를 활용해 코드 리뷰 품질을 높이는 도구들을 소개합니다.
+
+CodeRabbit은 즉각적인 피드백을 제공하며 오픈소스 프로젝트에는 무료입니다. PR-Agent는 오리지널 오픈소스 PR 리뷰어로 완전 무료이고, Kodus는 시니어 리뷰어처럼 작동하는 오픈소스 도구입니다. Graphite는 실시간 피드백과 96% 긍정적 평가를 받는 상용 도구입니다.
+
+중요한 점은 AI 리뷰는 보조 수단이지 사람의 리뷰를 대체하지 않는다는 것입니다. AI가 잘하는 보안 취약점, 코드 스타일, 성능 패턴 체크를 활용하면서 사람의 리뷰와 병행하세요.`
+  },
+  37: {
+    title: 'Slide 37 — Sprint 활동 안내',
+    text: `자기주도 학습 2시간 동안 심화 기여에 집중하는 Sprint 활동을 안내합니다.
+
+트랙 A는 기존 PR 피드백을 반영하고, Claude Code 멀티파일 편집을 실습하며, AI 기반 테스트 코드를 자동 생성하고, 두 번째 기여 이슈를 선정합니다.
+
+트랙 B는 AI SDK 스트리밍 기능을 구현하고, 벡터 DB 통합 PR을 작성하며, 프롬프트 최적화를 실험하고, LCEL 파이프라인을 구축합니다.
+
+트랙 C는 MCP 서버 고급 기능을 구현하고, RAG 파이프라인을 최적화하며, 멀티 에이전트 프로토타입을 만들고, Streamlit이나 Gradio 데모를 개선합니다.`
+  },
+  38: {
+    title: 'Slide 38 — 오픈소스 협업 패턴 체화',
+    text: `오픈소스 커뮤니티에서 신뢰를 쌓는 협업 패턴을 정리합니다.
+
+Best Practice로는 이슈에 "I'd like to work on this"라고 먼저 코멘트하고, 작업 중 진행 상황을 주기적으로 업데이트하며, Draft PR로 일찍 피드백을 받고, 다른 사람의 PR에 리뷰에 참여하는 것이 좋습니다.
+
+기여자 성장 로드맵을 보면, First Timer에서 문서나 작은 버그 수정으로 시작해서, Contributor로 기능 추가와 테스트 보강을 하고, Regular로 PR 리뷰와 이슈 트리아지에 참여하며, 궁극적으로 Committer와 Maintainer까지 성장할 수 있습니다.`
+  },
+  39: {
+    title: 'Slide 39 — 이번 주 목표 & 과제',
+    text: `Week 4의 마무리 체크리스트를 정리합니다.
+
+주간 목표로는 첫 번째 PR 피드백 반영을 완료하여 Merge를 목표로 하고, 두 번째 기여 이슈를 선정하여 작업을 시작하며, 팀원과 최소 2회 이상 코드 리뷰를 교환하고, 트랙별 심화 기술을 1가지 이상 실습합니다.
+
+과제는 필수 3개와 선택 1개입니다. 필수로 첫 PR 피드백 반영, 두 번째 기여 이슈 선정, 팀원 PR 코드 리뷰 2회 이상이 있고, 선택으로 트랙별 심화 실습 후 팀 공유가 있습니다.
+
+다음 주 W5에서는 최종 Sprint와 데모 준비를 진행합니다!`
+  },
+  40: {
+    title: 'Slide 40 — Week 4 핵심 요약',
+    text: `오늘 배운 내용을 정리하겠습니다.
+
+PR 피드백 파트에서는 피드백 분류와 대응법, Force Push와 추가 커밋 전략, Rebase와 Merge의 차이를 배웠습니다.
+
+트랙 A에서는 Claude Code 멀티파일 편집, AI 대규모 리팩토링, Copilot Agent 모드를 다뤘고, 트랙 B에서는 Vercel AI SDK 6, LangChain LCEL, 벡터 DB 패턴을 살펴봤습니다. 트랙 C에서는 MCP Streaming과 Tasks, Agentic RAG, 멀티 에이전트를 배웠습니다.
+
+기억하세요, "피드백은 선물이다" -- 메인테이너의 리뷰는 성장의 기회입니다!`
+  },
+  41: {
+    title: 'Slide 41 — Q&A / 참고 자료',
+    text: `마지막 슬라이드입니다. 참고 자료와 유용한 리소스를 정리해 두었으니 활용해 주세요.
+
+AI SDK 관련으로 Vercel AI SDK, LangChain, MCP 공식 사이트, CrewAI 문서, pgvector, Chroma, Git Rebase 튜토리얼이 있습니다.
+
+AI 코딩 도구로는 Claude Code, GitHub Copilot, Cursor, Aider, CodeRabbit, PR-Agent 등을 참고하세요.
+
+이번 주도 수고하셨습니다. 피드백을 반영하고, 더 깊이 파고들어서 더 나은 기여자로 성장해 봅시다!`
+  }
+};
+
+// ===== Script Bubble =====
+let openBubbleNum = null;
+
+function toggleScript(slideNum) {
+  const bubble = document.getElementById(`scriptBubble-${slideNum}`);
+  if (!bubble) return;
+  const data = slideScripts[slideNum];
+  if (!data) return;
+
+  if (openBubbleNum === slideNum) {
+    bubble.classList.remove('open');
+    openBubbleNum = null;
+    return;
+  }
+
+  // Close other open bubbles
+  if (openBubbleNum !== null) {
+    const prev = document.getElementById(`scriptBubble-${openBubbleNum}`);
+    if (prev) prev.classList.remove('open');
+  }
+
+  document.getElementById(`scriptTitle-${slideNum}`).textContent = data.title;
+  document.getElementById(`scriptBody-${slideNum}`).textContent = data.text;
+  bubble.classList.add('open');
+  openBubbleNum = slideNum;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && openBubbleNum !== null) {
+    const bubble = document.getElementById(`scriptBubble-${openBubbleNum}`);
+    if (bubble) bubble.classList.remove('open');
+    openBubbleNum = null;
+  }
+});
+
+// ===== Slide-level Play/Pause =====
+const slideAudioCache = {};
+let slidePlayingNum = null;
+
+function slideSetBtn(slideNum, state) {
+  const btn = document.getElementById(`slidePlayBtn-${slideNum}`);
+  if (!btn) return;
+  if (state === 'playing') {
+    btn.innerHTML = '&#10074;&#10074;';
+    btn.classList.add('playing');
+  } else {
+    btn.innerHTML = '&#9654;';
+    btn.classList.remove('playing');
+  }
+}
+
+function slideResetAudio(slideNum) {
+  if (slideAudioCache[slideNum]) {
+    slideAudioCache[slideNum].pause();
+    slideAudioCache[slideNum].currentTime = 0;
+  }
+  slideSetBtn(slideNum, 'stopped');
+  if (slidePlayingNum === slideNum) slidePlayingNum = null;
+}
+
+function slideTogglePlay(slideNum) {
+  // If this slide is currently playing -> pause (keep position)
+  if (slidePlayingNum === slideNum && slideAudioCache[slideNum] && !slideAudioCache[slideNum].paused) {
+    slideAudioCache[slideNum].pause();
+    slideSetBtn(slideNum, 'paused');
+    return;
+  }
+
+  // If a different slide was playing, reset it
+  if (slidePlayingNum !== null && slidePlayingNum !== slideNum) {
+    slideResetAudio(slidePlayingNum);
+  }
+
+  // Get or create audio for this slide
+  if (!slideAudioCache[slideNum]) {
+    const audio = new Audio(`tts/week${WEEK_NUM}-slide${slideNum}.wav`);
+    audio.onended = function() { slideSetBtn(slideNum, 'stopped'); slidePlayingNum = null; };
+    audio.onerror = function() { slideSetBtn(slideNum, 'stopped'); slidePlayingNum = null; };
+    slideAudioCache[slideNum] = audio;
+  }
+
+  // Resume or play from current position
+  slideAudioCache[slideNum].play();
+  slidePlayingNum = slideNum;
+  slideSetBtn(slideNum, 'playing');
+}
+
+// 페이지 이동 시 오디오 및 말풍선 초기화
+window.onSlideChange = function() {
+  if (slidePlayingNum !== null) {
+    slideResetAudio(slidePlayingNum);
+  }
+  if (openBubbleNum !== null) {
+    const bubble = document.getElementById(`scriptBubble-${openBubbleNum}`);
+    if (bubble) bubble.classList.remove('open');
+    openBubbleNum = null;
+  }
+};
+
+// ===== 동적 버블 + 액션 버튼 생성 =====
+Object.keys(slideScripts).forEach(num => {
+  const slideEl = document.getElementById(`slide-${num}`);
+  if (!slideEl) return;
+
+  const bubble = document.createElement('div');
+  bubble.className = 'script-bubble';
+  bubble.id = `scriptBubble-${num}`;
+  bubble.innerHTML = `
+    <div class="script-bubble-title">&#128172; <span id="scriptTitle-${num}"></span></div>
+    <div class="script-bubble-body" id="scriptBody-${num}"></div>
+  `;
+  slideEl.appendChild(bubble);
+
+  const actions = document.createElement('div');
+  actions.className = 'slide-actions';
+  actions.innerHTML = `
+    <button class="slide-action-btn" id="slidePlayBtn-${num}" onclick="slideTogglePlay(${num})" title="음성 재생">&#9654;</button>
+    <button class="slide-action-btn" onclick="toggleScript(${num})" title="발표 스크립트">&#128172;</button>
+  `;
+  slideEl.appendChild(actions);
+});
+</script>
 </body>
 </html>
