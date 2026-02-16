@@ -15,13 +15,17 @@ function initSlides(total, sections) {
     });
   }
 
-  function goToSlide(n) {
+  function goToSlide(n, pushState) {
+    if (n < 0 || n >= total || n === current) return;
     slides[current].classList.remove('active');
     current = n;
     slides[current].classList.add('active');
     pageNum.textContent = `${current + 1} / ${total}`;
     progressBar.style.width = `${((current + 1) / total) * 100}%`;
     updateSectionDots();
+    if (pushState !== false) {
+      history.pushState({ slide: current }, '', `#slide-${current + 1}`);
+    }
   }
 
   function nextSlide() { if (current < total - 1) goToSlide(current + 1); }
@@ -31,6 +35,33 @@ function initSlides(total, sections) {
   window.goToSlide = goToSlide;
   window.nextSlide = nextSlide;
   window.prevSlide = prevSlide;
+
+  // 브라우저 뒤로가기/앞으로가기 지원
+  window.addEventListener('popstate', (e) => {
+    if (e.state && typeof e.state.slide === 'number') {
+      goToSlide(e.state.slide, false);
+    } else {
+      const n = parseSlideFromHash();
+      if (n !== null) goToSlide(n, false);
+    }
+  });
+
+  // URL 해시에서 슬라이드 번호 파싱
+  function parseSlideFromHash() {
+    const match = location.hash.match(/^#slide-(\d+)$/);
+    if (match) {
+      const n = parseInt(match[1], 10) - 1;
+      if (n >= 0 && n < total) return n;
+    }
+    return null;
+  }
+
+  // 초기 로드 시 해시가 있으면 해당 슬라이드로 이동
+  const initialSlide = parseSlideFromHash();
+  if (initialSlide !== null && initialSlide !== 0) {
+    goToSlide(initialSlide, false);
+  }
+  history.replaceState({ slide: current }, '', `#slide-${current + 1}`);
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
