@@ -26,6 +26,7 @@ function initSlides(total, sections) {
     if (pushState !== false) {
       history.pushState({ slide: current }, '', `#slide-${current + 1}`);
     }
+    if (typeof window.onSlideChange === 'function') window.onSlideChange(n);
   }
 
   function nextSlide() { if (current < total - 1) goToSlide(current + 1); }
