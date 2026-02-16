@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIOI Week 3 - 첫 번째 기여 Sprint</title>
+<link rel="stylesheet" href="slides-common.css">
+<style>
+  .timeline-item:nth-child(4) .timeline-dot { border-color: #9a6fb8; }
+  .timeline-item:nth-child(5) .timeline-dot { border-color: #c4a35a; }
+</style>
+</head>
+<body>
+
+<div class="slide-container">
+
+  <!-- ===== SLIDE 1: Title ===== -->
+  <div class="slide active" id="slide-1">
+    <span class="sparkle" style="top:60px;left:80px;">&#10024;</span>
+    <span class="sparkle" style="top:90px;right:120px;animation-delay:0.5s;">&#10024;</span>
+    <span class="sparkle" style="bottom:140px;left:150px;animation-delay:1s;">&#10024;</span>
+    <span class="sparkle" style="bottom:100px;right:200px;animation-delay:1.5s;">&#10024;</span>
+    <span class="doodle-arrow" style="top:120px;right:80px;transform:rotate(-20deg);">&#10148;</span>
+    <div style="margin-bottom:18px;">
+      <span class="tag a">Track A</span>
+      <span class="tag b">Track B</span>
+      <span class="tag c">Track C</span>
+    </div>
+    <div class="slide-title">Week 3: <span class="highlight">첫 번째 기여 Sprint</span></div>
+    <div class="slide-subtitle">&#127939; "작은 기여부터 시작하자 &mdash; 첫 PR의 감동"</div>
+    <div style="margin-top:20px;display:flex;gap:20px;">
+      <div class="card pink" style="max-width:260px;padding:18px;">
+        <div class="card-title">&#128203; PR 작성법</div>
+        <div class="card-body" style="font-size:0.9rem;">좋은 PR의 구조와 작성 워크플로우</div>
+      </div>
+      <div class="card green" style="max-width:260px;padding:18px;">
+        <div class="card-title">&#128221; 커밋 컨벤션</div>
+        <div class="card-body" style="font-size:0.9rem;">Conventional Commits와 메시지 작성</div>
+      </div>
+      <div class="card blue" style="max-width:260px;padding:18px;">
+        <div class="card-title">&#9881; CI/CD</div>
+        <div class="card-body" style="font-size:0.9rem;">GitHub Actions와 파이프라인 이해</div>
+      </div>
+      <div class="card yellow" style="max-width:260px;padding:18px;">
+        <div class="card-title">&#128269; 코드 리뷰</div>
+        <div class="card-body" style="font-size:0.9rem;">Peer Review 실습과 피드백</div>
+      </div>
+    </div>
+    <div style="margin-top:28px;font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;color:#8a7a6a;">
+      AI Open Source Impact (AIOI) &middot; 2026
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 2: Learning Objectives ===== -->
+  <div class="slide" id="slide-2">
+    <span class="big-number">02</span>
+    <span class="sparkle" style="top:80px;right:150px;">&#10024;</span>
+    <div class="slide-title">&#127919; 이번 주 <span class="highlight">학습 목표</span></div>
+    <div class="slide-subtitle">Week 3에서 달성할 핵심 목표 3가지</div>
+    <div class="card-row">
+      <div class="card pink">
+        <div class="card-title">&#127942; 목표 1</div>
+        <div class="card-body">
+          <li>멘토의 가이드를 받아 <strong>첫 번째 Pull Request</strong>를 생성한다</li>
+          <li>Draft PR도 OK! 완벽하지 않아도 시작이 중요</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#128172; 목표 2</div>
+        <div class="card-body">
+          <li>오픈소스 <strong>커뮤니케이션 에티켓</strong>과 PR 작성법을 익힌다</li>
+          <li>영어 PR 작성, 이슈 코멘트 연습</li>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">&#128300; 목표 3</div>
+        <div class="card-body">
+          <li><strong>코드 리뷰</strong>를 주고받는 경험을 한다</li>
+          <li>건설적 피드백 주기와 받기 실습</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 3: Mentoring Session Schedule ===== -->
+  <div class="slide" id="slide-3">
+    <span class="big-number">03</span>
+    <span class="sparkle" style="top:70px;left:100px;">&#10024;</span>
+    <div class="slide-title">&#128197; 멘토링 세션 <span class="highlight">구성</span></div>
+    <div class="slide-subtitle">온라인 화상회의 1시간 + 자기주도 Sprint 2시간</div>
+    <table class="compare-table">
+      <tr><th>시간</th><th>내용</th><th>세부사항</th></tr>
+      <tr><td><span class="marker-text orange">15분</span></td><td>진척 점검</td><td>팀별 이슈 선정 현황, 기여 계획 리뷰</td></tr>
+      <tr><td><span class="marker-text blue">30분</span></td><td>PR 작성 워크숍</td><td>좋은 PR의 구조, 커밋 메시지 컨벤션, CI/CD 파이프라인 이해</td></tr>
+      <tr><td><span class="marker-text green">15분</span></td><td>코드 리뷰 실습</td><td>Peer Review 실습, 건설적 피드백 방법</td></tr>
+    </table>
+    <div style="margin-top:20px;padding:14px 20px;border-radius:10px;background:rgba(90,158,111,0.1);border:2px dashed rgba(90,158,111,0.3);max-width:800px;">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;color:#5a4a3a;">
+        &#128161; <strong>Sprint 활동 (2시간)</strong>: 멘토링 후 각자 이슈 해결 &rarr; PR 생성 &rarr; 팀원 리뷰 요청
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 4: Progress Check ===== -->
+  <div class="slide" id="slide-4">
+    <span class="big-number">04</span>
+    <span class="sparkle" style="bottom:100px;left:80px;animation-delay:0.7s;">&#10024;</span>
+    <div class="slide-title">&#128202; 진척 <span class="highlight">점검</span></div>
+    <div class="slide-subtitle">Week 2 과제 확인 &mdash; 지금 어디에 있나요?</div>
+    <div class="card-row">
+      <div class="card yellow">
+        <div class="card-title">&#9989; 완료 확인</div>
+        <div class="card-body">
+          <li>이슈 1개 선정 완료?</li>
+          <li>기여 계획서 제출 완료?</li>
+          <li>프로젝트 아키텍처 분석 완료?</li>
+          <li>타겟 코드 영역 AI로 분석?</li>
+        </div>
+      </div>
+      <div class="card pink">
+        <div class="card-title">&#128680; 미완료 시</div>
+        <div class="card-body">
+          <li>멘토에게 바로 도움 요청</li>
+          <li>더 작은 이슈로 타겟 변경 고려</li>
+          <li>문서/번역 기여부터 시작</li>
+          <li>팀원과 페어 프로그래밍</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#128640; 다음 단계</div>
+        <div class="card-body">
+          <li>이제 실제 코드를 작성할 시간!</li>
+          <li>첫 PR 생성이 이번 주 목표</li>
+          <li>Draft PR도 OK &mdash; 완벽할 필요 없음</li>
+          <li>코드 리뷰를 통해 함께 성장</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 5: PR Workflow Overview ===== -->
+  <div class="slide" id="slide-5">
+    <span class="big-number">05</span>
+    <span class="sparkle" style="top:60px;right:100px;animation-delay:0.3s;">&#10024;</span>
+    <div class="slide-title">&#128260; PR 워크플로우 <span class="highlight">전체 흐름</span></div>
+    <div class="slide-subtitle">Fork &rarr; Branch &rarr; Commit &rarr; Push &rarr; PR &rarr; Review &rarr; Merge</div>
+    <div class="flow-row">
+      <div class="flow-box step1"><strong>Fork</strong><br><span style="font-size:0.85rem;">원본 저장소를 내 계정에 복제</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step2"><strong>Branch</strong><br><span style="font-size:0.85rem;">기능별 브랜치 생성</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step3"><strong>Commit</strong><br><span style="font-size:0.85rem;">의미 있는 단위로 커밋</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step4"><strong>Push</strong><br><span style="font-size:0.85rem;">내 Fork에 푸시</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step5"><strong>PR</strong><br><span style="font-size:0.85rem;">원본에 Pull Request 생성</span></div>
+    </div>
+    <div class="flow-row" style="margin-top:16px;">
+      <div class="flow-box step3"><strong>Review</strong><br><span style="font-size:0.85rem;">메인테이너 리뷰 & 피드백</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step4"><strong>Revise</strong><br><span style="font-size:0.85rem;">피드백 반영 & 수정</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step1"><strong>Merge!</strong><br><span style="font-size:0.85rem;">&#127881; 기여가 반영됨</span></div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 6: Fork & Clone Setup ===== -->
+  <div class="slide" id="slide-6">
+    <span class="big-number">06</span>
+    <div class="slide-title">&#128268; Fork &amp; Clone <span class="highlight">셋업</span></div>
+    <div class="slide-subtitle">기여를 위한 Git 환경 구성</div>
+    <div class="code-block"># 1. GitHub에서 Fork 버튼 클릭 (웹에서)
+
+# 2. Fork한 저장소 클론
+git clone https://github.com/MY_USERNAME/project.git
+cd project
+
+# 3. 원본 저장소를 upstream으로 추가
+git remote add upstream https://github.com/ORIGINAL_OWNER/project.git
+
+# 4. upstream 확인
+git remote -v
+# origin    https://github.com/MY_USERNAME/project.git (fetch)
+# upstream  https://github.com/ORIGINAL_OWNER/project.git (fetch)
+
+# 5. 최신 코드 동기화
+git fetch upstream
+git merge upstream/main</div>
+    <div style="margin-top:14px;padding:12px 20px;border-radius:10px;background:rgba(224,120,80,0.08);border:2px dashed rgba(224,120,80,0.25);max-width:800px;">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;color:#5a4a3a;">
+        &#9888; <strong>주의</strong>: 항상 upstream/main에서 새 브랜치를 생성하세요. main 브랜치에서 직접 작업하지 마세요!
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 7: Branch Strategy ===== -->
+  <div class="slide" id="slide-7">
+    <span class="big-number">07</span>
+    <span class="sparkle" style="top:80px;left:120px;animation-delay:0.4s;">&#10024;</span>
+    <div class="slide-title">&#127796; 브랜치 <span class="highlight">전략</span></div>
+    <div class="slide-subtitle">기능별 브랜치를 만들어 작업하세요</div>
+    <div class="code-block"># 기능 브랜치 생성
+git checkout -b fix/issue-123-typo-in-readme
+git checkout -b feat/add-korean-translation
+git checkout -b docs/update-contributing-guide
+
+# 브랜치 네이밍 컨벤션
+# &lt;type&gt;/&lt;short-description&gt;
+# fix/   - 버그 수정
+# feat/  - 새 기능
+# docs/  - 문서 수정
+# test/  - 테스트 추가
+# refactor/ - 리팩토링</div>
+    <div class="card-row" style="margin-top:18px;">
+      <div class="card green" style="max-width:450px;">
+        <div class="card-title">&#9989; 좋은 예시</div>
+        <div class="card-body">
+          <li>fix/issue-456-null-check</li>
+          <li>feat/add-streaming-support</li>
+          <li>docs/translate-readme-to-korean</li>
+        </div>
+      </div>
+      <div class="card pink" style="max-width:450px;">
+        <div class="card-title">&#10060; 나쁜 예시</div>
+        <div class="card-body">
+          <li>my-changes (설명이 없음)</li>
+          <li>update (무엇을 업데이트?)</li>
+          <li>fix (어떤 버그를 수정?)</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 8: Good PR Structure ===== -->
+  <div class="slide" id="slide-8">
+    <span class="big-number">08</span>
+    <span class="doodle-arrow" style="top:100px;right:60px;transform:rotate(-15deg);">&#10148;</span>
+    <div class="slide-title">&#128203; 좋은 PR의 <span class="highlight">구조</span></div>
+    <div class="slide-subtitle">메인테이너가 이해하기 쉬운 PR을 작성하세요</div>
+    <div class="card-row">
+      <div class="card yellow">
+        <div class="card-title">&#128221; 제목 (Title)</div>
+        <div class="card-body">
+          <li>간결하고 명확하게</li>
+          <li>변경 유형을 포함</li>
+          <li>예: "Fix null pointer in tokenizer"</li>
+          <li>예: "Add Korean translation for README"</li>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">&#128196; 본문 (Description)</div>
+        <div class="card-body">
+          <li>What: 무엇을 변경했는가</li>
+          <li>Why: 왜 이 변경이 필요한가</li>
+          <li>How: 어떻게 해결했는가</li>
+          <li>관련 이슈 번호 참조</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#9989; 체크리스트</div>
+        <div class="card-body">
+          <li>테스트 통과 확인</li>
+          <li>기존 코드 스타일 준수</li>
+          <li>CONTRIBUTING.md 가이드 확인</li>
+          <li>스크린샷/GIF 첨부 (UI 변경 시)</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 9: PR Title Best Practices ===== -->
+  <div class="slide" id="slide-9">
+    <span class="big-number">09</span>
+    <span class="sparkle" style="top:70px;right:90px;animation-delay:0.6s;">&#10024;</span>
+    <div class="slide-title">&#127919; PR 제목 <span class="highlight">작성법</span></div>
+    <div class="slide-subtitle">첫인상을 결정하는 PR 제목 &mdash; 명확하고 간결하게!</div>
+    <table class="compare-table">
+      <tr><th>&#9989; 좋은 PR 제목</th><th>&#10060; 나쁜 PR 제목</th></tr>
+      <tr><td>Fix: handle null case in tokenizer decode()</td><td>fixed bug</td></tr>
+      <tr><td>Add Korean translation for getting-started.md</td><td>translation</td></tr>
+      <tr><td>feat: add streaming support for chat endpoint</td><td>update endpoint</td></tr>
+      <tr><td>test: add unit tests for vector search module</td><td>tests</td></tr>
+      <tr><td>docs: update installation guide for Python 3.12</td><td>docs update</td></tr>
+    </table>
+    <div style="margin-top:18px;padding:14px 20px;border-radius:10px;background:rgba(90,158,111,0.1);border:2px dashed rgba(90,158,111,0.3);max-width:800px;">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;color:#5a4a3a;">
+        &#128161; <strong>팁</strong>: 프로젝트의 기존 PR 제목 스타일을 참고하세요. Conventional Commits를 따르는 곳이 많습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 10: PR Description Template ===== -->
+  <div class="slide" id="slide-10">
+    <span class="big-number">10</span>
+    <div class="slide-title">&#128196; PR 설명 <span class="highlight">템플릿</span></div>
+    <div class="slide-subtitle">프로젝트마다 다르지만, 이 구조를 기본으로 사용하세요</div>
+    <div class="code-block">## Summary
+Fixes #123. Handle null case in tokenizer decode() method.
+
+## Changes
+- Added null check before calling decode() in `src/tokenizer.py`
+- Added unit test for null input case
+- Updated docstring to document nullable behavior
+
+## Why
+When input text is empty, the tokenizer throws an unhandled
+NullPointerError. This fix adds a proper guard clause.
+
+## Test Plan
+- [x] Existing tests pass
+- [x] New test for null input added
+- [x] Manual test with empty string input
+
+## Related Issues
+Closes #123</div>
+  </div>
+
+  <!-- ===== SLIDE 11: Conventional Commits ===== -->
+  <div class="slide" id="slide-11">
+    <span class="big-number">11</span>
+    <span class="sparkle" style="bottom:120px;right:140px;animation-delay:0.5s;">&#10024;</span>
+    <div class="slide-title">&#128221; Conventional <span class="highlight">Commits</span></div>
+    <div class="slide-subtitle">많은 오픈소스가 따르는 커밋 메시지 규격</div>
+    <div class="code-block"># 기본 형식
+&lt;type&gt;(&lt;scope&gt;): &lt;description&gt;
+
+# 예시
+feat(tokenizer): add support for BPE tokenization
+fix(api): handle timeout error in streaming endpoint
+docs(readme): add Korean installation guide
+test(vector): add unit tests for cosine similarity
+chore(deps): bump transformers to 4.45.0
+refactor(pipeline): simplify inference flow
+style(ui): fix alignment in chat component
+ci(actions): add Python 3.12 to test matrix</div>
+    <div class="card-row" style="margin-top:14px;">
+      <div class="card orange" style="max-width:500px;">
+        <div class="card-title">&#128218; Type 종류</div>
+        <div class="card-body" style="font-size:0.85rem;">
+          <li><strong>feat</strong>: 새 기능 추가</li>
+          <li><strong>fix</strong>: 버그 수정</li>
+          <li><strong>docs</strong>: 문서 변경</li>
+          <li><strong>test</strong>: 테스트 추가/수정</li>
+          <li><strong>chore</strong>: 빌드/의존성 변경</li>
+          <li><strong>refactor</strong>: 기능 변경 없는 코드 개선</li>
+        </div>
+      </div>
+      <div class="card purple" style="max-width:500px;">
+        <div class="card-title">&#128161; 팁</div>
+        <div class="card-body" style="font-size:0.85rem;">
+          <li>scope는 선택 사항 (모듈명)</li>
+          <li>description은 명령형으로 작성</li>
+          <li>"added" 대신 "add" 사용</li>
+          <li>50자 이내로 작성</li>
+          <li>첫 글자 소문자</li>
+          <li>마침표 없이</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 12: Commit Message Examples ===== -->
+  <div class="slide" id="slide-12">
+    <span class="big-number">12</span>
+    <div class="slide-title">&#128172; 커밋 메시지 <span class="highlight">실전 예시</span></div>
+    <div class="slide-subtitle">실제 AI 오픈소스 프로젝트에서 볼 수 있는 커밋 메시지</div>
+    <table class="compare-table">
+      <tr><th>프로젝트</th><th>커밋 메시지 예시</th><th>유형</th></tr>
+      <tr><td><a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a></td><td>feat(core): add retry logic to LLM calls</td><td><span class="marker-text green">feat</span></td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/huggingface/transformers" target="_blank">Transformers</a></td><td>fix: handle empty input in AutoTokenizer</td><td><span class="marker-text red">fix</span></td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/langgenius/dify" target="_blank">Dify</a></td><td>docs: translate workflow guide to Korean</td><td><span class="marker-text blue">docs</span></td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/vllm-project/vllm" target="_blank">vLLM</a></td><td>test: add benchmark for batched inference</td><td><span class="marker-text orange">test</span></td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> SDK</td><td>feat(server): add streaming tool response</td><td><span class="marker-text green">feat</span></td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/crewAIInc/crewAI" target="_blank">CrewAI</a></td><td>refactor: simplify agent task delegation</td><td><span class="marker-text blue">refactor</span></td></tr>
+    </table>
+    <div style="margin-top:14px;font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;color:#8a7a6a;text-align:center;">
+      &#128270; 기여하려는 프로젝트의 <code>git log --oneline</code>을 확인하여 스타일을 파악하세요
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 13: Git Commit Best Practices ===== -->
+  <div class="slide" id="slide-13">
+    <span class="big-number">13</span>
+    <span class="sparkle" style="top:90px;left:80px;animation-delay:0.3s;">&#10024;</span>
+    <div class="slide-title">&#128300; 커밋 <span class="highlight">모범 사례</span></div>
+    <div class="slide-subtitle">하나의 커밋 = 하나의 논리적 변경</div>
+    <div class="card-row">
+      <div class="card green">
+        <div class="card-title">&#9989; 좋은 커밋 습관</div>
+        <div class="card-body">
+          <li>하나의 커밋에 하나의 변경만</li>
+          <li>관련 없는 변경을 섞지 않기</li>
+          <li>커밋 전 <code>git diff</code>로 확인</li>
+          <li>의미 있는 단위로 자주 커밋</li>
+          <li>WIP 커밋은 squash로 정리</li>
+        </div>
+      </div>
+      <div class="card pink">
+        <div class="card-title">&#10060; 나쁜 커밋 습관</div>
+        <div class="card-body">
+          <li>"fix" 한 커밋에 10개 파일 변경</li>
+          <li>버그 수정 + 새 기능 + 리팩토링 혼합</li>
+          <li>"WIP" 커밋 그대로 PR에 포함</li>
+          <li>빈 커밋 메시지</li>
+          <li>거대한 하나의 커밋 (Mega Commit)</li>
+        </div>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px;max-width:700px;">
+# 커밋 정리 (squash) - PR 전 정리
+git rebase -i HEAD~3   # 최근 3개 커밋 합치기
+# pick → squash 또는 fixup으로 변경</div>
+  </div>
+
+  <!-- ===== SLIDE 14: CI/CD Overview ===== -->
+  <div class="slide" id="slide-14">
+    <span class="big-number">14</span>
+    <span class="doodle-arrow" style="top:110px;right:70px;transform:rotate(-10deg);">&#10148;</span>
+    <div class="slide-title">&#9881; CI/CD <span class="highlight">파이프라인</span> 이해</div>
+    <div class="slide-subtitle">PR을 올리면 자동으로 실행되는 검증 프로세스</div>
+    <div class="flow-row">
+      <div class="flow-box step1"><strong>PR 생성</strong><br><span style="font-size:0.85rem;">코드 변경 제출</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step2"><strong>CI 트리거</strong><br><span style="font-size:0.85rem;">자동 빌드 시작</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step3"><strong>Lint &amp; Format</strong><br><span style="font-size:0.85rem;">코드 스타일 검사</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step4"><strong>Test</strong><br><span style="font-size:0.85rem;">단위/통합 테스트</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step5"><strong>&#9989; / &#10060;</strong><br><span style="font-size:0.85rem;">통과 또는 실패</span></div>
+    </div>
+    <div class="card-row" style="margin-top:20px;">
+      <div class="card blue" style="max-width:500px;">
+        <div class="card-title">&#128736; 주요 CI 도구</div>
+        <div class="card-body">
+          <li><strong>GitHub Actions</strong> &mdash; 가장 많이 사용</li>
+          <li><strong>CircleCI</strong> &mdash; 엔터프라이즈 인기</li>
+          <li><strong>Jenkins</strong> &mdash; 자체 호스팅 CI</li>
+          <li><strong>GitLab CI</strong> &mdash; GitLab 내장</li>
+        </div>
+      </div>
+      <div class="card orange" style="max-width:500px;">
+        <div class="card-title">&#128161; 알아두세요</div>
+        <div class="card-body">
+          <li>CI가 통과해야 Merge 가능</li>
+          <li>CI 실패 시 로그를 확인하세요</li>
+          <li>로컬에서 먼저 테스트 실행 후 PR</li>
+          <li>CI 설정은 <code>.github/workflows/</code></li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 15: GitHub Actions Basics ===== -->
+  <div class="slide" id="slide-15">
+    <span class="big-number">15</span>
+    <div class="slide-title">&#128736; GitHub Actions <span class="highlight">기초</span></div>
+    <div class="slide-subtitle">대부분의 AI 오픈소스가 GitHub Actions를 사용합니다</div>
+    <div class="code-block"># .github/workflows/ci.yml 예시
+name: CI
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e ".[dev]"
+      - run: pytest tests/ -v
+      - run: ruff check .          # 린트 검사
+      - run: ruff format --check . # 포맷 검사</div>
+    <div style="margin-top:14px;font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;color:#8a7a6a;text-align:center;">
+      &#128270; PR 페이지 하단 "Checks" 탭에서 CI 결과를 확인할 수 있습니다
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 16: Common CI Checks ===== -->
+  <div class="slide" id="slide-16">
+    <span class="big-number">16</span>
+    <span class="sparkle" style="top:70px;right:100px;animation-delay:0.4s;">&#10024;</span>
+    <div class="slide-title">&#128270; 자주 만나는 <span class="highlight">CI 검사</span></div>
+    <div class="slide-subtitle">AI 오픈소스 프로젝트에서 흔히 설정된 CI 체크들</div>
+    <table class="compare-table">
+      <tr><th>검사 항목</th><th>도구</th><th>실패 시 대응</th></tr>
+      <tr><td><span class="marker-text red">Lint</span></td><td>ruff, flake8, eslint</td><td><code>ruff check --fix .</code> 실행</td></tr>
+      <tr><td><span class="marker-text blue">Format</span></td><td>ruff format, black, prettier</td><td><code>ruff format .</code> 실행 후 재커밋</td></tr>
+      <tr><td><span class="marker-text green">Test</span></td><td>pytest, jest, cargo test</td><td>실패 테스트 로그 확인 후 코드 수정</td></tr>
+      <tr><td><span class="marker-text orange">Type Check</span></td><td>mypy, pyright, tsc</td><td>타입 힌트 추가/수정</td></tr>
+      <tr><td>Build</td><td>make, npm build, cargo</td><td>빌드 에러 확인 후 수정</td></tr>
+      <tr><td>Coverage</td><td>codecov, coveralls</td><td>테스트 커버리지 미달 시 테스트 추가</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== SLIDE 17: Fixing CI Failures ===== -->
+  <div class="slide" id="slide-17">
+    <span class="big-number">17</span>
+    <div class="slide-title">&#128295; CI 실패 <span class="highlight">해결하기</span></div>
+    <div class="slide-subtitle">CI가 실패해도 당황하지 마세요 &mdash; 로그를 읽으면 해결됩니다</div>
+    <div class="flow-row">
+      <div class="flow-box step1"><strong>1. 로그 확인</strong><br><span style="font-size:0.85rem;">PR &rarr; Checks 탭 &rarr; Details</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step2"><strong>2. 에러 분석</strong><br><span style="font-size:0.85rem;">실패 원인 파악</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step3"><strong>3. 로컬 수정</strong><br><span style="font-size:0.85rem;">로컬에서 문제 해결</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step4"><strong>4. Push</strong><br><span style="font-size:0.85rem;">수정 후 Push &rarr; CI 재실행</span></div>
+    </div>
+    <div class="code-block" style="margin-top:18px;max-width:800px;">
+# 로컬에서 CI와 동일한 검사 실행하기
+
+# Python 프로젝트
+pip install -e ".[dev]"
+ruff check . --fix     # 린트 자동 수정
+ruff format .          # 포맷 자동 수정
+pytest tests/ -v       # 테스트 실행
+
+# Node.js 프로젝트
+npm install
+npm run lint -- --fix  # 린트 자동 수정
+npm run format         # 포맷 자동 수정
+npm test               # 테스트 실행</div>
+  </div>
+
+  <!-- ===== SLIDE 18: AI로 CI 문제 해결 ===== -->
+  <div class="slide" id="slide-18">
+    <span class="big-number">18</span>
+    <span class="sparkle" style="top:80px;left:100px;animation-delay:0.2s;">&#10024;</span>
+    <div class="slide-title">&#129302; AI로 CI 문제 <span class="highlight">해결하기</span></div>
+    <div class="slide-subtitle"><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a>를 활용하면 CI 에러를 빠르게 분석할 수 있습니다</div>
+    <div class="card-row">
+      <div class="card blue">
+        <div class="card-title">&#128172; CI 에러 분석</div>
+        <div class="card-body">
+          <li>"이 CI 에러 로그를 분석해줘"</li>
+          <li>"왜 pytest가 실패하는지 찾아줘"</li>
+          <li>"lint 에러를 수정해줘"</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#128736; 자동 수정</div>
+        <div class="card-body">
+          <li>"ruff 린트 에러를 모두 수정해줘"</li>
+          <li>"타입 힌트를 추가해줘"</li>
+          <li>"실패한 테스트를 분석하고 수정해줘"</li>
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">&#128161; 예방</div>
+        <div class="card-body">
+          <li>"pre-commit hook을 설정해줘"</li>
+          <li>"CI와 동일한 검사를 로컬에서 실행할 수 있게 설정해줘"</li>
+        </div>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px;max-width:800px;">
+# Claude Code로 CI 에러 해결
+> "GitHub Actions CI가 실패했어. 에러 로그를 보고 수정해줘."
+> "pre-commit hook을 추가해서 push 전에 lint를 자동 실행해줘."</div>
+  </div>
+
+  <!-- ===== SLIDE 19: Code Review Fundamentals ===== -->
+  <div class="slide" id="slide-19">
+    <span class="big-number">19</span>
+    <span class="doodle-arrow" style="top:100px;right:60px;transform:rotate(-15deg);">&#10148;</span>
+    <div class="slide-title">&#128269; 코드 리뷰의 <span class="highlight">기본</span></div>
+    <div class="slide-subtitle">오픈소스에서 코드 리뷰는 학습의 최고 기회입니다</div>
+    <div class="card-row">
+      <div class="card yellow">
+        <div class="card-title">&#128218; 코드 리뷰란?</div>
+        <div class="card-body">
+          <li>PR 코드를 다른 개발자가 검토하는 과정</li>
+          <li>버그 발견, 코드 품질 향상</li>
+          <li>지식 공유와 팀 학습의 기회</li>
+          <li>오픈소스 문화의 핵심</li>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">&#127891; 리뷰의 가치</div>
+        <div class="card-body">
+          <li>메인테이너의 코딩 스타일 학습</li>
+          <li>프로젝트 아키텍처 이해 심화</li>
+          <li>베스트 프랙티스 체득</li>
+          <li>커뮤니케이션 능력 향상</li>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value">96%</div><div class="stat-label">Graphite AI 리뷰<br>긍정 피드백률</div></div>
+        <div class="stat-item"><div class="stat-value">85%</div><div class="stat-label">AI 코드 리뷰로<br>버그 조기 발견</div></div>
+        <div class="stat-item"><div class="stat-value">40%</div><div class="stat-label">AI 이슈 트리아지로<br>생산성 향상</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 20: What to Look For ===== -->
+  <div class="slide" id="slide-20">
+    <span class="big-number">20</span>
+    <span class="sparkle" style="top:60px;right:120px;animation-delay:0.5s;">&#10024;</span>
+    <div class="slide-title">&#128269; 리뷰에서 <span class="highlight">확인할 것</span></div>
+    <div class="slide-subtitle">팀원 PR을 리뷰할 때 체크해야 할 포인트</div>
+    <table class="compare-table">
+      <tr><th>카테고리</th><th>확인 사항</th><th>예시</th></tr>
+      <tr><td><span class="marker-text green">정확성</span></td><td>로직이 올바른가?</td><td>엣지 케이스 처리, off-by-one 에러</td></tr>
+      <tr><td><span class="marker-text blue">가독성</span></td><td>코드가 이해하기 쉬운가?</td><td>변수명, 함수명, 주석의 적절성</td></tr>
+      <tr><td><span class="marker-text orange">일관성</span></td><td>프로젝트 스타일과 일치하는가?</td><td>네이밍 규칙, 코드 포맷</td></tr>
+      <tr><td><span class="marker-text red">보안</span></td><td>보안 취약점은 없는가?</td><td>입력 검증, API 키 노출, SQL 인젝션</td></tr>
+      <tr><td>성능</td><td>성능 이슈는 없는가?</td><td>불필요한 루프, N+1 쿼리</td></tr>
+      <tr><td>테스트</td><td>테스트가 충분한가?</td><td>엣지 케이스 테스트, 커버리지</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== SLIDE 21: Giving Feedback ===== -->
+  <div class="slide" id="slide-21">
+    <span class="big-number">21</span>
+    <div class="slide-title">&#128172; 건설적 피드백 <span class="highlight">주기</span></div>
+    <div class="slide-subtitle">좋은 코드 리뷰는 사람이 아닌 코드에 집중합니다</div>
+    <div class="card-row">
+      <div class="card green">
+        <div class="card-title">&#9989; 좋은 피드백</div>
+        <div class="card-body">
+          <li>"이 부분에서 null 체크를 추가하면 안전할 것 같아요"</li>
+          <li>"nit: 변수명을 <code>userList</code>에서 <code>users</code>로 변경하면 어떨까요?"</li>
+          <li>"이 접근이 좋네요! 한 가지 제안이 있는데..."</li>
+          <li>"궁금한 점: 이 로직을 선택한 이유가 있나요?"</li>
+        </div>
+      </div>
+      <div class="card pink">
+        <div class="card-title">&#10060; 나쁜 피드백</div>
+        <div class="card-body">
+          <li>"이건 틀렸음" (대안 없는 비판)</li>
+          <li>"왜 이렇게 했어?" (공격적 톤)</li>
+          <li>"다시 작성해" (건설적이지 않음)</li>
+          <li>"LGTM" (아무 리뷰 없이 승인)</li>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:14px 20px;border-radius:10px;background:rgba(90,142,196,0.1);border:2px dashed rgba(90,142,196,0.3);max-width:800px;">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;color:#5a4a3a;">
+        &#128161; 리뷰 코멘트 접두어: <strong>nit:</strong> (사소한 제안), <strong>suggestion:</strong> (개선안), <strong>question:</strong> (질문), <strong>blocker:</strong> (반드시 수정 필요)
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 22: Receiving Feedback ===== -->
+  <div class="slide" id="slide-22">
+    <span class="big-number">22</span>
+    <span class="sparkle" style="top:80px;left:90px;animation-delay:0.3s;">&#10024;</span>
+    <div class="slide-title">&#128588; 피드백 <span class="highlight">받기</span></div>
+    <div class="slide-subtitle">피드백은 공격이 아닌 성장의 기회입니다</div>
+    <div class="card-row">
+      <div class="card blue">
+        <div class="card-title">&#128170; 마인드셋</div>
+        <div class="card-body">
+          <li>피드백은 "코드"에 대한 것, "나"에 대한 것이 아님</li>
+          <li>메인테이너는 프로젝트를 지키려는 것</li>
+          <li>더 나은 코드를 만드는 협업 과정</li>
+          <li>학습의 가장 좋은 기회!</li>
+        </div>
+      </div>
+      <div class="card yellow">
+        <div class="card-title">&#128221; 대응 방법</div>
+        <div class="card-body">
+          <li>모든 코멘트에 답변 달기</li>
+          <li>동의하면 수정 후 "Done" or "Fixed"</li>
+          <li>동의하지 않으면 근거를 가지고 토론</li>
+          <li>수정 후 "Ready for review" 재요청</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#128172; 응답 예시</div>
+        <div class="card-body">
+          <li>"좋은 지적이네요! 수정했습니다."</li>
+          <li>"감사합니다. 이 부분은 X 때문에 이렇게 했는데, Y 방식으로 변경하겠습니다."</li>
+          <li>"이해했습니다. 한 가지 궁금한 점이 있는데..."</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 23: Peer Review Practice ===== -->
+  <div class="slide" id="slide-23">
+    <span class="big-number">23</span>
+    <div class="slide-title">&#128101; 팀 내 <span class="highlight">Peer Review</span> 실습</div>
+    <div class="slide-subtitle">팀원과 함께 코드 리뷰를 연습합시다</div>
+    <div class="flow-row">
+      <div class="flow-box step1"><strong>Step 1</strong><br><span style="font-size:0.85rem;">Draft PR 생성</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step2"><strong>Step 2</strong><br><span style="font-size:0.85rem;">팀원에게 리뷰 요청</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step3"><strong>Step 3</strong><br><span style="font-size:0.85rem;">코멘트 작성</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step4"><strong>Step 4</strong><br><span style="font-size:0.85rem;">피드백 반영</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step5"><strong>Step 5</strong><br><span style="font-size:0.85rem;">Approve!</span></div>
+    </div>
+    <div class="card-row" style="margin-top:18px;">
+      <div class="card purple">
+        <div class="card-title">&#127919; 실습 규칙</div>
+        <div class="card-body">
+          <li>최소 2개 이상의 코멘트 남기기</li>
+          <li>1개는 긍정적 피드백 (좋은 점)</li>
+          <li>1개는 개선 제안 (nit: 또는 suggestion:)</li>
+          <li>코멘트 후 "Changes requested" 또는 "Approved"</li>
+        </div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">&#128161; AI 활용 팁</div>
+        <div class="card-body">
+          <li><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a>로 "이 PR의 코드를 리뷰해줘"</li>
+          <li>CodeRabbit 봇으로 자동 리뷰 (오픈소스 무료)</li>
+          <li>AI 리뷰를 참고하되, 최종 판단은 사람이</li>
+          <li>PR-Agent(Qodo)로 오픈소스 PR 리뷰 자동화</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 24: Track A Sprint Guide ===== -->
+  <div class="slide" id="slide-24">
+    <span class="big-number">24</span>
+    <span class="sparkle" style="top:60px;left:80px;">&#10024;</span>
+    <div class="slide-title"><span class="tag a" style="font-size:1.2rem;">Track A</span> <span class="highlight">Sprint 가이드</span></div>
+    <div class="slide-subtitle">AI로 기존 오픈소스에 기여하기 &mdash; 첫 PR 전략</div>
+    <div class="card-row">
+      <div class="card pink">
+        <div class="card-title">&#128027; 버그 수정 PR</div>
+        <div class="card-body">
+          <li><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a>로 Good First Issue 분석</li>
+          <li>"이 이슈의 원인과 해결 방향을 분석해줘"</li>
+          <li>관련 코드 탐색 &rarr; 수정안 작성</li>
+          <li>테스트 추가 후 PR 생성</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#128220; 문서/번역 PR</div>
+        <div class="card-body">
+          <li>README, CONTRIBUTING 한국어 번역</li>
+          <li>API 문서 개선, 예제 추가</li>
+          <li>Copilot으로 번역 초안 작성</li>
+          <li>네이티브 체크 후 PR 제출</li>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">&#128300; 테스트 추가 PR</div>
+        <div class="card-body">
+          <li>AI로 테스트 코드 자동 생성</li>
+          <li>테스트 커버리지 미비 영역 발견</li>
+          <li>Qodo Cover Agent 활용</li>
+          <li>엣지 케이스 테스트 추가</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 25: Track A - Claude Code PR Workflow ===== -->
+  <div class="slide" id="slide-25">
+    <span class="big-number">25</span>
+    <div class="slide-title"><span class="tag a" style="font-size:1.1rem;">Track A</span> <a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a>로 <span class="highlight">PR 만들기</span></div>
+    <div class="slide-subtitle">5단계 워크플로우: 이슈 발견 &rarr; PR 제출</div>
+    <div class="code-block"># Step 1: 프로젝트 클론 & Claude Code 시작
+git clone https://github.com/MY_USERNAME/langchain.git
+cd langchain && claude
+
+# Step 2: 코드베이스 이해
+> "이 프로젝트의 전체 구조를 분석해줘. 코드 수정은 하지 마."
+> /init  # CLAUDE.md 생성
+
+# Step 3: 이슈 분석
+> "GitHub 이슈 #12345를 분석해줘. 관련 코드를 찾아줘."
+
+# Step 4: 수정 & 테스트
+> "이 버그를 수정하고 테스트를 추가해줘."
+> "기존 테스트가 모두 통과하는지 확인해줘."
+
+# Step 5: PR 생성
+> "변경 사항을 커밋하고 PR을 생성해줘. 이슈 #12345를 참조해줘."
+# 또는: /create-pr</div>
+  </div>
+
+  <!-- ===== SLIDE 26: Track A - AI Test Generation ===== -->
+  <div class="slide" id="slide-26">
+    <span class="big-number">26</span>
+    <span class="sparkle" style="top:70px;right:100px;animation-delay:0.6s;">&#10024;</span>
+    <div class="slide-title"><span class="tag a" style="font-size:1.1rem;">Track A</span> AI로 <span class="highlight">테스트 생성</span></div>
+    <div class="slide-subtitle">테스트 커버리지 향상은 입문자에게 좋은 기여 유형!</div>
+    <div class="card-row">
+      <div class="card yellow">
+        <div class="card-title">&#128300; 테스트 도구</div>
+        <div class="card-body">
+          <li><strong>Qodo Cover Agent</strong> &mdash; Meta TestGen-LLM 최초 오픈소스 구현</li>
+          <li><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank"><strong>Claude Code</strong></a> &mdash; "이 함수의 테스트를 작성해줘"</li>
+          <li><strong>Copilot</strong> &mdash; 테스트 자동 완성</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#9989; 성과 사례</div>
+        <div class="card-body">
+          <li>OpenObserve: AI로 700+ 테스트 작성</li>
+          <li>플레이키 테스트 <strong>85% 감소</strong></li>
+          <li>분석 시간 <strong>6-10배 단축</strong></li>
+        </div>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px;max-width:800px;">
+# Claude Code로 테스트 커버리지 분석
+> "이 프로젝트의 테스트 커버리지를 분석해줘. 테스트가 없는 함수를 찾아줘."
+> "src/tokenizer.py의 decode() 함수에 대한 pytest 테스트를 작성해줘."</div>
+  </div>
+
+  <!-- ===== SLIDE 27: Track A - Documentation PR ===== -->
+  <div class="slide" id="slide-27">
+    <span class="big-number">27</span>
+    <div class="slide-title"><span class="tag a" style="font-size:1.1rem;">Track A</span> 문서 번역 <span class="highlight">PR 가이드</span></div>
+    <div class="slide-subtitle">한국어 번역은 진입 장벽이 낮은 기여의 시작</div>
+    <table class="compare-table">
+      <tr><th>프로젝트</th><th>번역 기회</th><th>난이도</th></tr>
+      <tr><td><a class="oss-link" href="https://huggingface.co" target="_blank">Hugging Face</a> <a class="oss-link" href="https://github.com/huggingface/transformers" target="_blank">Transformers</a></td><td>모델 카드, 튜토리얼, API 문서 한국어 번역</td><td>&#11088;&#11088;</td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a></td><td>Getting Started, 가이드, 예제 문서 한국어 번역</td><td>&#11088;&#11088;</td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/langgenius/dify" target="_blank">Dify</a></td><td>UI 문자열 한국어 번역, 사용 가이드</td><td>&#11088;</td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/gradio-app/gradio" target="_blank">Gradio</a></td><td>컴포넌트 문서 한국어 번역</td><td>&#11088;&#11088;</td></tr>
+      <tr><td><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> 공식 문서</td><td>개발 가이드 한국어 번역</td><td>&#11088;&#11088;&#11088;</td></tr>
+    </table>
+    <div style="margin-top:14px;padding:12px 20px;border-radius:10px;background:rgba(224,120,80,0.08);border:2px dashed rgba(224,120,80,0.25);max-width:800px;">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;color:#5a4a3a;">
+        &#9888; AI 번역 도구(Tinbox, LLM)로 초안을 작성하되, 반드시 <strong>사람이 검수</strong>한 후 PR을 올리세요!
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 28: Track B Sprint Guide ===== -->
+  <div class="slide" id="slide-28">
+    <span class="big-number">28</span>
+    <span class="sparkle" style="top:80px;right:150px;animation-delay:0.4s;">&#10024;</span>
+    <div class="slide-title"><span class="tag b" style="font-size:1.2rem;">Track B</span> <span class="highlight">Sprint 가이드</span></div>
+    <div class="slide-subtitle">기존 오픈소스에 AI 기능 추가하기 &mdash; 첫 통합 PR</div>
+    <div class="card-row">
+      <div class="card blue">
+        <div class="card-title">&#128269; AI 검색/요약 추가</div>
+        <div class="card-body">
+          <li>기존 웹 프로젝트에 시맨틱 검색</li>
+          <li>벡터 DB(<a class="oss-link" href="https://github.com/pgvector/pgvector" target="_blank">pgvector</a>/<a class="oss-link" href="https://github.com/chroma-core/chroma" target="_blank">Chroma</a>) 연동</li>
+          <li>문서 사이트에 AI Q&amp;A 위젯</li>
+          <li><a class="oss-link" href="https://github.com/vercel/ai" target="_blank">Vercel AI SDK</a>로 스트리밍 UI</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#128172; 자연어 인터페이스</div>
+        <div class="card-body">
+          <li>CLI 도구에 자연어 명령 추가</li>
+          <li>DB 도구에 자연어&rarr;SQL 변환</li>
+          <li>LLM API 연동 (OpenAI/Claude)</li>
+          <li>API 키 관리 &amp; 보안 고려</li>
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">&#129302; AI 봇 통합</div>
+        <div class="card-body">
+          <li>RAG 기반 Q&amp;A 챗봇</li>
+          <li><a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a> + ChromaDB 파이프라인</li>
+          <li>GitHub Action + LLM 코드 리뷰 봇</li>
+          <li><a class="oss-link" href="https://github.com/streamlit/streamlit" target="_blank">Streamlit</a>/<a class="oss-link" href="https://github.com/gradio-app/gradio" target="_blank">Gradio</a> 데모 UI</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 29: Track B - AI SDK Integration ===== -->
+  <div class="slide" id="slide-29">
+    <span class="big-number">29</span>
+    <div class="slide-title"><span class="tag b" style="font-size:1.1rem;">Track B</span> AI SDK <span class="highlight">통합 패턴</span></div>
+    <div class="slide-subtitle">기존 앱에 AI 기능을 추가할 때 사용하는 SDK들</div>
+    <table class="compare-table">
+      <tr><th>SDK</th><th>언어</th><th>특징</th><th>적합한 프로젝트</th></tr>
+      <tr><td><span class="marker-text blue"><a class="oss-link" href="https://github.com/vercel/ai" target="_blank">Vercel AI SDK</a></span></td><td>TypeScript</td><td>18+ 모델 프로바이더, SSE 스트리밍, AI Gateway</td><td>Next.js, React 앱</td></tr>
+      <tr><td><span class="marker-text green"><a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a></span></td><td>Python/JS</td><td>LLM 앱 표준, LCEL 파이프라인, 도구 호출</td><td>RAG, Agent 앱</td></tr>
+      <tr><td><span class="marker-text orange"><a class="oss-link" href="https://github.com/spring-projects/spring-ai" target="_blank">Spring AI</a></span></td><td>Java</td><td>1.0 GA, @Tool 어노테이션, <a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> 지원</td><td>Java/Spring Boot 앱</td></tr>
+      <tr><td><span class="marker-text red">OpenAI SDK</span></td><td>Python/JS</td><td>가장 범용적인 LLM API 클라이언트</td><td>모든 유형</td></tr>
+    </table>
+    <div style="margin-top:14px;font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;color:#8a7a6a;text-align:center;">
+      &#128161; 프로젝트의 기술 스택에 맞는 SDK를 선택하세요. Python이면 LangChain, JS/TS면 Vercel AI SDK!
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 30: Track B - RAG Q&A Example ===== -->
+  <div class="slide" id="slide-30">
+    <span class="big-number">30</span>
+    <span class="sparkle" style="bottom:130px;left:80px;animation-delay:0.5s;">&#10024;</span>
+    <div class="slide-title"><span class="tag b" style="font-size:1.1rem;">Track B</span> RAG Q&amp;A <span class="highlight">구축 예시</span></div>
+    <div class="slide-subtitle">문서 사이트에 AI Q&amp;A 챗봇을 추가하는 실전 예시</div>
+    <div class="flow-row">
+      <div class="flow-box step1"><strong>1. 문서 수집</strong><br><span style="font-size:0.82rem;">마크다운 파일 로드</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step2"><strong>2. 임베딩</strong><br><span style="font-size:0.82rem;">텍스트 &rarr; 벡터 변환</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step3"><strong>3. 저장</strong><br><span style="font-size:0.82rem;">벡터 DB에 저장</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step4"><strong>4. 검색</strong><br><span style="font-size:0.82rem;">유사 문서 검색</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step5"><strong>5. 생성</strong><br><span style="font-size:0.82rem;">LLM으로 답변 생성</span></div>
+    </div>
+    <div class="code-block" style="margin-top:16px;max-width:900px;font-size:0.8rem;">
+# Python + LangChain RAG 간략 예시
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain.chains import RetrievalQA
+
+# 벡터 DB 준비 (문서 임베딩 후 저장)
+vectordb = Chroma.from_documents(docs, OpenAIEmbeddings())
+
+# RAG 체인 구성
+qa_chain = RetrievalQA.from_chain_type(
+    llm=ChatOpenAI(model="gpt-4o-mini"),
+    retriever=vectordb.as_retriever()
+)
+
+# 질의
+answer = qa_chain.invoke("How do I install this project?")</div>
+  </div>
+
+  <!-- ===== SLIDE 31: Track C Sprint Guide ===== -->
+  <div class="slide" id="slide-31">
+    <span class="big-number">31</span>
+    <span class="doodle-arrow" style="top:110px;right:70px;transform:rotate(-12deg);">&#10148;</span>
+    <div class="slide-title"><span class="tag c" style="font-size:1.2rem;">Track C</span> <span class="highlight">Sprint 가이드</span></div>
+    <div class="slide-subtitle">AI 네이티브 프로젝트 개발 &mdash; MCP 서버, Agent, AI 앱</div>
+    <div class="card-row">
+      <div class="card green">
+        <div class="card-title">&#127760; <a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> 서버 개발</div>
+        <div class="card-body">
+          <li>한국 서비스 API 래핑 MCP 서버</li>
+          <li>공공데이터포털, 카카오, 네이버</li>
+          <li>Python FastMCP로 빠른 개발</li>
+          <li><a class="oss-link" href="https://github.com/anthropics/kimcp" target="_blank">KiMCP</a>에 새 서비스 추가 PR</li>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">&#129302; AI Agent 개발</div>
+        <div class="card-body">
+          <li><a class="oss-link" href="https://github.com/crewAIInc/crewAI" target="_blank">CrewAI</a>로 멀티 에이전트 시스템</li>
+          <li><a class="oss-link" href="https://github.com/langchain-ai/langgraph" target="_blank">LangGraph</a>로 상태 기반 워크플로우</li>
+          <li>논문 리서치 자동화 에이전트</li>
+          <li>GitHub 이슈 분석 에이전트</li>
+        </div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">&#127912; AI 데모 앱</div>
+        <div class="card-body">
+          <li><a class="oss-link" href="https://github.com/streamlit/streamlit" target="_blank">Streamlit</a>/<a class="oss-link" href="https://github.com/gradio-app/gradio" target="_blank">Gradio</a> 기반 데모</li>
+          <li>한국어 모델 비교 벤치마크</li>
+          <li>PDF Q&amp;A 챗봇 데모</li>
+          <li><a class="oss-link" href="https://huggingface.co" target="_blank">Hugging Face</a> Spaces 배포</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 32: Track C - MCP Server Dev ===== -->
+  <div class="slide" id="slide-32">
+    <span class="big-number">32</span>
+    <div class="slide-title"><span class="tag c" style="font-size:1.1rem;">Track C</span> <a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> 서버 <span class="highlight">개발 실습</span></div>
+    <div class="slide-subtitle">Python FastMCP로 30분 안에 MCP 서버 만들기</div>
+    <div class="code-block"># pip install fastmcp
+from fastmcp import FastMCP
+
+mcp = FastMCP("korean-weather")
+
+@mcp.tool()
+def get_weather(city: str) -> str:
+    """한국 도시의 날씨 정보를 반환합니다"""
+    # 실제로는 기상청 API 호출
+    weather_data = {
+        "서울": "맑음, 12°C",
+        "부산": "구름, 15°C",
+        "대전": "맑음, 11°C"
+    }
+    return weather_data.get(city, f"{city}: 정보 없음")
+
+@mcp.resource("config://app")
+def get_config() -> str:
+    return "Korean Weather MCP Server v1.0"
+
+# 실행: python server.py</div>
+    <div style="margin-top:12px;font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;color:#8a7a6a;text-align:center;">
+      &#128161; 학습 리소스: <strong>Microsoft mcp-for-beginners</strong> &middot; <strong>MCP 공식 문서</strong>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 33: Track C - Streamlit Demo ===== -->
+  <div class="slide" id="slide-33">
+    <span class="big-number">33</span>
+    <span class="sparkle" style="top:60px;right:100px;animation-delay:0.5s;">&#10024;</span>
+    <div class="slide-title"><span class="tag c" style="font-size:1.1rem;">Track C</span> <a class="oss-link" href="https://github.com/streamlit/streamlit" target="_blank">Streamlit</a> <span class="highlight">데모 앱</span></div>
+    <div class="slide-subtitle">AI 데모를 빠르게 만들어 오픈소스로 공개하기</div>
+    <div class="card-row">
+      <div class="card yellow" style="max-width:480px;">
+        <div class="card-title">&#128187; Streamlit 장점</div>
+        <div class="card-body">
+          <li>Python만으로 웹 앱 개발</li>
+          <li>커스터마이징 유연성 높음</li>
+          <li>데이터 대시보드, 분석 앱에 최적</li>
+          <li>Streamlit Cloud 무료 배포</li>
+        </div>
+      </div>
+      <div class="card purple" style="max-width:480px;">
+        <div class="card-title">&#127912; <a class="oss-link" href="https://github.com/gradio-app/gradio" target="_blank">Gradio</a> 장점</div>
+        <div class="card-body">
+          <li>ML 모델 데모에 특화</li>
+          <li>이미지, 음성 등 비텍스트 입력 지원</li>
+          <li>챗봇 UI 내장 지원</li>
+          <li><a class="oss-link" href="https://huggingface.co" target="_blank">Hugging Face</a> Spaces 연동</li>
+        </div>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px;max-width:700px;font-size:0.82rem;">
+# Streamlit PDF Q&A 챗봇 (간략)
+import streamlit as st
+from langchain_openai import ChatOpenAI
+
+st.title("&#128218; PDF Q&A 챗봇")
+uploaded = st.file_uploader("PDF 업로드", type="pdf")
+question = st.text_input("질문을 입력하세요")
+if st.button("답변 생성"):
+    # RAG 파이프라인으로 답변 생성
+    st.write(answer)</div>
+  </div>
+
+  <!-- ===== SLIDE 34: Track C - LangChain Tool PR ===== -->
+  <div class="slide" id="slide-34">
+    <span class="big-number">34</span>
+    <div class="slide-title"><span class="tag c" style="font-size:1.1rem;">Track C</span> <a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a>에 <span class="highlight">Tool 추가</span></div>
+    <div class="slide-subtitle">LangChain에 새로운 Tool/Loader를 추가하는 PR 가이드</div>
+    <div class="flow-row">
+      <div class="flow-box step1"><strong>1. Fork</strong><br><span style="font-size:0.82rem;">LangChain 저장소 Fork</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step2"><strong>2. Tool 구현</strong><br><span style="font-size:0.82rem;">BaseTool 상속, _run() 구현</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step3"><strong>3. 테스트</strong><br><span style="font-size:0.82rem;">단위 테스트 & 통합 테스트</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step4"><strong>4. 문서</strong><br><span style="font-size:0.82rem;">독스트링 & 예제 코드</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box step5"><strong>5. PR</strong><br><span style="font-size:0.82rem;">기여 가이드 준수</span></div>
+    </div>
+    <div class="card-row" style="margin-top:18px;">
+      <div class="card green" style="max-width:480px;">
+        <div class="card-title">&#128161; PR 추천 유형</div>
+        <div class="card-body">
+          <li>한국 서비스 API Tool (네이버, 카카오)</li>
+          <li>한국어 문서 로더 (HWP, PDF)</li>
+          <li>한국어 텍스트 분할기 개선</li>
+          <li>기존 Tool 버그 수정 / 성능 개선</li>
+        </div>
+      </div>
+      <div class="card blue" style="max-width:480px;">
+        <div class="card-title">&#128218; 참고 사항</div>
+        <div class="card-body">
+          <li>LangChain은 커뮤니티 패키지 환영</li>
+          <li>langchain-community 패키지에 추가</li>
+          <li>CONTRIBUTING.md 반드시 숙지</li>
+          <li>기존 Tool 코드 패턴 참고</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 35: Open Source Communication ===== -->
+  <div class="slide" id="slide-35">
+    <span class="big-number">35</span>
+    <span class="sparkle" style="top:80px;left:120px;animation-delay:0.3s;">&#10024;</span>
+    <div class="slide-title">&#127760; 오픈소스 <span class="highlight">커뮤니케이션</span> 에티켓</div>
+    <div class="slide-subtitle">글로벌 개발자 커뮤니티에서의 소통 규칙</div>
+    <div class="card-row">
+      <div class="card green">
+        <div class="card-title">&#9989; DO</div>
+        <div class="card-body">
+          <li>이슈/PR 전에 기존 토론 검색</li>
+          <li>명확하고 구체적으로 설명</li>
+          <li>재현 가능한 정보 제공</li>
+          <li>감사와 존중의 표현 사용</li>
+          <li>피드백에 신속하게 응답</li>
+          <li>CONTRIBUTING.md 가이드 준수</li>
+        </div>
+      </div>
+      <div class="card pink">
+        <div class="card-title">&#10060; DON'T</div>
+        <div class="card-body">
+          <li>"아직 안 됐나요?"라고 재촉하기</li>
+          <li>이슈에 "+1"만 코멘트하기</li>
+          <li>여러 이슈를 하나에 섞기</li>
+          <li>요청 없이 @멘션하기</li>
+          <li>부정적/공격적 어조 사용</li>
+          <li>AI 생성 코드를 무검증 제출</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 36: English Communication ===== -->
+  <div class="slide" id="slide-36">
+    <span class="big-number">36</span>
+    <div class="slide-title">&#127468;&#127463; 영어 <span class="highlight">커뮤니케이션</span> 팁</div>
+    <div class="slide-subtitle">영어가 부담스러워도 괜찮아요 &mdash; 패턴을 익히면 됩니다!</div>
+    <table class="compare-table">
+      <tr><th>상황</th><th>영어 표현 예시</th></tr>
+      <tr><td>이슈 보고</td><td>"I found a bug in X. Steps to reproduce: 1... 2... 3... Expected: ... Actual: ..."</td></tr>
+      <tr><td>PR 설명</td><td>"This PR fixes #123 by adding a null check in decode(). I also added tests for this case."</td></tr>
+      <tr><td>피드백 수용</td><td>"Great point! I've updated the code accordingly. Please take another look."</td></tr>
+      <tr><td>질문하기</td><td>"I have a question about the expected behavior here. Should X return null or throw?"</td></tr>
+      <tr><td>도움 요청</td><td>"I'm working on #123 but I'm stuck on X. Could you point me in the right direction?"</td></tr>
+      <tr><td>감사 표현</td><td>"Thank you for the detailed review! I really appreciate your feedback."</td></tr>
+    </table>
+    <div style="margin-top:14px;padding:12px 20px;border-radius:10px;background:rgba(90,158,111,0.1);border:2px dashed rgba(90,158,111,0.3);max-width:800px;">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;color:#5a4a3a;">
+        &#128161; <a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a>에 "이 PR 설명을 영어로 작성해줘"라고 요청하면 자연스러운 영어 PR을 생성해줍니다!
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 37: Issue Commenting Best Practices ===== -->
+  <div class="slide" id="slide-37">
+    <span class="big-number">37</span>
+    <span class="sparkle" style="top:70px;right:90px;animation-delay:0.4s;">&#10024;</span>
+    <div class="slide-title">&#128172; 이슈 코멘트 <span class="highlight">모범 사례</span></div>
+    <div class="slide-subtitle">작업 시작 전, 중, 후에 이슈에 업데이트하세요</div>
+    <div class="card-row">
+      <div class="card blue">
+        <div class="card-title">&#127937; 작업 시작 시</div>
+        <div class="card-body">
+          <li>"I'd like to work on this issue. I'm planning to [접근 방식]. Could you assign it to me?"</li>
+          <li>이미 누가 작업 중인지 확인!</li>
+        </div>
+      </div>
+      <div class="card yellow">
+        <div class="card-title">&#128295; 진행 중</div>
+        <div class="card-body">
+          <li>"Update: I've identified the root cause. It's in [파일명]. Working on a fix."</li>
+          <li>막힌 점이 있으면 공유</li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#9989; PR 생성 시</div>
+        <div class="card-body">
+          <li>"I've opened a PR #456 to fix this. Please take a look when you have a chance."</li>
+          <li>이슈와 PR을 연결</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 38: Common PR Mistakes ===== -->
+  <div class="slide" id="slide-38">
+    <span class="big-number">38</span>
+    <span class="doodle-arrow" style="top:100px;right:60px;transform:rotate(-15deg);">&#10148;</span>
+    <div class="slide-title">&#9888; 흔한 PR <span class="highlight">실수</span></div>
+    <div class="slide-subtitle">첫 PR에서 피해야 할 실수들 &mdash; 미리 알아두세요!</div>
+    <table class="compare-table">
+      <tr><th>실수</th><th>해결책</th></tr>
+      <tr><td>main 브랜치에서 직접 작업</td><td>기능 브랜치를 만들어서 작업하세요</td></tr>
+      <tr><td>너무 큰 PR (파일 20개 이상 변경)</td><td>작은 단위로 나눠서 여러 개의 PR을 만드세요</td></tr>
+      <tr><td>관련 없는 변경 포함 (포맷팅 + 버그 수정)</td><td>하나의 PR = 하나의 목적</td></tr>
+      <tr><td>테스트 없이 코드 변경</td><td>변경에 맞는 테스트를 반드시 추가하세요</td></tr>
+      <tr><td>PR 설명이 비어 있거나 불충분</td><td>What/Why/How 구조로 설명하세요</td></tr>
+      <tr><td>CONTRIBUTING.md를 읽지 않음</td><td>PR 전에 반드시 기여 가이드를 숙지하세요</td></tr>
+      <tr><td>AI 생성 코드를 검증 없이 제출</td><td>AI 코드를 이해하고 검증한 후 제출</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== SLIDE 39: Week 3 Checklist & Assignments ===== -->
+  <div class="slide" id="slide-39">
+    <span class="big-number">39</span>
+    <span class="sparkle" style="bottom:120px;right:100px;animation-delay:0.6s;">&#10024;</span>
+    <div class="slide-title">&#128221; 이번 주 <span class="highlight">목표 &amp; 과제</span></div>
+    <div class="slide-subtitle">Week 3 필수 & 선택 과제</div>
+    <div class="card-row">
+      <div class="card pink">
+        <div class="card-title">&#127919; 필수 과제</div>
+        <div class="card-body">
+          <li><strong>첫 번째 PR 생성</strong> (Draft PR도 OK!)</li>
+          <li>팀원 PR 1개 이상 <strong>코드 리뷰</strong> 참여</li>
+          <li>이슈 코멘트에 <strong>진행 상황 업데이트</strong></li>
+        </div>
+      </div>
+      <div class="card green">
+        <div class="card-title">&#11088; 선택 과제</div>
+        <div class="card-body">
+          <li>두 번째 이슈 탐색 시작</li>
+          <li>팀원 PR 추가 리뷰</li>
+          <li>AI 도구 활용 경험 Discord에 공유</li>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">&#127942; 배지 획득 조건</div>
+        <div class="card-body">
+          <li>&#127919; <strong>First PR</strong> &mdash; 첫 PR 제출</li>
+          <li>&#128270; <strong>Code Reviewer</strong> &mdash; 3개 이상 리뷰</li>
+          <li>&#127881; <strong>Merged!</strong> &mdash; PR merge 성공</li>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:20px;padding:14px 20px;border-radius:10px;background:rgba(224,120,80,0.08);border:2px dashed rgba(224,120,80,0.25);max-width:800px;">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;color:#5a4a3a;">
+        &#128197; 제출 마감: 다음 멘토링 세션 전까지 &middot; GitHub PR 링크를 Discord 팀 채널에 공유
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 40: Q&A ===== -->
+  <div class="slide" id="slide-40">
+    <span class="big-number">40</span>
+    <span class="sparkle" style="top:60px;left:80px;">&#10024;</span>
+    <span class="sparkle" style="bottom:120px;right:100px;animation-delay:0.8s;">&#10024;</span>
+    <span class="doodle-arrow" style="top:100px;right:60px;transform:rotate(-15deg);">&#10148;</span>
+    <div class="slide-title">Q&amp;A &amp; <span class="highlight">참고 자료</span></div>
+    <div class="slide-subtitle">궁금한 점이 있으면 언제든 질문하세요!</div>
+    <div class="card-row">
+      <div class="card yellow" style="max-width:340px;">
+        <div class="card-title">&#128214; 학습 자료</div>
+        <div class="card-body">
+          <li>Conventional Commits (conventionalcommits.org)</li>
+          <li>GitHub Flow Guide</li>
+          <li>First Contributions (firstcontributions.github.io)</li>
+          <li>오픈소스 기여 가이드 (opensource.guide)</li>
+        </div>
+      </div>
+      <div class="card blue" style="max-width:340px;">
+        <div class="card-title">&#128736; AI 코드 리뷰 도구</div>
+        <div class="card-body">
+          <li>CodeRabbit (오픈소스 무료)</li>
+          <li>PR-Agent by Qodo (오픈소스)</li>
+          <li><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a> PR 자동 생성</li>
+          <li><a class="oss-link" href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a> Agent Mode</li>
+        </div>
+      </div>
+      <div class="card green" style="max-width:340px;">
+        <div class="card-title">&#128172; 소통 채널</div>
+        <div class="card-body">
+          <li>Discord 팀 채널</li>
+          <li>멘토 Office Hour</li>
+          <li>#code-review 채널</li>
+          <li>#ai-tools-tips 채널</li>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:24px;font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;color:#d4764e;text-align:center;">
+      &#128640; 다음 주 예고: Week 4 &mdash; 기여 심화 Sprint &middot; 피드백 반영과 심화 기여!
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" onclick="prevSlide()">&#9664;</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+    <div style="display:flex;gap:3px;align-items:center;">
+      <div class="nav-dot section-dot active" onclick="goToSlide(0)" title="오프닝"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(4)" title="PR 작성"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(13)" title="CI/CD"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(18)" title="코드 리뷰"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(23)" title="트랙별 Sprint"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(38)" title="마무리"></div>
+    </div>
+    <div style="width:120px;height:3px;background:rgba(200,180,150,0.3);border-radius:2px;overflow:hidden;">
+      <div id="progressBar" style="width:2.5%;height:100%;background:#e07850;border-radius:2px;transition:width 0.3s;"></div>
+    </div>
+  </div>
+  <span class="page-num" id="pageNum">1 / 40</span>
+  <button class="nav-btn" onclick="nextSlide()">&#9654;</button>
+  <a href="index.html" class="nav-btn" title="목차로 이동" style="text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-left:8px;">&#127968;</a>
+</div>
+
+<script src="slides-common.js"></script>
+<script>initSlides(40, [0, 4, 13, 18, 23, 38]);</script>
+
+</body>
+</html>

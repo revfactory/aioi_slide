@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIOI - AI Open Source Impact 강의 자료</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Square+Round:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #fdf6e3;
+    background-image:
+      radial-gradient(ellipse at 20% 80%, rgba(255,200,150,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(200,230,200,0.12) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 40px 80px;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(180,160,140,0.06) 28px, rgba(180,160,140,0.06) 29px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body > * { position: relative; z-index: 1; }
+  .header { text-align: center; margin-bottom: 28px; }
+  .header-sub { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 1.2rem; color: #d4764e; letter-spacing: 3px; margin-bottom: 12px; }
+  .header-title { font-family: 'Nanum Square Round', sans-serif; font-weight: 800; font-size: 2.8rem; color: #5a4a3a; line-height: 1.4; margin-bottom: 8px; }
+  .header-title .highlight { color: #e07850; position: relative; }
+  .header-title .highlight::after { content: ''; position: absolute; bottom: -2px; left: -4px; right: -4px; height: 12px; background: rgba(255,200,100,0.35); border-radius: 4px; z-index: -1; transform: rotate(-0.8deg); }
+  .header-desc { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 1.15rem; color: #8a7a6a; letter-spacing: 0.5px; }
+  .stats-row { display: flex; gap: 36px; margin: 24px 0 16px; justify-content: center; }
+  .stat-item { text-align: center; }
+  .stat-value { font-family: 'Nanum Square Round', sans-serif; font-weight: 800; font-size: 2rem; color: #e07850; line-height: 1; }
+  .stat-label { font-family: 'Noto Sans KR', sans-serif; font-weight: 400; font-size: 0.85rem; color: #8a7a6a; margin-top: 4px; }
+  .week-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; width: 100%; max-width: 1100px; }
+  .week-card {
+    padding: 28px 26px;
+    border-radius: 14px 10px 16px 8px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+  }
+  .week-card:hover { transform: translateY(-6px) rotate(0.3deg); box-shadow: 6px 6px 0 rgba(0,0,0,0.06); }
+  .week-card.w1 { background: linear-gradient(135deg, #fce4ec 0%, #f8d0d8 100%); border: 2.5px solid rgba(200,100,120,0.3); box-shadow: 3px 3px 0 rgba(200,100,120,0.12); }
+  .week-card.w2 { background: linear-gradient(135deg, #fff9e6 0%, #fef0c7 100%); border: 2.5px solid rgba(200,170,60,0.3); box-shadow: 3px 3px 0 rgba(200,170,60,0.12); }
+  .week-card.w3 { background: linear-gradient(135deg, #e8f5e9 0%, #d4ecd6 100%); border: 2.5px solid rgba(80,160,100,0.3); box-shadow: 3px 3px 0 rgba(80,160,100,0.12); }
+  .week-card.w4 { background: linear-gradient(135deg, #e3f2fd 0%, #cfe6f8 100%); border: 2.5px solid rgba(80,130,200,0.3); box-shadow: 3px 3px 0 rgba(80,130,200,0.12); }
+  .week-card.w5 { background: linear-gradient(135deg, #f3e5f5 0%, #e8d5f0 100%); border: 2.5px solid rgba(150,100,180,0.3); box-shadow: 3px 3px 0 rgba(150,100,180,0.12); }
+  .week-card.w6 { background: linear-gradient(135deg, #fff3e0 0%, #ffe8cc 100%); border: 2.5px solid rgba(200,140,60,0.3); box-shadow: 3px 3px 0 rgba(200,140,60,0.12); }
+  .week-number { font-family: 'Nanum Square Round', sans-serif; font-weight: 800; font-size: 3.5rem; color: rgba(90,74,58,0.1); position: absolute; right: 20px; top: 12px; line-height: 1; }
+  .week-label { font-family: 'Noto Sans KR', sans-serif; font-weight: 500; font-size: 0.85rem; color: #d4764e; letter-spacing: 1px; margin-bottom: 4px; }
+  .week-title { font-family: 'Nanum Square Round', sans-serif; font-weight: 800; font-size: 1.4rem; color: #5a4a3a; margin-bottom: 6px; }
+  .week-subtitle { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 0.95rem; color: #8a7a6a; margin-bottom: 14px; line-height: 1.5; }
+  .week-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tag { display: inline-block; padding: 3px 12px; border-radius: 20px; font-family: 'Noto Sans KR', sans-serif; font-weight: 500; font-size: 0.8rem; border: 2px dashed; }
+  .tag.pink { background: rgba(255,200,200,0.3); border-color: rgba(200,100,100,0.3); color: #a44; }
+  .tag.blue { background: rgba(200,230,255,0.3); border-color: rgba(80,130,200,0.3); color: #448; }
+  .tag.green { background: rgba(200,255,200,0.3); border-color: rgba(80,160,100,0.3); color: #484; }
+  .tag.orange { background: rgba(255,220,180,0.3); border-color: rgba(200,140,60,0.3); color: #a64; }
+  .tag.purple { background: rgba(220,200,240,0.3); border-color: rgba(150,100,180,0.3); color: #648; }
+  .week-meta { display: flex; gap: 16px; align-items: center; font-family: 'Noto Sans KR', sans-serif; font-size: 0.85rem; color: #a08a6a; }
+  .week-meta span { display: flex; align-items: center; gap: 4px; }
+  .sparkle { position: fixed; font-size: 1.4rem; opacity: 0.4; animation: twinkle 2s ease-in-out infinite; pointer-events: none; z-index: 0; }
+  @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.8) rotate(0deg); } 50% { opacity: 0.5; transform: scale(1.1) rotate(15deg); } }
+  .footer { margin-top: 48px; text-align: center; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 0.9rem; color: #b0a090; }
+  @media (max-width: 700px) { body { padding: 40px 20px 60px; } .header-title { font-size: 2rem; } .week-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<span class="sparkle" style="top:80px;left:60px;">&#10024;</span>
+<span class="sparkle" style="top:120px;right:100px;animation-delay:0.6s;">&#10024;</span>
+<span class="sparkle" style="bottom:200px;left:120px;animation-delay:1.2s;">&#10024;</span>
+<span class="sparkle" style="bottom:150px;right:80px;animation-delay:0.9s;">&#10024;</span>
+
+<div class="header">
+  <div class="header-sub">AI Open Source Impact</div>
+  <div class="header-title"><span class="highlight">AIOI</span> 강의 자료</div>
+  <div class="header-desc">AI-Native Open Source Frontier &mdash; 6주 커리큘럼</div>
+  <div class="stats-row">
+    <div class="stat-item"><div class="stat-value">6</div><div class="stat-label">주차</div></div>
+    <div class="stat-item"><div class="stat-value">240+</div><div class="stat-label">슬라이드</div></div>
+    <div class="stat-item"><div class="stat-value">3</div><div class="stat-label">트랙 (A/B/C)</div></div>
+  </div>
+</div>
+
+<div class="week-grid">
+
+  <a class="week-card w1" href="week1-slides.html">
+    <div class="week-number">01</div>
+    <div class="week-label">WEEK 1 &middot; 오프라인</div>
+    <div class="week-title">&#128640; AIOI Kick-off Day</div>
+    <div class="week-subtitle">"AI 오픈소스 생태계에 발을 디디다"</div>
+    <div class="week-tags">
+      <span class="tag pink">특강</span>
+      <span class="tag blue">환경 구축</span>
+      <span class="tag green">팀 매칭</span>
+    </div>
+    <div class="week-meta">
+      <span>&#128196; 슬라이드</span>
+      <span>&#127891; 이론 + 실습</span>
+    </div>
+  </a>
+
+  <a class="week-card w2" href="week2-slides.html">
+    <div class="week-number">02</div>
+    <div class="week-label">WEEK 2 &middot; 온라인</div>
+    <div class="week-title">&#128269; AI 프로젝트 구조 분석</div>
+    <div class="week-subtitle">"거대 AI 코드베이스를 장악하라"</div>
+    <div class="week-tags">
+      <span class="tag blue">코드 분석</span>
+      <span class="tag orange">이슈 선정</span>
+      <span class="tag green">기여 계획</span>
+    </div>
+    <div class="week-meta">
+      <span>&#128196; 40 슬라이드</span>
+      <span>&#128187; 멘토링 1h + Sprint 2h</span>
+    </div>
+  </a>
+
+  <a class="week-card w3" href="week3-slides.html">
+    <div class="week-number">03</div>
+    <div class="week-label">WEEK 3 &middot; 온라인</div>
+    <div class="week-title">&#127939; 첫 번째 기여 Sprint</div>
+    <div class="week-subtitle">"작은 기여부터 시작하자 — 첫 PR의 감동"</div>
+    <div class="week-tags">
+      <span class="tag pink">PR 작성</span>
+      <span class="tag blue">코드 리뷰</span>
+      <span class="tag purple">CI/CD</span>
+    </div>
+    <div class="week-meta">
+      <span>&#128196; 40 슬라이드</span>
+      <span>&#128187; 멘토링 1h + Sprint 2h</span>
+    </div>
+  </a>
+
+  <a class="week-card w4" href="week4-slides.html">
+    <div class="week-number">04</div>
+    <div class="week-label">WEEK 4 &middot; 온라인</div>
+    <div class="week-title">&#128295; 기여 심화 Sprint</div>
+    <div class="week-subtitle">"피드백을 반영하고, 더 깊이 파고들자"</div>
+    <div class="week-tags">
+      <span class="tag orange">피드백 대응</span>
+      <span class="tag blue">AI SDK 심화</span>
+      <span class="tag green">MCP 고급</span>
+    </div>
+    <div class="week-meta">
+      <span>&#128196; 40 슬라이드</span>
+      <span>&#128187; 멘토링 1h + Sprint 2h</span>
+    </div>
+  </a>
+
+  <a class="week-card w5" href="week5-slides.html">
+    <div class="week-number">05</div>
+    <div class="week-label">WEEK 5 &middot; 온라인</div>
+    <div class="week-title">&#127919; 최종 Sprint &amp; 데모 준비</div>
+    <div class="week-subtitle">"마무리와 성과를 정리하자"</div>
+    <div class="week-tags">
+      <span class="tag pink">PR 마무리</span>
+      <span class="tag purple">데모 제작</span>
+      <span class="tag green">발표 준비</span>
+    </div>
+    <div class="week-meta">
+      <span>&#128196; 42 슬라이드</span>
+      <span>&#128187; 멘토링 1h + Sprint 2h</span>
+    </div>
+  </a>
+
+  <a class="week-card w6" href="week6-slides.html">
+    <div class="week-number">06</div>
+    <div class="week-label">WEEK 6 &middot; 오프라인</div>
+    <div class="week-title">&#127942; AIOI Impact Night</div>
+    <div class="week-subtitle">"성과를 공유하고, 미래를 그리다"</div>
+    <div class="week-tags">
+      <span class="tag orange">성과 발표</span>
+      <span class="tag pink">시상식</span>
+      <span class="tag blue">네트워킹</span>
+    </div>
+    <div class="week-meta">
+      <span>&#128196; 40 슬라이드</span>
+      <span>&#127942; 발표 + 시상 + 네트워킹 3h</span>
+    </div>
+  </a>
+
+</div>
+
+<div class="footer">
+  AIOI &mdash; AI Core Contributor를 양성하는 6주간의 여정
+</div>
+
+</body>
+</html>

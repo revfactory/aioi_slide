@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIOI Week 4 - 기여 심화 Sprint</title>
+<link rel="stylesheet" href="slides-common.css">
+</head>
+<body>
+<div class="slide-container">
+
+<!-- S1: Title -->
+<div class="slide active" id="slide-1">
+  <span class="sparkle" style="top:60px;left:80px;">&#10024;</span><span class="sparkle" style="top:90px;right:120px;animation-delay:0.5s;">&#10024;</span><span class="sparkle" style="bottom:140px;left:150px;animation-delay:1s;">&#10024;</span><span class="doodle-arrow" style="top:120px;right:80px;transform:rotate(-20deg);">&#10148;</span>
+  <div style="margin-bottom:18px;"><span style="font-family:'Noto Sans KR';font-weight:300;font-size:1.3rem;color:#d4764e;letter-spacing:3px;">AI Open Source Impact</span></div>
+  <div class="slide-title" style="font-size:2.8rem;margin-bottom:8px;"><span class="highlight">Week 4</span> : 기여 심화 Sprint</div>
+  <div class="slide-subtitle" style="font-size:1.4rem;margin-bottom:24px;">" 피드백을 반영하고, 더 깊이 파고들자 "</div>
+  <div style="display:flex;gap:16px;margin-bottom:32px;"><span class="tag a">&#9997; 트랙A: AI 도구 고급</span><span class="tag b">&#9881; 트랙B: AI SDK 심화</span><span class="tag c">&#128640; 트랙C: <a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a>/Agent 고급</span></div>
+  <div class="stats-row"><div class="stat-item"><div class="stat-value">W4</div><div class="stat-label">4주차 온라인</div></div><div class="stat-item"><div class="stat-value">1h</div><div class="stat-label">멘토링 세션</div></div><div class="stat-item"><div class="stat-value">2h</div><div class="stat-label">Sprint 활동</div></div><div class="stat-item"><div class="stat-value">3트랙</div><div class="stat-label">심화 주제</div></div></div>
+</div>
+
+<!-- S2 -->
+<div class="slide" id="slide-2">
+  <span class="big-number">02</span>
+  <div class="slide-title">이번 주 <span class="highlight">학습 목표</span></div>
+  <div class="slide-subtitle">PR 피드백 반영 + 기술 심화 + 협업 체화</div>
+  <div class="card-row"><div class="card pink" style="max-width:300px;"><div class="card-title">&#127919; 목표 1</div><div class="card-body"><li>메인테이너의 피드백을 분석하고 PR을 개선한다</li><li>리뷰 코멘트에 적절히 대응하는 법을 익힌다</li></div></div><div class="card blue" style="max-width:300px;"><div class="card-title">&#128736; 목표 2</div><div class="card-body"><li>더 심화된 기여(기능 개선, 성능 최적화)에 도전한다</li><li>트랙별 고급 기술을 학습한다</li></div></div><div class="card green" style="max-width:300px;"><div class="card-title">&#129309; 목표 3</div><div class="card-body"><li>오픈소스 커뮤니티에서의 협업 패턴을 체화한다</li><li>Peer Review를 통해 팀 역량을 높인다</li></div></div></div>
+</div>
+
+<!-- S3 -->
+<div class="slide" id="slide-3">
+  <span class="big-number">03</span>
+  <div class="slide-title">멘토링 세션 <span class="highlight">구성</span></div>
+  <div class="slide-subtitle">화상회의 1시간 집중 세션</div>
+  <div class="flow-row"><div class="flow-box step1" style="min-width:240px;"><div style="font-weight:700;">&#128172; PR 리뷰 & 피드백 대응</div><div style="font-size:0.9rem;color:#8a7a6a;">20분</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step3" style="min-width:240px;"><div style="font-weight:700;">&#128218; 기술 심화 세션</div><div style="font-size:0.9rem;color:#8a7a6a;">20분</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step4" style="min-width:240px;"><div style="font-weight:700;">&#128295; 기술 병목 해결</div><div style="font-size:0.9rem;color:#8a7a6a;">20분</div></div></div>
+  <div style="margin-top:30px;max-width:800px;"><table class="compare-table"><tr><th>시간</th><th>내용</th><th>세부사항</th></tr><tr><td>20분</td><td><span class="marker-text red">PR 리뷰 & 피드백</span></td><td>메인테이너 피드백 분석, 수정 전략, Force Push vs 추가 커밋</td></tr><tr><td>20분</td><td><span class="marker-text blue">기술 심화</span></td><td>트랙별 심화 주제 (A/B/C)</td></tr><tr><td>20분</td><td><span class="marker-text green">병목 해결</span></td><td>팀별 이슈 트러블슈팅, Q&A</td></tr></table></div>
+</div>
+
+<!-- S4 -->
+<div class="slide" id="slide-4">
+  <span class="big-number">04</span>
+  <div class="slide-title">메인테이너 <span class="highlight">피드백 분석법</span></div>
+  <div class="slide-subtitle">PR 리뷰를 받았을 때 어떻게 대응할 것인가?</div>
+  <div class="card-row"><div class="card orange" style="max-width:500px;"><div class="card-title">&#128270; 피드백 유형 분류</div><div class="card-body"><li><span class="marker-text red">Must Fix</span> : 버그, 보안 이슈, 로직 오류 - 반드시 수정</li><li><span class="marker-text orange">Should Fix</span> : 코드 스타일, 네이밍, 컨벤션 - 프로젝트 규칙 따르기</li><li><span class="marker-text blue">Nice to Have</span> : 성능 개선, 리팩토링 제안 - 논의 후 결정</li><li><span class="marker-text green">Question</span> : 설계 의도 질문 - 정중하게 설명</li></div></div><div class="card purple" style="max-width:500px;"><div class="card-title">&#128161; 대응 원칙</div><div class="card-body"><li>모든 코멘트에 반드시 <span class="marker-text blue">답변</span>하기</li><li>동의하면 수정, 다른 의견이 있으면 근거와 함께 논의</li><li>"Thank you for the review" 등 감사 표현 잊지 않기</li><li>수정 후 "Done" 또는 "Fixed in [commit hash]"로 표시</li></div></div></div>
+</div>
+
+<!-- S5 -->
+<div class="slide" id="slide-5">
+  <span class="big-number">05</span>
+  <div class="slide-title">피드백 대응 <span class="highlight">실전 예시</span></div>
+  <div class="slide-subtitle">실제 PR 리뷰 대화에서 배우기</div>
+  <div class="card-row" style="gap:20px;"><div class="card green" style="max-width:500px;"><div class="card-title">&#9989; Good Response</div><div class="code-block" style="font-size:0.8rem;">Reviewer: "이 함수에 에러 핸들링이 필요합니다."
+
+You: "좋은 지적 감사합니다! try-catch를 추가하고
+커스텀 에러 클래스도 만들었습니다.
+Fixed in abc1234. PTAL (Please Take Another Look)"</div></div><div class="card pink" style="max-width:500px;"><div class="card-title">&#10060; Bad Response</div><div class="code-block" style="font-size:0.8rem;">Reviewer: "이 함수에 에러 핸들링이 필요합니다."
+
+You: "그건 이 PR 범위 밖입니다."
+(근거 없이 거부하면 신뢰를 잃음)
+
+Better: "현재 PR 범위를 넘어서는 것 같아
+별도 이슈로 분리하겠습니다. #456 생성했습니다."</div></div></div>
+</div>
+
+<!-- S6 -->
+<div class="slide" id="slide-6">
+  <span class="big-number">06</span>
+  <div class="slide-title">AI로 <span class="highlight">피드백 분석</span>하기</div>
+  <div class="slide-subtitle"><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a>를 활용한 리뷰 피드백 대응</div>
+  <div class="card-row"><div class="card blue" style="max-width:480px;"><div class="card-title">&#129302; Claude Code 활용법</div><div class="code-block" style="font-size:0.8rem;"># PR 리뷰 피드백 분석 요청
+> "이 PR의 리뷰 코멘트를 분석하고
+  수정 전략을 제안해줘"
+
+# 특정 피드백에 대한 수정안
+> "이 리뷰어의 제안대로 코드를
+  수정해줘: [리뷰 내용 붙여넣기]"
+
+# 수정 후 응답 메시지 작성
+> "이 변경사항을 설명하는
+  리뷰 응답을 영어로 작성해줘"</div></div><div class="card yellow" style="max-width:480px;"><div class="card-title">&#128161; 핵심 포인트</div><div class="card-body"><li>AI가 제안한 수정을 <span class="marker-text red">반드시 이해</span>한 후 적용</li><li>리뷰어의 의도를 AI에게 설명하면 더 정확한 수정안</li><li>AI로 <span class="marker-text blue">영어 응답</span> 작성 시 자연스러운 톤 유지</li><li>CI/CD 실패 시 AI로 로그 분석 가능</li></div></div></div>
+</div>
+
+<!-- S7 -->
+<div class="slide" id="slide-7">
+  <span class="big-number">07</span>
+  <div class="slide-title"><span class="highlight">Force Push</span> vs 추가 커밋</div>
+  <div class="slide-subtitle">PR 수정 시 어떤 전략을 선택할 것인가?</div>
+  <table class="compare-table" style="max-width:950px;"><tr><th style="width:15%;">구분</th><th style="width:40%;">Force Push (rebase + push -f)</th><th style="width:40%;">추가 커밋 (fixup commit)</th></tr><tr><td><span class="marker-text red">방식</span></td><td>기존 커밋을 수정/합치고 강제 푸시</td><td>새 커밋으로 수정사항 추가</td></tr><tr><td><span class="marker-text blue">장점</span></td><td>깔끔한 커밋 히스토리, 하나의 논리적 커밋</td><td>리뷰 히스토리 보존, 변경 추적 용이</td></tr><tr><td><span class="marker-text orange">단점</span></td><td>리뷰 히스토리 손실, 다른 사람 작업 덮어쓸 위험</td><td>커밋 히스토리가 지저분해질 수 있음</td></tr><tr><td><span class="marker-text green">사용 시점</span></td><td>리뷰 전 정리, 소규모 PR, 요청 시</td><td>리뷰 중 수정, 대규모 변경, 협업 브랜치</td></tr></table>
+  <div style="margin-top:20px;font-size:1rem;color:#8a7a6a;max-width:800px;text-align:center;">&#9888; 프로젝트마다 선호 방식이 다름 - <span class="hand-underline">CONTRIBUTING.md 확인</span> 필수!</div>
+</div>
+
+<!-- S8 -->
+<div class="slide" id="slide-8">
+  <span class="big-number">08</span>
+  <div class="slide-title">Force Push <span class="highlight">실습</span></div>
+  <div class="slide-subtitle">Interactive Rebase로 커밋 정리하기</div>
+  <div class="code-block" style="max-width:800px;">
+# 1. 최근 N개 커밋을 interactive rebase
+git rebase -i HEAD~3
+
+# 2. 에디터에서 pick/squash/fixup 선택
+pick abc1234 feat: add search API
+squash def5678 fix: typo in search
+fixup ghi9012 style: formatting
+
+# 3. 커밋 메시지 수정 후 저장
+
+# 4. Force push (--force-with-lease 권장!)
+git push --force-with-lease origin my-feature
+
+# --force-with-lease: 원격에 다른 사람이 push한 게 있으면 거부 (안전)
+# --force: 무조건 덮어쓰기 (위험!)</div>
+  <div style="margin-top:16px;padding:12px 18px;border-radius:10px;background:rgba(224,120,80,0.08);border:2px dashed rgba(224,120,80,0.25);max-width:800px;"><span style="font-weight:700;color:#d4764e;">TIP:</span> <span style="color:#6a5a4a;">항상 <code>--force-with-lease</code>를 사용하여 다른 사람의 작업을 덮어쓰지 않도록!</span></div>
+</div>
+
+<!-- S9 -->
+<div class="slide" id="slide-9">
+  <span class="big-number">09</span>
+  <div class="slide-title">Git <span class="highlight">Rebase</span> vs Merge</div>
+  <div class="slide-subtitle">브랜치 통합 전략의 이해</div>
+  <div class="card-row" style="margin-bottom:20px;"><div class="card orange" style="max-width:480px;"><div class="card-title">&#128256; Merge</div><div class="card-body"><li>두 브랜치의 히스토리를 <span class="marker-text orange">보존</span></li><li>Merge commit이 생성됨</li><li>팀 협업 시 안전한 선택</li><li>감사 추적이 필요한 프로젝트에 적합</li><li><code>git merge main</code></li></div></div><div class="card blue" style="max-width:480px;"><div class="card-title">&#128257; Rebase</div><div class="card-body"><li>커밋을 다른 베이스 위에 <span class="marker-text blue">재적용</span></li><li>선형적이고 깔끔한 히스토리</li><li>개인 브랜치에서만 사용 권장</li><li>공유 브랜치에서 사용 금지!</li><li><code>git rebase main</code></li></div></div></div>
+  <div style="padding:12px 20px;border-radius:10px;background:rgba(80,160,100,0.08);border:2px dashed rgba(80,160,100,0.25);max-width:800px;"><span style="font-weight:700;color:#484;">Golden Rule:</span> <span style="color:#6a5a4a;">공개(public) 브랜치는 절대 rebase 하지 않는다!</span></div>
+</div>
+
+<!-- S10 -->
+<div class="slide" id="slide-10">
+  <span class="big-number">10</span>
+  <div class="slide-title">Rebase <span class="highlight">워크플로우</span></div>
+  <div class="slide-subtitle">PR 제출 전 브랜치를 최신 상태로 유지하기</div>
+  <div class="code-block" style="max-width:800px;">
+# 1. main 브랜치 최신화
+git checkout main && git pull origin main
+
+# 2. feature 브랜치로 이동 후 rebase
+git checkout my-feature
+git rebase main
+
+# 3. 충돌 발생 시: 파일 수정 후
+git add [충돌 해결 파일]
+git rebase --continue
+
+# 4. 되돌리기: git rebase --abort
+
+# 5. rebase 완료 후 force push
+git push --force-with-lease origin my-feature</div>
+  <div style="margin-top:12px;font-size:0.95rem;color:#8a7a6a;text-align:center;">&#128161; 대부분의 오픈소스 프로젝트는 PR 제출 전 rebase를 권장합니다</div>
+</div>
+
+<!-- S11 -->
+<div class="slide" id="slide-11">
+  <span class="big-number">11</span>
+  <div class="slide-title">Squash and <span class="highlight">Merge</span> 전략</div>
+  <div class="slide-subtitle">GitHub PR 머지 옵션의 이해</div>
+  <table class="compare-table" style="max-width:900px;"><tr><th>머지 방식</th><th>특징</th><th>사용 시점</th></tr><tr><td><span class="marker-text green">Create a merge commit</span></td><td>모든 커밋 히스토리 유지 + merge commit</td><td>대규모 기능, 히스토리 보존</td></tr><tr><td><span class="marker-text blue">Squash and merge</span></td><td>모든 커밋을 하나로 압축 후 merge</td><td>소규모 PR, 깔끔한 main</td></tr><tr><td><span class="marker-text orange">Rebase and merge</span></td><td>커밋을 main 위에 선형으로 재적용</td><td>선형 히스토리, 의미 있는 커밋</td></tr></table>
+  <div style="margin-top:24px;"><div class="card yellow" style="max-width:800px;"><div class="card-title">&#128161; 실전 팁</div><div class="card-body"><li>대부분의 오픈소스는 <span class="marker-text blue">Squash and merge</span>를 기본 사용</li><li>Squash 시 최종 커밋 메시지를 잘 작성하는 것이 중요</li><li>프로젝트 CONTRIBUTING.md에서 선호 전략 확인</li></div></div></div>
+</div>
+
+<!-- S12 -->
+<div class="slide" id="slide-12">
+  <span class="big-number">12</span>
+  <div class="slide-title">트랙 A 심화: <span class="highlight">AI 도구 고급</span></div>
+  <div class="slide-subtitle"><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a> 멀티파일 편집 & <a class="oss-link" href="https://github.com/features/copilot" target="_blank">Copilot</a> Agent 모드</div>
+  <div class="card-row"><div class="card pink" style="max-width:320px;"><div class="card-title">&#9997; Claude Code 고급</div><div class="card-body"><li>멀티파일 편집</li><li>CLAUDE.md 활용</li><li>/create-pr 자동화</li><li>Claude Cowork 에이전트</li></div></div><div class="card blue" style="max-width:320px;"><div class="card-title">&#129302; Copilot Agent 모드</div><div class="card-body"><li>이슈 자동 할당</li><li>자율적 PR 생성</li><li>MCP 프로토콜 지원</li><li>코드 리뷰 피드백 응답</li></div></div><div class="card green" style="max-width:320px;"><div class="card-title">&#128187; <a class="oss-link" href="https://github.com/getcursor/cursor" target="_blank">Cursor</a> 심화</div><div class="card-body"><li>@Files, @Code 심볼</li><li>멀티파일 리팩토링</li><li>전체 레포 컨텍스트</li><li>다양한 AI 모델 선택</li></div></div></div>
+</div>
+
+<!-- S13 -->
+<div class="slide" id="slide-13">
+  <span class="big-number">13</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a> <span class="highlight">멀티파일 편집</span></div>
+  <div class="slide-subtitle">여러 파일에 걸친 변경을 한 번에 처리</div>
+  <div class="card-row" style="gap:20px;"><div class="card yellow" style="max-width:500px;"><div class="card-title">&#128196; 활용 시나리오</div><div class="card-body"><li>API 엔드포인트 추가: 라우트 + 컨트롤러 + 테스트 + 타입</li><li>리팩토링: 함수 추출 후 여러 파일에서 import 수정</li><li>버그 수정: 원인 파일 + 테스트 파일 동시 수정</li><li>문서 업데이트: 코드 변경과 함께 README 자동 수정</li></div></div><div class="card purple" style="max-width:500px;"><div class="card-title">&#128187; 실습 명령어</div><div class="code-block" style="font-size:0.8rem;"># 멀티파일 편집 요청
+> "이 함수를 별도 모듈로 추출하고
+  기존 import를 모두 업데이트해줘"
+
+# CLAUDE.md에 프로젝트 컨벤션 기록
+> /init
+
+# 변경 사항 확인 후 커밋
+> "변경 사항을 리뷰하고 커밋해줘"</div></div></div>
+</div>
+
+<!-- S14 -->
+<div class="slide" id="slide-14">
+  <span class="big-number">14</span>
+  <div class="slide-title">AI 기반 대규모 <span class="highlight">코드 리팩토링</span></div>
+  <div class="slide-subtitle">실제 기업 사례에서 배우는 AI 리팩토링 전략</div>
+  <div class="card-row"><div class="card orange" style="max-width:340px;"><div class="card-title">&#127970; Qonto 사례</div><div class="card-body"><li>aider(오픈소스 CLI)로 대규모 마이그레이션</li><li>엔지니어당 생산성 <span class="marker-text red">20배(2,000%)</span> 향상</li><li>~50 LoC/일 &#10148; 1,000+ LoC/일</li></div></div><div class="card green" style="max-width:340px;"><div class="card-title">&#128154; OpenObserve 사례</div><div class="card-body"><li>8개 Claude Code 에이전트 활용</li><li><span class="marker-text green">700+</span> 테스트 커버리지</li><li>플레이키 테스트 <span class="marker-text red">85% 감소</span></li></div></div><div class="card blue" style="max-width:340px;"><div class="card-title">&#128736; 주요 도구</div><div class="card-body"><li><span class="marker-text blue">Codemod 2.0</span> - AI + 결정론적 엔진</li><li><span class="marker-text green">OpenRewrite</span> - 자동 레시피 기반</li><li><span class="marker-text orange">Moderne</span> - 대규모 현대화</li></div></div></div>
+</div>
+
+<!-- S15 -->
+<div class="slide" id="slide-15">
+  <span class="big-number">15</span>
+  <div class="slide-title">AI 리팩토링 <span class="highlight">실전 가이드</span></div>
+  <div class="slide-subtitle">단계별 접근법으로 안전하게 리팩토링</div>
+  <div class="flow-row" style="margin-bottom:20px;"><div class="flow-box step1"><div style="font-weight:700;">1. 분석</div><div style="font-size:0.85rem;color:#8a7a6a;">AI로 코드 스멜 탐지</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step2"><div style="font-weight:700;">2. 계획</div><div style="font-size:0.85rem;color:#8a7a6a;">리팩토링 범위 정의</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step3"><div style="font-weight:700;">3. 테스트</div><div style="font-size:0.85rem;color:#8a7a6a;">기존 테스트 확인</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step4"><div style="font-weight:700;">4. 실행</div><div style="font-size:0.85rem;color:#8a7a6a;">AI로 코드 변환</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step5"><div style="font-weight:700;">5. 검증</div><div style="font-size:0.85rem;color:#8a7a6a;">테스트 + 리뷰</div></div></div>
+  <div class="card yellow" style="max-width:800px;"><div class="card-title">&#9888; 주의사항</div><div class="card-body"><li>AI 리팩토링 결과를 <span class="marker-text red">반드시 검증</span> - 테스트 통과 확인</li><li>한 번에 너무 큰 범위를 변경하지 않기 - <span class="marker-text blue">작은 PR</span>로 분리</li><li>리팩토링과 기능 변경을 <span class="marker-text orange">별도 커밋</span>으로 분리</li></div></div>
+</div>
+
+<!-- S16 -->
+<div class="slide" id="slide-16">
+  <span class="big-number">16</span>
+  <div class="slide-title">트랙 B 심화: <span class="highlight">AI SDK</span> & 통합 패턴</div>
+  <div class="slide-subtitle"><a class="oss-link" href="https://github.com/vercel/ai" target="_blank">Vercel AI SDK</a>, <a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a>, 벡터 DB, 프롬프트 엔지니어링</div>
+  <div class="card-row"><div class="card blue" style="max-width:240px;"><div class="card-title">&#9881; Vercel AI SDK</div><div class="card-body"><li>스트리밍 구현</li><li>AI Gateway</li><li>Agent 추상화</li></div></div><div class="card green" style="max-width:240px;"><div class="card-title">&#128279; LangChain</div><div class="card-body"><li>LCEL 파이프라인</li><li><a class="oss-link" href="https://github.com/langchain-ai/langgraph" target="_blank">LangGraph</a> 1.0</li><li>도구 호출</li></div></div><div class="card purple" style="max-width:240px;"><div class="card-title">&#128451; 벡터 DB</div><div class="card-body"><li><a class="oss-link" href="https://github.com/pgvector/pgvector" target="_blank">pgvector</a> 통합</li><li><a class="oss-link" href="https://github.com/chroma-core/chroma" target="_blank">Chroma</a> 활용</li><li>하이브리드 검색</li></div></div><div class="card orange" style="max-width:240px;"><div class="card-title">&#128172; 프롬프트</div><div class="card-body"><li>시스템 프롬프트</li><li>Few-shot 학습</li><li>구조화된 출력</li></div></div></div>
+</div>
+
+<!-- S17 -->
+<div class="slide" id="slide-17">
+  <span class="big-number">17</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/vercel/ai" target="_blank">Vercel AI SDK</a> <span class="highlight">스트리밍</span></div>
+  <div class="slide-subtitle">AI SDK 6 - 실시간 텍스트 스트리밍의 핵심</div>
+  <div class="card-row" style="gap:20px;"><div class="card blue" style="max-width:500px;"><div class="card-title">&#9881; 서버 사이드</div><div class="code-block" style="font-size:0.78rem;">// app/api/chat/route.ts
+import { openai } from '@ai-sdk/openai';
+import { streamText } from 'ai';
+
+export async function POST(req: Request) {
+  const { messages } = await req.json();
+  const result = streamText({
+    model: openai('gpt-4o'),
+    messages,
+  });
+  return result.toDataStreamResponse();
+}</div></div><div class="card green" style="max-width:500px;"><div class="card-title">&#127912; 클라이언트 사이드</div><div class="code-block" style="font-size:0.78rem;">// components/Chat.tsx
+'use client';
+import { useChat } from '@ai-sdk/react';
+
+export default function Chat() {
+  const { messages, input,
+    handleInputChange, handleSubmit
+  } = useChat();
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      {messages.map(m =&gt;
+        &lt;p key={m.id}&gt;{m.content}&lt;/p&gt;
+      )}
+      &lt;input value={input}
+        onChange={handleInputChange} /&gt;
+    &lt;/form&gt;
+  );
+}</div></div></div>
+</div>
+
+<!-- S18 -->
+<div class="slide" id="slide-18">
+  <span class="big-number">18</span>
+  <div class="slide-title">AI SDK 6 <span class="highlight">신기능</span></div>
+  <div class="slide-subtitle">Agent 추상화, 도구 실행, AI Gateway</div>
+  <div class="card-row"><div class="card orange" style="max-width:320px;"><div class="card-title">&#129302; Agent 추상화</div><div class="card-body"><li>프롬프트와 API를 자동 연결하는 <span class="marker-text orange">Agent</span> 객체</li><li>도구 호출 + 사용자 승인 (needsApproval)</li><li>Memory Tool로 대화 간 정보 유지</li></div></div><div class="card purple" style="max-width:320px;"><div class="card-title">&#128269; Provider Tools</div><div class="card-body"><li>웹 검색 도구</li><li>코드 실행 (샌드박스)</li><li>Tool Search (Regex/BM25)</li><li>메모리 관리 도구</li></div></div><div class="card green" style="max-width:320px;"><div class="card-title">&#127760; AI Gateway</div><div class="card-body"><li><span class="marker-text green">18+</span> 모델 프로바이더 지원</li><li>중앙화된 모델 접근</li><li>예산 통제 및 모니터링</li><li>React/Vue/Svelte/Angular</li></div></div></div>
+</div>
+
+<!-- S19 -->
+<div class="slide" id="slide-19">
+  <span class="big-number">19</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a> <span class="highlight">LCEL</span> 파이프라인</div>
+  <div class="slide-subtitle">LangChain Expression Language로 체인 구성하기</div>
+  <div class="card-row" style="gap:20px;"><div class="card green" style="max-width:520px;"><div class="card-title">&#128279; LCEL 기본 구조</div><div class="code-block" style="font-size:0.78rem;">from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+prompt = ChatPromptTemplate.from_template(
+    "다음 주제를 요약해줘: {topic}"
+)
+model = ChatOpenAI(model="gpt-4o")
+parser = StrOutputParser()
+
+# LCEL 체인: prompt | model | parser
+chain = prompt | model | parser
+result = chain.invoke({"topic": "MCP 프로토콜"})
+
+# 스트리밍
+for chunk in chain.stream({"topic": "RAG"}):
+    print(chunk, end="")</div></div><div class="card yellow" style="max-width:420px;"><div class="card-title">&#128161; LCEL 핵심 특징</div><div class="card-body"><li><span class="marker-text blue">| 연산자</span>로 직관적 체인 구성</li><li>모든 컴포넌트가 <span class="marker-text green">Runnable</span> 인터페이스</li><li>자동 스트리밍, 배치, 비동기 지원</li><li>LangSmith 트레이싱 자동 통합</li></div><div style="margin-top:12px;padding:8px;background:rgba(80,160,100,0.1);border-radius:6px;font-size:0.85rem;">LangChain & <a class="oss-link" href="https://github.com/langchain-ai/langgraph" target="_blank">LangGraph</a> <span class="marker-text green">v1.0 GA</span> (2025.11)</div></div></div>
+</div>
+
+<!-- S20 -->
+<div class="slide" id="slide-20">
+  <span class="big-number">20</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/langchain-ai/langgraph" target="_blank"><span class="highlight">LangGraph</span></a> 1.0 심화</div>
+  <div class="slide-subtitle">그래프 기반 상태 관리 에이전트 워크플로우</div>
+  <div class="card-row"><div class="card blue" style="max-width:480px;"><div class="card-title">&#128200; 핵심 개념</div><div class="card-body"><li><span class="marker-text blue">StateGraph</span> - 상태를 가진 그래프 정의</li><li><span class="marker-text green">Node</span> - 각 단계의 로직 (함수)</li><li><span class="marker-text orange">Edge</span> - 노드 간 전이 규칙</li><li><span class="marker-text red">Conditional Edge</span> - 조건부 분기</li><li>Durable State - 실행 상태 자동 영속화</li><li>Human-in-the-Loop - 사람 승인 후 재개</li></div></div><div class="card orange" style="max-width:480px;"><div class="card-title">&#128736; 실전 활용 패턴</div><div class="card-body"><li><span class="marker-text orange">ReAct Agent</span> - 추론 + 행동 반복</li><li><span class="marker-text blue">Plan & Execute</span> - 계획 후 단계별 실행</li><li><span class="marker-text green">Multi-Agent</span> - 여러 에이전트 협업</li><li>Checkpointing - 중단점 복구</li><li>LangSmith 비용 추적 (2025.12 추가)</li></div></div></div>
+</div>
+
+<!-- S21 -->
+<div class="slide" id="slide-21">
+  <span class="big-number">21</span>
+  <div class="slide-title">벡터 DB <span class="highlight">통합 패턴</span></div>
+  <div class="slide-subtitle"><a class="oss-link" href="https://github.com/pgvector/pgvector" target="_blank">pgvector</a>, <a class="oss-link" href="https://github.com/chroma-core/chroma" target="_blank">Chroma</a> - 시맨틱 검색의 핵심</div>
+  <table class="compare-table" style="max-width:950px;"><tr><th>데이터베이스</th><th>Stars</th><th>특징</th><th>적합한 용도</th></tr><tr><td><span class="marker-text blue">pgvector</span></td><td>15K+</td><td>PostgreSQL 확장, SQL과 통합</td><td>기존 PostgreSQL 사용 프로젝트</td></tr><tr><td><span class="marker-text green">Chroma</span></td><td>6K+</td><td>개발자 친화적, 빠른 시작</td><td>프로토타이핑, 소규모 앱</td></tr><tr><td><span class="marker-text orange">Milvus</span></td><td>35K+</td><td>대규모 분산 처리, 고성능</td><td>산업용, 10억 규모 벡터</td></tr><tr><td><span class="marker-text red">Qdrant</span></td><td>9K+</td><td>Rust 기반, 고성능 필터링</td><td>성능 중심 프로덕션</td></tr></table>
+  <div style="margin-top:16px;font-size:0.95rem;color:#8a7a6a;text-align:center;">2026년 베스트 프랙티스: <span class="hand-underline">하이브리드 검색</span> (BM25 키워드 + 벡터 유사도)</div>
+</div>
+
+<!-- S22 -->
+<div class="slide" id="slide-22">
+  <span class="big-number">22</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/pgvector/pgvector" target="_blank"><span class="highlight">pgvector</span></a> 실습</div>
+  <div class="slide-subtitle">PostgreSQL에서 벡터 검색 구현하기</div>
+  <div class="code-block" style="max-width:800px;font-size:0.82rem;">-- 1. pgvector 확장 활성화
+CREATE EXTENSION vector;
+
+-- 2. 임베딩 컬럼 테이블 생성
+CREATE TABLE documents (
+  id SERIAL PRIMARY KEY,
+  content TEXT,
+  embedding VECTOR(1536)  -- OpenAI 임베딩 차원
+);
+
+-- 3. 유사도 검색 (코사인 거리)
+SELECT content, 1 - (embedding &lt;=&gt; '[0.1, 0.2, ...]') AS similarity
+FROM documents ORDER BY embedding &lt;=&gt; '[0.1, 0.2, ...]' LIMIT 5;
+
+-- 4. HNSW 인덱스 생성
+CREATE INDEX ON documents USING hnsw (embedding vector_cosine_ops);
+
+-- 5. 하이브리드 검색 (키워드 + 벡터)
+SELECT content FROM documents
+WHERE content ILIKE '%검색어%'
+ORDER BY embedding &lt;=&gt; '[...]' LIMIT 10;</div>
+</div>
+
+<!-- S23 -->
+<div class="slide" id="slide-23">
+  <span class="big-number">23</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/chroma-core/chroma" target="_blank"><span class="highlight">Chroma</span></a> 실습</div>
+  <div class="slide-subtitle">Python에서 가장 빠르게 시작하는 벡터 DB</div>
+  <div class="card-row" style="gap:20px;"><div class="card purple" style="max-width:500px;"><div class="card-title">&#128187; 기본 사용법</div><div class="code-block" style="font-size:0.78rem;">import chromadb
+client = chromadb.Client()
+collection = client.create_collection("docs")
+
+# 문서 추가 (임베딩 자동 생성)
+collection.add(
+    documents=["MCP는 LLM 통합 프로토콜",
+               "RAG는 검색 증강 생성"],
+    ids=["doc1", "doc2"]
+)
+
+# 시맨틱 검색
+results = collection.query(
+    query_texts=["AI 프로토콜"], n_results=2
+)</div></div><div class="card yellow" style="max-width:420px;"><div class="card-title">&#128161; <a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a> 연동</div><div class="code-block" style="font-size:0.78rem;">from langchain_chroma import Chroma
+from langchain_openai import OpenAIEmbeddings
+
+vectorstore = Chroma.from_documents(
+    documents=docs,
+    embedding=OpenAIEmbeddings()
+)
+
+retriever = vectorstore.as_retriever(
+    search_kwargs={"k": 3}
+)
+
+# RAG 체인에 연결
+chain = retriever | prompt | llm</div></div></div>
+</div>
+
+<!-- S24 -->
+<div class="slide" id="slide-24">
+  <span class="big-number">24</span>
+  <div class="slide-title"><span class="highlight">프롬프트 엔지니어링</span> 기법</div>
+  <div class="slide-subtitle">AI 기능의 품질을 결정하는 핵심 스킬</div>
+  <div class="card-row"><div class="card pink" style="max-width:320px;"><div class="card-title">&#127919; 기본 기법</div><div class="card-body"><li><span class="marker-text red">시스템 프롬프트</span>: 역할과 제약 설정</li><li><span class="marker-text orange">Few-shot</span>: 예시로 패턴 학습</li><li><span class="marker-text blue">Chain of Thought</span>: 단계별 추론 유도</li></div></div><div class="card blue" style="max-width:320px;"><div class="card-title">&#128736; 고급 기법</div><div class="card-body"><li><span class="marker-text blue">구조화된 출력</span>: JSON 스키마 강제</li><li><span class="marker-text green">도구 호출</span>: 함수 실행 지시</li><li><span class="marker-text orange">프롬프트 캐싱</span>: 비용 90% 절감</li></div></div><div class="card green" style="max-width:320px;"><div class="card-title">&#9888; 최적화 팁</div><div class="card-body"><li>정적 콘텐츠는 프롬프트 <span class="marker-text green">앞부분</span>에 배치</li><li>간단한 작업은 저가 모델</li><li>max_tokens로 응답 길이 제한</li></div></div></div>
+</div>
+
+<!-- S25 -->
+<div class="slide" id="slide-25">
+  <span class="big-number">25</span>
+  <div class="slide-title">프롬프트 <span class="highlight">실전 예시</span></div>
+  <div class="slide-subtitle">오픈소스 AI 기능에 사용하는 프롬프트 패턴</div>
+  <div class="code-block" style="max-width:850px;font-size:0.82rem;"># 시스템 프롬프트 예시: 코드 리뷰 봇
+system_prompt = """
+당신은 시니어 코드 리뷰어입니다.
+1. 보안 취약점을 최우선으로 체크
+2. 성능 이슈를 지적
+3. 코드 스타일 가이드 준수 여부 확인
+4. 건설적이고 구체적인 피드백 제공
+5. 응답은 JSON: {"issues": [...], "score": 0-10}
+"""
+
+# Few-shot 예시: 커밋 메시지 생성
+few_shot = """
+예시 1: diff: + def validate_email(email): ...
+커밋: feat(auth): add email validation utility
+
+예시 2: diff: - timeout = 30 / + timeout = 60
+커밋: fix(api): increase request timeout to 60s
+
+이제 다음 diff에 대한 커밋 메시지를 작성하세요:
+{diff}
+"""</div>
+</div>
+
+<!-- S26 -->
+<div class="slide" id="slide-26">
+  <span class="big-number">26</span>
+  <div class="slide-title">트랙 C 심화: <span class="highlight"><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a>/Agent</span> 고급</div>
+  <div class="slide-subtitle">MCP 고급 활용, Agentic RAG, 멀티 에이전트</div>
+  <div class="card-row"><div class="card green" style="max-width:320px;"><div class="card-title">&#128279; MCP 고급</div><div class="card-body"><li>Streamable HTTP 전송</li><li>Tasks 프리미티브 (비동기)</li><li>OAuth 2.1 인증</li><li>Tool Composition</li></div></div><div class="card purple" style="max-width:320px;"><div class="card-title">&#128218; Agentic RAG</div><div class="card-body"><li>GraphRAG (지식 그래프)</li><li>적응형 검색 전략</li><li>불확실성 정량화</li><li>자동 검증/합성</li></div></div><div class="card orange" style="max-width:320px;"><div class="card-title">&#129302; 멀티 에이전트</div><div class="card-body"><li><a class="oss-link" href="https://github.com/crewAIInc/crewAI" target="_blank">CrewAI</a> 1.9+</li><li><a class="oss-link" href="https://github.com/langchain-ai/langgraph" target="_blank">LangGraph</a> 에이전트</li><li>역할 기반 협업</li><li>이벤트 드리븐 워크플로우</li></div></div></div>
+</div>
+
+<!-- S27 -->
+<div class="slide" id="slide-27">
+  <span class="big-number">27</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> <span class="highlight">Streaming</span> & Tasks</div>
+  <div class="slide-subtitle">2025.11 스펙 업데이트 핵심 기능</div>
+  <div class="card-row" style="gap:20px;"><div class="card blue" style="max-width:480px;"><div class="card-title">&#128259; Streamable HTTP</div><div class="card-body"><li>기존 SSE 방식을 대체하는 <span class="marker-text blue">새로운 전송</span></li><li>양방향 통신 지원</li><li>Chunked Transfer Encoding</li><li>단일 HTTP 연결로 메시지 전달</li><li>대규모 배포에 적합한 확장성</li></div></div><div class="card orange" style="max-width:480px;"><div class="card-title">&#128203; Tasks 프리미티브</div><div class="card-body"><li><span class="marker-text orange">비동기 장시간 작업</span> 지원</li><li>서버가 Task를 생성하고 핸들 반환</li><li>진행 상황 업데이트 발행</li><li>결과 전달 및 상태 추적</li></div></div></div>
+  <div style="margin-top:16px;padding:10px 18px;border-radius:8px;background:rgba(80,130,200,0.08);border:2px dashed rgba(80,130,200,0.25);max-width:800px;text-align:center;"><span style="font-size:0.95rem;color:#6a5a4a;">MCP SDK 다운로드 <span class="marker-text blue">9,700만 회/월</span> | 활성 서버 <span class="marker-text green">10,000+</span> | AAIF 이관 완료</span></div>
+</div>
+
+<!-- S28 -->
+<div class="slide" id="slide-28">
+  <span class="big-number">28</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> <span class="highlight">인증</span> & Tool Composition</div>
+  <div class="slide-subtitle">보안과 도구 조합의 고급 패턴</div>
+  <div class="card-row" style="gap:20px;"><div class="card pink" style="max-width:480px;"><div class="card-title">&#128274; OAuth 2.1 인증</div><div class="card-body"><li>MCP 서버를 <span class="marker-text red">OAuth Resource Server</span>로 분류</li><li>Protected Resource Metadata 디스커버리</li><li>OpenID Connect 인가 서버 해석</li><li>Resource Indicators로 악의적 서버 방지</li></div></div><div class="card green" style="max-width:480px;"><div class="card-title">&#128295; Tool Composition</div><div class="card-body"><li>여러 MCP 서버의 도구를 <span class="marker-text green">조합</span></li><li>서버 간 파이프라인 구성</li><li>Structured Tool Output (2025.06)</li><li>MCP Registry(2,000+ 항목)에서 도구 탐색</li></div></div></div>
+</div>
+
+<!-- S29 -->
+<div class="slide" id="slide-29">
+  <span class="big-number">29</span>
+  <div class="slide-title"><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> 서버 <span class="highlight">고급 구현</span></div>
+  <div class="slide-subtitle">FastMCP로 고급 기능 구현하기</div>
+  <div class="code-block" style="max-width:800px;font-size:0.8rem;">from fastmcp import FastMCP
+import httpx
+
+mcp = FastMCP("advanced-server")
+
+@mcp.resource("config://settings")
+def get_settings() -> str:
+    return '{"theme": "dark", "language": "ko"}'
+
+@mcp.tool()
+async def search_api(query: str, limit: int = 5) -> str:
+    """API에서 검색 결과를 반환합니다"""
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(
+            f"https://api.example.com/search?q={query}&amp;limit={limit}"
+        )
+        return resp.text
+
+@mcp.prompt()
+def analyze_data(data_type: str) -> str:
+    return f"{data_type} 데이터를 분석하고 인사이트를 제공해주세요"
+
+# 주의: STDIO 서버에서 console.log() 대신 console.error() 사용!</div>
+</div>
+
+<!-- S30 -->
+<div class="slide" id="slide-30">
+  <span class="big-number">30</span>
+  <div class="slide-title"><span class="highlight">Agentic RAG</span> & GraphRAG</div>
+  <div class="slide-subtitle">차세대 검색 증강 생성의 핵심 패턴</div>
+  <div class="card-row" style="margin-bottom:16px;"><div class="card purple" style="max-width:480px;"><div class="card-title">&#128218; GraphRAG</div><div class="card-body"><li><span class="marker-text blue">지식 그래프</span> + 벡터 검색 결합</li><li>검색 정밀도 <span class="marker-text red">99%</span> 달성</li><li>주요 구현: Microsoft GraphRAG, LightRAG</li></div></div><div class="card orange" style="max-width:480px;"><div class="card-title">&#129302; Agentic RAG</div><div class="card-body"><li>자율 에이전트가 <span class="marker-text orange">동적 검색 전략 선택</span></li><li>검색 &#10148; 검증 &#10148; 합성 루프 반복</li><li>불확실성 정량화로 답변 품질 보장</li></div></div></div>
+  <div class="flow-row"><div class="flow-box step1"><div style="font-weight:700;">쿼리 분석</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step2"><div style="font-weight:700;">전략 선택</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step3"><div style="font-weight:700;">검색 실행</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step4"><div style="font-weight:700;">검증/반복</div></div><span class="flow-arrow">&#10148;</span><div class="flow-box step5"><div style="font-weight:700;">답변 합성</div></div></div>
+</div>
+
+<!-- S31 -->
+<div class="slide" id="slide-31">
+  <span class="big-number">31</span>
+  <div class="slide-title">GraphRAG <span class="highlight">구현 패턴</span></div>
+  <div class="slide-subtitle">지식 그래프 기반 RAG 파이프라인</div>
+  <div class="card-row" style="gap:20px;"><div class="card green" style="max-width:500px;"><div class="card-title">&#128200; 구현 단계</div><div class="card-body"><li><span class="marker-text green">1단계</span>: 문서에서 엔티티 & 관계 추출 (LLM 활용)</li><li><span class="marker-text blue">2단계</span>: 지식 그래프 구성 (Neo4j, NetworkX)</li><li><span class="marker-text orange">3단계</span>: 커뮤니티 탐지 & 요약 생성</li><li><span class="marker-text red">4단계</span>: 쿼리 시 그래프 + 벡터 검색 결합</li><li><span class="marker-text blue">5단계</span>: 컨텍스트 조합 후 LLM 응답 생성</li></div></div><div class="card blue" style="max-width:440px;"><div class="card-title">&#128736; 주요 프레임워크</div><table class="compare-table" style="font-size:0.85rem;"><tr><th>프레임워크</th><th>특징</th></tr><tr><td>Microsoft GraphRAG</td><td>공식 구현, 대규모</td></tr><tr><td>LightRAG</td><td>경량, 빠른 시작</td></tr><tr><td>Nano-GraphRAG</td><td>미니멀, 학습용</td></tr><tr><td>RAGFlow</td><td>RAG+Agent 통합</td></tr></table></div></div>
+</div>
+
+<!-- S32 -->
+<div class="slide" id="slide-32">
+  <span class="big-number">32</span>
+  <div class="slide-title">멀티 에이전트: <a class="oss-link" href="https://github.com/crewAIInc/crewAI" target="_blank"><span class="highlight">CrewAI</span></a></div>
+  <div class="slide-subtitle">역할 기반 AI 에이전트 협업 프레임워크</div>
+  <div class="card-row" style="gap:20px;"><div class="card orange" style="max-width:500px;"><div class="card-title">&#129302; CrewAI 핵심</div><div class="card-body"><li><span class="marker-text orange">Agent</span> - 역할, 목표, 배경을 가진 자율 에이전트</li><li><span class="marker-text blue">Task</span> - 에이전트에게 할당된 구체적 작업</li><li><span class="marker-text green">Crew</span> - 에이전트 팀 + 작업 순서 정의</li><li><span class="marker-text red">Flow</span> - 이벤트 드리븐 프로덕션 워크플로우</li></div><div style="margin-top:8px;font-size:0.85rem;color:#999;">v1.9+ | 43,700+ Stars | 100K+ 인증 개발자</div></div><div class="card purple" style="max-width:440px;"><div class="card-title">&#128187; 코드 예시</div><div class="code-block" style="font-size:0.75rem;">from crewai import Agent, Task, Crew
+
+researcher = Agent(
+    role="리서처",
+    goal="주제에 대한 정보 수집",
+    backstory="숙련된 연구 전문가"
+)
+writer = Agent(
+    role="작성자",
+    goal="리서치 결과를 보고서로 작성",
+    backstory="기술 문서 전문가"
+)
+crew = Crew(
+    agents=[researcher, writer],
+    tasks=[Task(description="MCP 조사",
+                agent=researcher),
+           Task(description="보고서 작성",
+                agent=writer)]
+)
+result = crew.kickoff()</div></div></div>
+</div>
+
+<!-- S33 -->
+<div class="slide" id="slide-33">
+  <span class="big-number">33</span>
+  <div class="slide-title">멀티 에이전트: <a class="oss-link" href="https://github.com/langchain-ai/langgraph" target="_blank"><span class="highlight">LangGraph</span></a></div>
+  <div class="slide-subtitle">그래프 기반 에이전트 오케스트레이션</div>
+  <div class="card-row" style="gap:20px;"><div class="card blue" style="max-width:480px;"><div class="card-title">&#128200; LangGraph vs CrewAI</div><table class="compare-table" style="font-size:0.85rem;"><tr><th>구분</th><th>LangGraph</th><th>CrewAI</th></tr><tr><td>접근</td><td>그래프 기반 상태 관리</td><td>역할 기반 협업</td></tr><tr><td>유연성</td><td>매우 높음 (저수준)</td><td>높음 (고수준)</td></tr><tr><td>학습곡선</td><td>가파름</td><td>완만함</td></tr><tr><td>적합</td><td>복잡한 워크플로우</td><td>팀 협업 시뮬레이션</td></tr></table></div><div class="card green" style="max-width:480px;"><div class="card-title">&#128161; 선택 가이드</div><div class="card-body"><li><span class="marker-text blue"><a class="oss-link" href="https://github.com/langchain-ai/langgraph" target="_blank">LangGraph</a></span>: 세밀한 제어, 복잡한 분기, 프로덕션</li><li><span class="marker-text orange"><a class="oss-link" href="https://github.com/crewAIInc/crewAI" target="_blank">CrewAI</a></span>: 빠른 프로토타이핑, 역할 기반, 직관적 API</li><li><span class="marker-text green"><a class="oss-link" href="https://github.com/microsoft/autogen" target="_blank">AutoGen</a></span>: 연구 목적, 비동기 이벤트 드리븐</li><li>2025 트렌드: 프레임워크 기반 엔지니어링으로 전환</li></div></div></div>
+</div>
+
+<!-- S34 -->
+<div class="slide" id="slide-34">
+  <span class="big-number">34</span>
+  <div class="slide-title"><span class="highlight">Peer Review</span> 효과적으로 하기</div>
+  <div class="slide-subtitle">코드 리뷰의 기술 - 주는 것과 받는 것</div>
+  <div class="card-row"><div class="card green" style="max-width:480px;"><div class="card-title">&#9989; 리뷰어로서</div><div class="card-body"><li>먼저 <span class="marker-text green">PR 설명</span>과 관련 이슈를 읽기</li><li>큰 그림 파악 후 세부 리뷰</li><li>"왜?"를 질문하되 비난이 아닌 <span class="marker-text blue">호기심</span>으로</li><li>구체적인 <span class="marker-text orange">대안</span>을 코드와 함께 제시</li><li>잘한 부분도 언급: "Nice approach!"</li></div></div><div class="card blue" style="max-width:480px;"><div class="card-title">&#128172; 리뷰 받는 입장</div><div class="card-body"><li>모든 피드백을 <span class="marker-text blue">감사히</span> 받아들이기</li><li>방어적으로 반응하지 않기</li><li>동의하면 수정, 다르면 <span class="marker-text orange">근거</span>와 함께 토론</li><li>수정 완료 후 "Resolved" 표시하기</li><li>큰 변경은 별도 이슈/PR로 분리 제안</li></div></div></div>
+</div>
+
+<!-- S35 -->
+<div class="slide" id="slide-35">
+  <span class="big-number">35</span>
+  <div class="slide-title">코드 리뷰 <span class="highlight">체크리스트</span></div>
+  <div class="slide-subtitle">팀 내 코드 리뷰 시 확인 항목</div>
+  <div class="card-row"><div class="card yellow" style="max-width:320px;"><div class="card-title">&#128270; 기능 & 로직</div><ul class="checklist"><li>요구사항을 올바르게 구현?</li><li>엣지 케이스를 처리?</li><li>에러 핸들링이 적절?</li><li>비즈니스 로직이 맞는가?</li></ul></div><div class="card pink" style="max-width:320px;"><div class="card-title">&#128272; 보안 & 성능</div><ul class="checklist"><li>입력 검증이 되어 있는가?</li><li>API 키가 노출되지 않는가?</li><li>불필요한 API 호출은 없는가?</li><li>N+1 쿼리 문제는 없는가?</li></ul></div><div class="card green" style="max-width:320px;"><div class="card-title">&#128221; 코드 품질</div><ul class="checklist"><li>네이밍이 명확한가?</li><li>테스트가 포함되어 있는가?</li><li>프로젝트 컨벤션을 따르는가?</li><li>불필요한 코드는 없는가?</li></ul></div></div>
+</div>
+
+<!-- S36 -->
+<div class="slide" id="slide-36">
+  <span class="big-number">36</span>
+  <div class="slide-title">AI <span class="highlight">코드 리뷰</span> 도구 활용</div>
+  <div class="slide-subtitle">AI로 코드 리뷰 품질 높이기</div>
+  <table class="compare-table" style="max-width:900px;"><tr><th>도구</th><th>유형</th><th>특징</th><th>비용</th></tr><tr><td><span class="marker-text blue">CodeRabbit</span></td><td>상용/OSS 무료</td><td>즉각 피드백, 오픈소스 무료</td><td>OSS 무료</td></tr><tr><td><span class="marker-text green">PR-Agent</span></td><td>오픈소스</td><td>Original OSS PR Reviewer</td><td>무료</td></tr><tr><td><span class="marker-text orange">Kodus</span></td><td>오픈소스</td><td>시니어 리뷰어처럼 작동</td><td>무료</td></tr><tr><td><span class="marker-text red">Graphite</span></td><td>상용</td><td>실시간 피드백, 96% 긍정</td><td>유료</td></tr></table>
+  <div style="margin-top:20px;"><div class="card yellow" style="max-width:800px;"><div class="card-title">&#128161; 활용 팁</div><div class="card-body"><li>AI 리뷰는 <span class="marker-text red">보조 수단</span> - 사람의 리뷰를 대체하지 않음</li><li>AI가 잘하는 것: 보안 취약점, 코드 스타일, 성능 패턴, 일관성 체크</li></div></div></div>
+</div>
+
+<!-- S37 -->
+<div class="slide" id="slide-37">
+  <span class="big-number">37</span>
+  <div class="slide-title">Sprint 활동 <span class="highlight">안내</span></div>
+  <div class="slide-subtitle">자기주도 학습 2시간 - 심화 기여에 집중</div>
+  <div class="card-row"><div class="card pink" style="max-width:320px;"><div class="card-title">&#9997; 트랙 A</div><div class="card-body"><li>기존 PR <span class="marker-text red">피드백 반영</span></li><li><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a> 멀티파일 편집 실습</li><li>AI 기반 테스트 코드 자동 생성</li><li>두 번째 기여 이슈 선정</li></div></div><div class="card blue" style="max-width:320px;"><div class="card-title">&#9881; 트랙 B</div><div class="card-body"><li>AI SDK 스트리밍 기능 구현</li><li>벡터 DB 통합 PR 작성</li><li>프롬프트 최적화 실험</li><li>LCEL 파이프라인 구축</li></div></div><div class="card green" style="max-width:320px;"><div class="card-title">&#128640; 트랙 C</div><div class="card-body"><li><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> 서버 고급 기능 구현</li><li>RAG 파이프라인 최적화</li><li>멀티 에이전트 프로토타입</li><li><a class="oss-link" href="https://github.com/streamlit/streamlit" target="_blank">Streamlit</a>/<a class="oss-link" href="https://github.com/gradio-app/gradio" target="_blank">Gradio</a> 데모 개선</li></div></div></div>
+</div>
+
+<!-- S38 -->
+<div class="slide" id="slide-38">
+  <span class="big-number">38</span>
+  <div class="slide-title">오픈소스 <span class="highlight">협업 패턴</span> 체화</div>
+  <div class="slide-subtitle">커뮤니티에서 신뢰를 쌓는 법</div>
+  <div class="card-row"><div class="card orange" style="max-width:480px;"><div class="card-title">&#129309; 협업 Best Practices</div><div class="card-body"><li>이슈에 <span class="marker-text orange">"I'd like to work on this"</span> 먼저 코멘트</li><li>작업 중 진행 상황을 주기적으로 업데이트</li><li>Draft PR로 일찍 피드백 받기</li><li>다른 사람의 PR에 리뷰 참여하기</li><li>영어 커뮤니케이션 - 정중하고 간결하게</li></div></div><div class="card purple" style="max-width:480px;"><div class="card-title">&#128200; 기여자 성장 로드맵</div><div class="card-body"><li><span class="marker-text blue">First Timer</span> &#10148; 문서, 오타, 작은 버그 수정</li><li><span class="marker-text green">Contributor</span> &#10148; 기능 추가, 테스트 보강</li><li><span class="marker-text orange">Regular</span> &#10148; PR 리뷰, 이슈 트리아지</li><li><span class="marker-text red">Committer</span> &#10148; 직접 머지 권한</li><li>Maintainer &#10148; 프로젝트 거버넌스 참여</li></div></div></div>
+</div>
+
+<!-- S39 -->
+<div class="slide" id="slide-39">
+  <span class="big-number">39</span>
+  <div class="slide-title">이번 주 <span class="highlight">목표</span> & 과제</div>
+  <div class="slide-subtitle">Week 4 마무리 체크리스트</div>
+  <div class="card-row"><div class="card yellow" style="max-width:480px;"><div class="card-title">&#127919; 주간 목표</div><ul class="checklist"><li>첫 번째 PR 피드백 반영 완료 (Merge 목표)</li><li>두 번째 기여 이슈 선정 및 작업 시작</li><li>팀원과 최소 2회 이상 코드 리뷰 교환</li><li>트랙별 심화 기술 1가지 이상 실습</li></ul></div><div class="card green" style="max-width:480px;"><div class="card-title">&#128221; 과제 안내</div><div class="card-body"><li><span class="marker-text red">필수</span>: 첫 번째 PR 피드백 반영 및 업데이트</li><li><span class="marker-text blue">필수</span>: 두 번째 기여 이슈 선정 및 분석</li><li><span class="marker-text green">필수</span>: 팀원 PR 코드 리뷰 2회 이상</li><li><span class="marker-text orange">선택</span>: 트랙별 심화 내용 실습 후 팀 공유</li></div></div></div>
+  <div style="margin-top:20px;padding:12px 20px;border-radius:10px;background:rgba(224,120,80,0.08);border:2px dashed rgba(224,120,80,0.25);max-width:800px;text-align:center;"><span style="font-weight:700;color:#d4764e;">다음 주 (W5):</span> <span style="color:#6a5a4a;">최종 Sprint & 데모 준비 - PR 마무리 + 발표 자료 준비</span></div>
+</div>
+
+<!-- S40 -->
+<div class="slide" id="slide-40">
+  <span class="big-number">40</span>
+  <div class="slide-title">Week 4 <span class="highlight">핵심 요약</span></div>
+  <div class="slide-subtitle">오늘 배운 것을 정리합니다</div>
+  <div class="card-row" style="margin-bottom:16px;"><div class="card pink" style="max-width:240px;"><div class="card-title">&#128172; PR 피드백</div><div class="card-body"><li>피드백 분류 & 대응</li><li>Force Push vs 추가 커밋</li><li>Rebase vs Merge</li></div></div><div class="card blue" style="max-width:240px;"><div class="card-title">&#9997; 트랙 A</div><div class="card-body"><li><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a> 멀티파일</li><li>AI 대규모 리팩토링</li><li><a class="oss-link" href="https://github.com/features/copilot" target="_blank">Copilot</a> Agent 모드</li></div></div><div class="card green" style="max-width:240px;"><div class="card-title">&#9881; 트랙 B</div><div class="card-body"><li><a class="oss-link" href="https://github.com/vercel/ai" target="_blank">Vercel AI SDK</a> 6</li><li><a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a> LCEL</li><li>벡터 DB 패턴</li></div></div><div class="card purple" style="max-width:240px;"><div class="card-title">&#128640; 트랙 C</div><div class="card-body"><li><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> Streaming/Tasks</li><li>Agentic RAG</li><li>멀티 에이전트</li></div></div></div>
+  <div style="padding:14px 20px;border-radius:10px;background:rgba(80,160,100,0.08);border:2px dashed rgba(80,160,100,0.25);max-width:800px;text-align:center;"><span style="font-weight:700;color:#484;">Remember:</span> <span style="color:#6a5a4a;">"피드백은 선물이다" - 메인테이너의 리뷰는 성장의 기회!</span></div>
+</div>
+
+<!-- S41 -->
+<div class="slide" id="slide-41">
+  <span class="big-number">41</span>
+  <span class="sparkle" style="top:50px;left:80px;">&#10024;</span><span class="sparkle" style="bottom:130px;right:100px;animation-delay:0.7s;">&#10024;</span>
+  <div class="slide-title"><span class="highlight">Q&A</span> / 참고 자료</div>
+  <div class="slide-subtitle">질문과 유용한 리소스</div>
+  <div class="card-row"><div class="card yellow" style="max-width:480px;"><div class="card-title">&#128218; 참고 자료</div><div class="card-body"><li><a class="oss-link" href="https://github.com/vercel/ai" target="_blank">Vercel AI SDK</a>: ai-sdk.dev</li><li><a class="oss-link" href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a>: docs.langchain.com</li><li><a class="oss-link" href="https://github.com/modelcontextprotocol/specification" target="_blank">MCP</a> 공식: modelcontextprotocol.io</li><li><a class="oss-link" href="https://github.com/crewAIInc/crewAI" target="_blank">CrewAI</a>: docs.crewai.com</li><li><a class="oss-link" href="https://github.com/pgvector/pgvector" target="_blank">pgvector</a>: github.com/pgvector/pgvector</li><li><a class="oss-link" href="https://github.com/chroma-core/chroma" target="_blank">Chroma</a>: trychroma.com</li><li>Git Rebase: atlassian.com/git/tutorials</li></div></div><div class="card orange" style="max-width:480px;"><div class="card-title">&#128736; AI 코딩 도구</div><div class="card-body"><li><a class="oss-link" href="https://github.com/anthropics/claude-code" target="_blank">Claude Code</a>: docs.anthropic.com</li><li><a class="oss-link" href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a>: github.com/features/copilot</li><li><a class="oss-link" href="https://github.com/getcursor/cursor" target="_blank">Cursor</a>: cursor.com</li><li>Aider: aider.chat</li><li>CodeRabbit: coderabbit.ai (OSS 무료)</li><li>PR-Agent: github.com/qodo-ai/pr-agent</li></div></div></div>
+  <div style="margin-top:24px;font-size:1.1rem;color:#d4764e;text-align:center;">&#128640; "피드백을 반영하고, 더 깊이 파고들자!" &#128640;</div>
+</div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" onclick="prevSlide()">&#9664;</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+    <div style="display:flex;gap:3px;align-items:center;">
+      <div class="nav-dot section-dot active" onclick="goToSlide(0)" title="오프닝"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(3)" title="피드백 대응"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(11)" title="트랙 A"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(15)" title="트랙 B"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(25)" title="트랙 C"></div>
+      <div class="nav-dot section-dot" onclick="goToSlide(33)" title="리뷰 & 마무리"></div>
+    </div>
+    <div style="width:120px;height:3px;background:rgba(200,180,150,0.3);border-radius:2px;overflow:hidden;">
+      <div id="progressBar" style="width:2.4%;height:100%;background:#e07850;border-radius:2px;transition:width 0.3s;"></div>
+    </div>
+  </div>
+  <span class="page-num" id="pageNum">1 / 41</span>
+  <button class="nav-btn" onclick="nextSlide()">&#9654;</button>
+  <a href="index.html" class="nav-btn" title="목차로 이동" style="text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-left:8px;">&#127968;</a>
+</div>
+
+<script src="slides-common.js"></script>
+<script>initSlides(41, [0, 3, 11, 15, 25, 33]);</script>
+</body>
+</html>
