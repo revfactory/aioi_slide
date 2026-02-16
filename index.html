@@ -12,6 +12,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIOI - AI Open Source Impact 강의 자료</title>
+<meta name="description" content="AI 오픈소스 Core Contributor를 양성하는 6주 커리큘럼. AI 프로젝트 분석, PR 작성, 코드 리뷰 등 실전 오픈소스 기여 교육.">
+<meta name="keywords" content="AI, 오픈소스, Open Source, 기여, Contributor, AIOI, 커리큘럼, PR, 코드리뷰, MCP, AI SDK">
+<meta name="author" content="AIOI">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#e07850">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="AIOI - AI Open Source Impact 강의 자료">
+<meta property="og:description" content="AI 오픈소스 Core Contributor를 양성하는 6주 커리큘럼. AI 프로젝트 분석, PR 작성, 코드 리뷰 등 실전 오픈소스 기여 교육.">
+<meta property="og:image" content="https://revfactory.github.io/aioi_slide/banner.png">
+<meta property="og:url" content="https://revfactory.github.io/aioi_slide/">
+<meta property="og:site_name" content="AIOI">
+<meta property="og:locale" content="ko_KR">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AIOI - AI Open Source Impact 강의 자료">
+<meta name="twitter:description" content="AI 오픈소스 Core Contributor를 양성하는 6주 커리큘럼. 실전 오픈소스 기여 교육.">
+<meta name="twitter:image" content="https://revfactory.github.io/aioi_slide/banner.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nanum+Square+Round:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -79,8 +97,22 @@
   .week-meta span { display: flex; align-items: center; gap: 4px; }
   .sparkle { position: fixed; font-size: 1.4rem; opacity: 0.4; animation: twinkle 2s ease-in-out infinite; pointer-events: none; z-index: 0; }
   @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.8) rotate(0deg); } 50% { opacity: 0.5; transform: scale(1.1) rotate(15deg); } }
+  .banner {
+    width: 100%;
+    max-width: 1100px;
+    margin-bottom: 32px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(90,74,58,0.12);
+    border: 2.5px solid rgba(200,180,150,0.3);
+  }
+  .banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
   .footer { margin-top: 48px; text-align: center; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 0.9rem; color: #b0a090; }
-  @media (max-width: 700px) { body { padding: 40px 20px 60px; } .header-title { font-size: 2rem; } .week-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { body { padding: 40px 20px 60px; } .header-title { font-size: 2rem; } .week-grid { grid-template-columns: 1fr; } .banner { margin-bottom: 20px; } }
 </style>
 </head>
 <body>
@@ -94,6 +126,10 @@
   <div class="header-sub">AI Open Source Impact</div>
   <div class="header-title"><span class="highlight">AIOI</span> 강의 자료</div>
   <div class="header-desc">AI-Native Open Source Frontier &mdash; 6주 커리큘럼</div>
+</div>
+
+<div class="banner">
+  <img src="banner.png" alt="AIOI - AI Open Source Impact 배너">
 </div>
 
 <div class="week-grid">
