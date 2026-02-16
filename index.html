@@ -111,7 +111,10 @@
     height: auto;
     display: block;
   }
-  .footer { margin-top: 48px; text-align: center; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 0.9rem; color: #b0a090; }
+  .footer { margin-top: 48px; text-align: center; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; font-size: 0.9rem; color: #b0a090; line-height: 1.8; }
+  .footer .contact { margin-top: 8px; font-size: 0.85rem; color: #a09080; }
+  .footer .contact a { color: #d4764e; text-decoration: none; border-bottom: 1px dashed rgba(212,118,78,0.4); }
+  .footer .contact a:hover { border-bottom-style: solid; }
   @media (max-width: 700px) { body { padding: 40px 20px 60px; } .header-title { font-size: 2rem; } .week-grid { grid-template-columns: 1fr; } .banner { margin-bottom: 20px; } }
 </style>
 </head>
@@ -234,6 +237,7 @@
 
 <div class="footer">
   AIOI &mdash; AI Core Contributor를 양성하는 6주간의 여정
+  <div class="contact">Hwang Minho &middot; <a href="mailto:revfactory@gmail.com">revfactory@gmail.com</a></div>
 </div>
 
 </body>
