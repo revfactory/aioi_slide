@@ -72,9 +72,30 @@ function initSlides(total, sections) {
   });
 
   let touchStartX = 0;
-  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
-  document.addEventListener('touchend', (e) => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) { if (diff > 0) nextSlide(); else prevSlide(); }
+  let touchStartY = 0;
+  let touchStartedInScrollable = false;
+
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    // 테이블 가로 스크롤 영역 내에서 터치 시작 여부 확인
+    const el = e.target.closest('.table-scroll-wrapper, .compare-table');
+    touchStartedInScrollable = !!(el && el.scrollWidth > el.clientWidth);
   });
+
+  document.addEventListener('touchend', (e) => {
+    const diffX = touchStartX - e.changedTouches[0].clientX;
+    const diffY = touchStartY - e.changedTouches[0].clientY;
+    // 수직 스와이프 우세 시 슬라이드 전환 방지
+    if (Math.abs(diffY) > Math.abs(diffX)) return;
+    // 가로 스크롤 가능한 테이블 내부 스와이프 시 전환 방지
+    if (touchStartedInScrollable) return;
+    if (Math.abs(diffX) > 50) { if (diffX > 0) nextSlide(); else prevSlide(); }
+  });
+
+  // 슬라이드 전환 시 열린 버블 자동 닫기
+  window.onSlideChange = function() {
+    const openBubble = document.querySelector('.script-bubble.open');
+    if (openBubble) openBubble.classList.remove('open');
+  };
 }

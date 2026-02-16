@@ -504,13 +504,256 @@ body {
   overflow-x: auto;
 }
 
-/* ===== Responsive ===== */
+/* ===== Slide action buttons ===== */
+.slide-actions {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 10;
+}
+
+.slide-action-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(200,140,80,0.4);
+  background: rgba(255,255,255,0.7);
+  font-size: 1.3rem;
+  color: #8a6a4a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
+}
+.slide-action-btn:hover {
+  background: rgba(224,120,80,0.15);
+  border-color: rgba(200,140,80,0.6);
+  transform: scale(1.1);
+}
+.slide-action-btn.playing {
+  background: rgba(224,120,80,0.2);
+  border-color: #e07850;
+  color: #e07850;
+}
+
+/* ===== Script bubble ===== */
+.script-bubble {
+  position: absolute;
+  bottom: 84px;
+  right: 32px;
+  width: 320px;
+  max-height: 260px;
+  background: rgba(253,246,227,0.97);
+  border: 2.5px solid rgba(200,180,150,0.4);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  backdrop-filter: blur(8px);
+  padding: 14px 16px;
+  z-index: 20;
+  display: none;
+  flex-direction: column;
+}
+.script-bubble.open { display: flex; }
+.script-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 18px;
+  width: 0; height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid rgba(200,180,150,0.4);
+}
+.script-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  right: 19px;
+  width: 0; height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 9px solid rgba(253,246,227,0.97);
+  z-index: 1;
+}
+
+.script-bubble-title {
+  font-family: 'Nanum Square Round', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #5a4a3a;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.script-bubble-body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: #6a5a4a;
+  line-height: 1.75;
+  overflow-y: auto;
+  white-space: pre-line;
+  flex: 1;
+  min-height: 0;
+}
+.script-bubble-body::-webkit-scrollbar { width: 4px; }
+.script-bubble-body::-webkit-scrollbar-thumb { background: rgba(200,180,150,0.4); border-radius: 2px; }
+
+/* ===== Table scroll wrapper ===== */
+.table-scroll-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll-wrapper > .compare-table {
+  max-width: none;
+}
+
+/* ================================================================
+   Responsive — 900px (태블릿 가로)
+   ================================================================ */
 @media (max-width: 900px) {
-  .slide { padding: 40px 36px; }
+  /* transform 제거 → position:fixed 자식이 뷰포트 기준으로 동작 */
+  .slide, .slide.active {
+    transform: none;
+    transition: opacity 0.6s ease;
+  }
+
+  /* ::after 테두리를 .slide 자체로 이동 → 스크롤이 테두리 안에서 동작 */
+  .slide::after { display: none; }
+  .slide {
+    top: 12px; left: 12px;
+    width: calc(100% - 24px);
+    height: calc(100% - 24px);
+    border: 3px solid rgba(120,100,80,0.2);
+    border-radius: 12px 8px 14px 6px;
+    padding: 28px 24px 68px;
+    justify-content: flex-start;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .slide::-webkit-scrollbar { display: none; }
+
   .slide-title { font-size: 2.2rem; }
   .card-row { flex-direction: column; align-items: center; }
   .card { max-width: 90%; }
-  .timeline { flex-direction: column; gap: 16px; }
+  .timeline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+    max-width: 100%;
+  }
   .timeline::before { display: none; }
+  .timeline-dot { width: 22px; height: 22px; font-size: 0.7rem; }
+  .timeline-label { font-size: 0.95rem; margin-bottom: 4px; }
+  .timeline-desc { font-size: 0.85rem; max-width: none; }
   .flow-row { flex-direction: column; }
+  .flow-arrow { display: none; }
+  .stats-row { flex-wrap: wrap; }
+  .big-number { font-size: 3rem; right: 28px; top: 18px; }
+  .compare-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* 네비: 좌측 하단 (이미 fixed) */
+  .nav { left: 16px; transform: none; }
+
+  /* 슬라이드 액션: 뷰포트 우측 하단 고정 */
+  .slide-actions { position: fixed; bottom: 24px; right: 24px; z-index: 100; }
+
+  /* 스크립트 버블: 뷰포트 고정 */
+  .script-bubble { position: fixed; z-index: 110; }
+}
+
+/* ================================================================
+   Responsive — 768px (태블릿 세로)
+   ================================================================ */
+@media (max-width: 768px) {
+  .slide { padding: 24px 20px 68px; }
+  .slide-title { font-size: 1.9rem; }
+  .slide-subtitle { font-size: 1.1rem; margin-bottom: 24px; }
+  .section-label { font-size: 1.2rem; }
+  .card-title { font-size: 1.1rem; }
+  .card { padding: 18px 16px; max-width: 95%; }
+  .code-block { font-size: 0.78rem; padding: 12px 14px; }
+  .stat-value { font-size: 1.8rem; }
+
+  /* Navigation — 좌측 정렬, 컴팩트 */
+  .nav { bottom: 18px; left: 18px; padding: 6px 12px; gap: 6px; }
+  .nav-btn { width: 36px; height: 36px; font-size: 1.1rem; }
+  .nav-dot { width: 10px; height: 10px; }
+  .nav-dots { max-width: 180px; }
+  .page-num { font-size: 0.8rem; min-width: 36px; }
+
+  /* 슬라이드 액션 — 뷰포트 우측 하단 고정 */
+  .slide-actions { bottom: 18px; right: 18px; }
+  .slide-action-btn { width: 38px; height: 38px; font-size: 1.1rem; }
+
+  /* Script bubble — 액션 버튼 위 */
+  .script-bubble { width: 260px; max-height: 220px; right: 14px; bottom: 64px; }
+}
+
+/* ================================================================
+   Responsive — 480px (모바일)
+   ================================================================ */
+@media (max-width: 480px) {
+  .slide {
+    top: 6px; left: 6px;
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
+    border-width: 2px;
+    padding: 18px 14px 60px;
+  }
+  .slide-title { font-size: 1.5rem; margin-bottom: 8px; }
+  .slide-subtitle { font-size: 0.95rem; margin-bottom: 16px; }
+  .section-label { font-size: 1.05rem; margin-bottom: 12px; }
+  .card-title { font-size: 1rem; }
+  .card { max-width: 100%; padding: 14px 12px; }
+  .card-row { gap: 14px; }
+  .card-body { font-size: 0.88rem; }
+  .code-block { font-size: 0.72rem; padding: 10px 12px; }
+
+  /* Decorative elements — hide */
+  .big-number { display: none; }
+  .sparkle, .doodle-arrow { display: none; }
+
+  /* Stats — 2-column grid */
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat-value { font-size: 1.5rem; }
+  .stat-label { font-size: 0.8rem; }
+
+  /* Navigation — 좌측 최소화 */
+  .nav { bottom: 16px; left: 14px; padding: 5px 10px; gap: 4px; border-radius: 20px; }
+  .nav-btn { width: 32px; height: 32px; font-size: 0.95rem; }
+  .nav-dot { width: 8px; height: 8px; }
+  .nav-dots { max-width: 120px; gap: 3px; }
+  .page-num { font-size: 0.7rem; min-width: 32px; }
+
+  /* 슬라이드 액션 — 뷰포트 우측 하단 고정 */
+  .slide-actions { bottom: 16px; right: 14px; }
+  .slide-action-btn { width: 34px; height: 34px; font-size: 0.95rem; }
+
+  /* Script bubble — bottom sheet */
+  .script-bubble {
+    bottom: 56px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-height: 40vh;
+    border-radius: 14px 14px 0 0;
+  }
+  .script-bubble::after,
+  .script-bubble::before { display: none; }
+
+  /* Flow / Timeline */
+  .flow-box { min-width: 100px; padding: 10px 14px; font-size: 0.88rem; }
+  .timeline-label { font-size: 0.95rem; }
+  .timeline-desc { font-size: 0.85rem; max-width: 150px; }
 }
